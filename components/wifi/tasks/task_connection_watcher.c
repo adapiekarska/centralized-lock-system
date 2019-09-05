@@ -9,13 +9,14 @@
 #include "wifi_conifg.h"
 #include "wifi_status.h"
 
-static esp_err_t status;
+static const char *LOG_TAG = "task_wifi_connection_watcher";
 
+static esp_err_t status;
 
 void task_wifi_connection_watcher(void *pvParameters) {
 
     // wait for connection
-	ESP_LOGI(LOG_TAG, "Connection Watcher task: waiting for connection to the wifi network... ");
+	ESP_LOGI(LOG_TAG, "waiting for connection to the wifi network... ");
 
 	wifi_status_wait_bits(WIFI_CONNECTED_BIT);
 	ESP_LOGI(LOG_TAG, "connected!\n");

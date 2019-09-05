@@ -10,6 +10,7 @@
 #include "wifi_conifg.h"
 #include "wifi_status.h"
 
+static const char *LOG_TAG = "wifi";
 
 static esp_err_t status;
 
@@ -63,7 +64,7 @@ void wifi_init() {
 	// initialize the tcp stack
 	tcpip_adapter_init();
 
-	// initialize the wifi event handler
+	// initialize the wifi event handler - should this be here or in main?
 	status = esp_event_loop_create_default();
 	ESP_ERROR_CHECK(status);
 

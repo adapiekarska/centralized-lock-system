@@ -6,6 +6,4 @@
 #define WIFI_PASS "Qm2jfNfpn6sh"
 #define WIFI_MAXIMUM_RETRY  10
 
-#define LOG_TAG "wifi_station"
-
 #endif // WIFI_CONFIG_H
