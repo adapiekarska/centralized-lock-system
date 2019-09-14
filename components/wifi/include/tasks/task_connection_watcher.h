@@ -2,7 +2,7 @@
 #define TASK_ESTABLSIH_CONNECTION_H
 
 /**
- * @brief Task code for connection watcher. Debug purposes.
+ * @brief Task code for connection watcher. Used for debug purposes.
  *
  * @param pvParameters
  */

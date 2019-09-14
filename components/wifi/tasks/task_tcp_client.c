@@ -1,6 +1,3 @@
-#include "tasks/task_tcp_client.h"
-
-#include <string.h>
 #include <sys/param.h>
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
@@ -11,10 +8,15 @@
 #include "esp_log.h"
 #include "tcpip_adapter.h"
 
+// socket-related includes
 #include "lwip/err.h"
 #include "lwip/sockets.h"
 #include "lwip/sys.h"
 #include <lwip/netdb.h>
+
+// project-related includes
+#include "tasks/task_tcp_client.h"
+#include "wifi_status.h"
 
 // TODO: define address and port
 
@@ -26,13 +28,16 @@ static const char *payload = "Message from ESP32 ";
 
 void task_tcp_client(void *pvParameters)
 {
+    // Task TCP Client should wait for connection
+    wifi_status_wait_bits(WIFI_CONNECTED_BIT);
+
     char rx_buffer[128];
     char addr_str[128];
     int ip_protocol;
 
     while (1)
     {
-        // create a socket
+        // Create a socket
         int sock =  socket(AF_INET, SOCK_STREAM, IPPROTO_IP);
         if (sock < 0)
         {
@@ -40,19 +45,19 @@ void task_tcp_client(void *pvParameters)
             break;
         }
 
-        // specify server data
+        // Specify server data
         struct sockaddr_in server_addr;
         server_addr.sin_family = AF_INET;
         server_addr.sin_port = htons(SERVER_PORT);
-        // inet_addr converts the Internet host address cp from IPv4 numbers-and-dots notation into binary data in network byte order
+        // Inet_addr converts the Internet host address cp from IPv4 numbers-and-dots notation into binary data in network byte order
         server_addr.sin_addr.s_addr = inet_addr(SERVER_IP_ADDR);
 
-        // convert an Internet address into a string
+        // Convert an Internet address into a string
         inet_ntoa_r(server_addr.sin_addr, addr_str, sizeof(addr_str) - 1);
 
         ESP_LOGI(LOG_TAG, "Socket created, connecting to %s:%d", SERVER_IP_ADDR, SERVER_PORT);
 
-        // try to connect
+        // Connect socket to the server
         int err = connect(sock, (struct sockaddr *)&server_addr, sizeof(server_addr));
         if (err != 0)
         {
@@ -62,21 +67,26 @@ void task_tcp_client(void *pvParameters)
 
         ESP_LOGI(LOG_TAG, "Successfully connected");
 
+        // Communication loop
         while (1)
         {
+            // Send data
             int err = send(sock, payload, strlen(payload), 0);
+
+            // Error occurred during sending
             if (err < 0)
             {
                 ESP_LOGE(LOG_TAG, "Error occurred during sending: errno %d", errno);
                 break;
             }
 
+            // Receive data
             int len = recv(sock, rx_buffer, sizeof(rx_buffer) - 1, 0);
 
             // Error occurred during receiving
             if (len < 0)
             {
-                ESP_LOGE(LOG_TAG, "recv failed: errno %d", errno);
+                ESP_LOGE(LOG_TAG, "Error occurred during receiving: errno %d", errno);
                 break;
             }
 

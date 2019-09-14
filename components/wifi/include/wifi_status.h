@@ -4,6 +4,7 @@
 #include "freertos/FreeRTOS.h"
 #include "freertos/event_groups.h"
 
+// Wifi status bits
 #define WIFI_CONNECTED_BIT BIT0
 
 
