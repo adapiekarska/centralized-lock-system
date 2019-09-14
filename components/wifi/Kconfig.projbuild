@@ -1,0 +1,15 @@
+menu "Wifi configuration"
+
+    config SERVER_ADDR
+        string "Server IP Address"
+        help
+            Enter the IP address of the authentication server
+
+    config SERVER_PORT
+        int "Server TCP port"
+        range 1 65535
+        default 3333
+        help
+            Enter the TCP port the server is listening on
+
+endmenu

@@ -21,7 +21,7 @@
 // TODO: define address and port
 
 #define SERVER_IP_ADDR "192.168.101.59"
-#define SERVER_PORT 3333
+#define SERVER_PORT CONFIG_SERVER_PORT
 
 static const char *LOG_TAG = "task_tcp_client";
 static const char *payload = "Message from ESP32 ";
@@ -33,7 +33,6 @@ void task_tcp_client(void *pvParameters)
 
     char rx_buffer[128];
     char addr_str[128];
-    int ip_protocol;
 
     while (1)
     {
