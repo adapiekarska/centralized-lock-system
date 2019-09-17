@@ -16,19 +16,20 @@ void app_main()
     esp_err_t ret = nvs_flash_init();
     if (ret == ESP_ERR_NVS_NO_FREE_PAGES || ret == ESP_ERR_NVS_NEW_VERSION_FOUND)
     {
-      ESP_ERROR_CHECK(nvs_flash_erase());
-      ret = nvs_flash_init();
+        ESP_ERROR_CHECK(nvs_flash_erase());
+        ret = nvs_flash_init();
     }
     ESP_ERROR_CHECK(ret);
 
-    // create tasks
-    xTaskCreate(&task_wifi_connection_watcher, "wifi_connection_watcher", 2048, NULL, 5, NULL);
-	xTaskCreate(&task_tcp_client, "tcp_client", 4096, NULL, 5, NULL);
-
     // Initialize WIFI
+    // this method has to be called before any tasks that use wifi_status
     wifi_init();
 
-	// Start wifi
+    // create tasks
+    xTaskCreate(&task_wifi_connection_watcher, "wifi_connection_watcher", 2048, NULL, 5, NULL);
+    xTaskCreate(&task_tcp_client, "tcp_client", 4096, NULL, 5, NULL);
+
+    // Start wifi
     wifi_start();
 
 }
