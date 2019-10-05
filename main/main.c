@@ -5,6 +5,7 @@
 #include "esp_spi_flash.h"
 #include "esp_log.h"
 #include "esp_sleep.h"
+#include "esp_event.h"
 #include "driver/gpio.h"
 #include "driver/rtc_io.h"
 #include "nvs_flash.h"
@@ -77,6 +78,11 @@ void app_main()
     {
         // Wake up from deep sleep caused by PIR
         ESP_LOGI(LOG_TAG, "Reset from deep sleep");
+
+        // Create default event loop
+        // The default event loop is a special type of loop used for system events (WiFi events, for example).
+        esp_err_t status = esp_event_loop_create_default();
+        ESP_ERROR_CHECK(status);
 
         // Initialize WIFI
         // This method has to be called before any tasks that use wifi_status

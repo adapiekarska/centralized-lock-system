@@ -68,10 +68,6 @@ void wifi_init()
     // Initialize the tcp stack
     tcpip_adapter_init();
 
-    // Initialize the wifi event handler - should this be here or in main?
-    status = esp_event_loop_create_default();
-    ESP_ERROR_CHECK(status);
-
     // Initialize the wifi stack
     wifi_init_config_t wifi_init_config = WIFI_INIT_CONFIG_DEFAULT();
     status = esp_wifi_init(&wifi_init_config);
