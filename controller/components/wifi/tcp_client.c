@@ -26,7 +26,7 @@
 static const char *LOG_TAG = "tcp_client";
 static const char *payload = "Message from ESP32 ";
 
-void start_tcp_client()
+void tcp_client_start()
 {
     // Task TCP Client should wait for connection
     wifi_status_wait_bits(WIFI_CONNECTED_BIT);

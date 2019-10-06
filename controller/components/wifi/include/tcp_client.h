@@ -6,6 +6,6 @@
  *
  * @param pvParameters
  */
-void start_tcp_client();
+void tcp_client_start();
 
 #endif // TASK_TCP_CLIENT_H

@@ -82,7 +82,7 @@ void app_main()
         ESP_ERROR_CHECK(status);
 
         // Create Wifi client task
-        xTaskCreate(&task_wifi_client, "tcp_client", 4096, NULL, 5, NULL);
+        xTaskCreate(&task_wifi_client, "wifi_client", 4096, NULL, 5, NULL);
 
         // TODO: Wake the RFID reader
 
