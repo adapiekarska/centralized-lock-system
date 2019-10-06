@@ -98,8 +98,8 @@ void app_main()
         // TODO: Wake the RFID reader
 
         // At the end of this flow, configure and enter deep sleep
-        deep_sleep_init();
-        deep_sleep_start();
+        //deep_sleep_init();
+        //deep_sleep_start();
     }
     else
     {
