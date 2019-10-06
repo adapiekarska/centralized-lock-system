@@ -10,6 +10,8 @@
 #include "wifi_conifg.h"
 #include "wifi_status.h"
 
+#include "string.h" // think about writing our own strcmp if it's just for this one function
+
 static const char *LOG_TAG = "wifi";
 
 static esp_err_t status;
@@ -58,10 +60,29 @@ static void wifi_event_handler(
     }
 }
 
+static void wifi_configure_sta()
+{
+    // Set mode to station
+    status = esp_wifi_set_mode(WIFI_MODE_STA);
+    ESP_ERROR_CHECK(status);
+
+    wifi_config_t wifi_config =
+    {
+        .sta =
+        {
+            .ssid = WIFI_SSID,
+            .password = WIFI_PASS,
+        },
+    };
+
+    // Set wifi config
+    status = esp_wifi_set_config(ESP_IF_WIFI_STA, &wifi_config);
+    ESP_ERROR_CHECK(status);
+}
+
 // TODO: void or esp_err_t
 void wifi_init()
 {
-
     // Create the event group to handle wifi events
     wifi_status_create();
 
@@ -80,30 +101,48 @@ void wifi_init()
     status = esp_event_handler_register(IP_EVENT, IP_EVENT_STA_GOT_IP, &wifi_event_handler, NULL);
     ESP_ERROR_CHECK(status);
 
-    // Wifi config structure
-    wifi_config_t wifi_config =
+    // If the Wi-Fi NVS flash is enabled by menuconfig, all Wi-Fi configuration in this phase, or later phases,
+    // will be stored into flash. When the board powers on/reboots, you do not need to configure the Wi-Fi driver
+    // from scratch. You only need to call esp_wifi_get_xxx APIs to fetch the configuration stored in flash previously.
+    // You can also configure the Wi-Fi driver if the previous configuration is not what you want.
+    // (from https://docs.espressif.com/projects/esp-idf/en/latest/api-guides/wifi.html)
+
+    if (CONFIG_ESP32_WIFI_NVS_ENABLED == 1)
     {
-        .sta =
+        wifi_config_t check_config;
+        status = esp_wifi_get_config(ESP_IF_WIFI_STA, &check_config);
+
+        if (status == ESP_OK)
         {
-            .ssid = WIFI_SSID,
-            .password = WIFI_PASS,
-        },
-    };
+            // Config was read from NVS
+            ESP_LOGI(LOG_TAG, "WiFi config was read from NVS flash");
 
-    // Set mode to station
-    status = esp_wifi_set_mode(WIFI_MODE_STA);
-    ESP_ERROR_CHECK(status);
+            // If settings have changed, set them again
+            if (strcmp((char*)check_config.sta.ssid, WIFI_SSID) != 0 ||
+                strcmp((char*)check_config.sta.password, WIFI_PASS) != 0)
+            {
+                wifi_configure_sta();
+            }
+        }
+        else if (status == ESP_ERR_WIFI_NOT_INIT)
+        {
+            // WiFi is not initialized by esp_wifi_init, need to initialize
+            ESP_LOGI(LOG_TAG, "WiFi config was not present in NVS. Need to initialize");
 
-    // Set wifi config
-    status = esp_wifi_set_config(ESP_IF_WIFI_STA, &wifi_config);
-    ESP_ERROR_CHECK(status);
-
-    // wifi_config_t check_config;
-    // status = esp_wifi_get_config(ESP_IF_WIFI_STA, &check_config);
-    // ESP_ERROR_CHECK(status);
-
-    // ESP_LOGI(LOG_TAG, "ssid: %s", check_config.sta.ssid);
-    // ESP_LOGI(LOG_TAG, "pass: %s", check_config.sta.password);
+            wifi_configure_sta();
+        }
+        else
+        {
+            // Some error, assert
+            ESP_ERROR_CHECK(status);
+        }
+    }
+    else
+    {
+        // NVS flash not enabled for wifi
+        ESP_LOGI(LOG_TAG, "NVS flash for WiFi not enabled");
+        wifi_configure_sta();
+    }
 }
 
 void wifi_start()
