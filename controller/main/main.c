@@ -10,10 +10,7 @@
 #include "driver/rtc_io.h"
 #include "nvs_flash.h"
 
-#include "wifi.h"
-
-#include "tasks/task_connection_watcher.h"
-#include "tasks/task_tcp_client.h"
+#include "tasks/task_wifi_client.h"
 
 #define GPIO_EXT_WAKE_PIN GPIO_NUM_26
 #define DEEP_SLEEP_WAKE_REASON_PIR ESP_SLEEP_WAKEUP_EXT0
@@ -84,16 +81,8 @@ void app_main()
         esp_err_t status = esp_event_loop_create_default();
         ESP_ERROR_CHECK(status);
 
-        // Initialize WIFI
-        // This method has to be called before any tasks that use wifi_status
-        wifi_init();
-
-        // Create WIFI-related tasks
-        xTaskCreate(&task_wifi_connection_watcher, "wifi_connection_watcher", 2048, NULL, 5, NULL);
-        xTaskCreate(&task_tcp_client, "tcp_client", 4096, NULL, 5, NULL);
-
-        // Start wifi
-        wifi_start();
+        // Create Wifi client task
+        xTaskCreate(&task_wifi_client, "tcp_client", 4096, NULL, 5, NULL);
 
         // TODO: Wake the RFID reader
 

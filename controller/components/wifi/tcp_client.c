@@ -15,7 +15,7 @@
 #include <lwip/netdb.h>
 
 // project-related includes
-#include "tasks/task_tcp_client.h"
+#include "tcp_client.h"
 #include "wifi_status.h"
 
 // TODO: define address and port
@@ -23,10 +23,10 @@
 #define SERVER_IP_ADDR "192.168.101.59"
 #define SERVER_PORT CONFIG_SERVER_PORT
 
-static const char *LOG_TAG = "task_tcp_client";
+static const char *LOG_TAG = "tcp_client";
 static const char *payload = "Message from ESP32 ";
 
-void task_tcp_client(void *pvParameters)
+void start_tcp_client()
 {
     // Task TCP Client should wait for connection
     wifi_status_wait_bits(WIFI_CONNECTED_BIT);
