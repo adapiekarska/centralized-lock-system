@@ -15,6 +15,7 @@
 #include <lwip/netdb.h>
 
 // project-related includes
+#include "types.h"
 #include "tcp_client.h"
 #include "wifi_status.h"
 
@@ -34,7 +35,7 @@ void tcp_client_start()
     char rx_buffer[128];
     char addr_str[128];
 
-    while (1)
+    while (TRUE)
     {
         // Create a socket
         int sock =  socket(AF_INET, SOCK_STREAM, IPPROTO_IP);
@@ -67,7 +68,7 @@ void tcp_client_start()
         ESP_LOGI(LOG_TAG, "Successfully connected");
 
         // Communication loop
-        while (1)
+        while (TRUE)
         {
             // Send data
             int err = send(sock, payload, strlen(payload), 0);

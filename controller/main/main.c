@@ -10,12 +10,11 @@
 #include "driver/rtc_io.h"
 #include "nvs_flash.h"
 
+#include "types.h"
+#include "gpio_map.h"
 #include "tasks/task_wifi_client.h"
 
-#define GPIO_EXT_WAKE_PIN GPIO_NUM_26
 #define DEEP_SLEEP_WAKE_REASON_PIR ESP_SLEEP_WAKEUP_EXT0
-
-#define HIGH 1
 
 static const char *LOG_TAG = "main";
 

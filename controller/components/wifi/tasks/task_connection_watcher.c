@@ -6,6 +6,7 @@
 #include "esp_log.h"
 
 #include "tasks/task_connection_watcher.h"
+#include "types.h"
 #include "wifi_conifg.h"
 #include "wifi_status.h"
 
@@ -31,7 +32,7 @@ void task_wifi_connection_watcher(void *pvParameters)
     ESP_LOGI(LOG_TAG, "Subnet mask: %s\n", ip4addr_ntoa(&ip_info.netmask));
     ESP_LOGI(LOG_TAG, "Gateway:     %s\n", ip4addr_ntoa(&ip_info.gw));
 
-    while(1)
+    while(TRUE)
     {
         vTaskDelay(1000 / portTICK_RATE_MS);
     }

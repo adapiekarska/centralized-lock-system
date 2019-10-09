@@ -1,3 +1,4 @@
+#include "wifi.h"
 
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
@@ -6,7 +7,7 @@
 #include "esp_wifi.h"
 #include "esp_log.h"
 
-#include "wifi.h"
+#include "types.h"
 #include "wifi_conifg.h"
 #include "wifi_status.h"
 
@@ -107,7 +108,7 @@ void wifi_init()
     // You can also configure the Wi-Fi driver if the previous configuration is not what you want.
     // (from https://docs.espressif.com/projects/esp-idf/en/latest/api-guides/wifi.html)
 
-    if (CONFIG_ESP32_WIFI_NVS_ENABLED == 1)
+    if (CONFIG_ESP32_WIFI_NVS_ENABLED == TRUE)
     {
         wifi_config_t check_config;
         status = esp_wifi_get_config(ESP_IF_WIFI_STA, &check_config);
