@@ -19,7 +19,7 @@ void task_wifi_connection_watcher(void *pvParameters)
     // wait for connection
     ESP_LOGI(LOG_TAG, "waiting for connection to the wifi network... ");
 
-    wifi_status_wait_bits(WIFI_CONNECTED_BIT);
+    wifi_status_wait_bits(WIFI_CONNECTED_BIT, DONT_CLEAR);
     ESP_LOGI(LOG_TAG, "connected!\n");
 
     // print the local IP address

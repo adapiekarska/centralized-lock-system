@@ -23,7 +23,7 @@ void wifi_status_clear_bits(int bits)
     xEventGroupClearBits(wifi_event_group, bits);
 }
 
-void wifi_status_wait_bits(int bits)
+void wifi_status_wait_bits(int bits, bool clear)
 {
-    xEventGroupWaitBits(wifi_event_group, bits, false, true, portMAX_DELAY); //?
+    xEventGroupWaitBits(wifi_event_group, bits, clear, true, portMAX_DELAY);
 }

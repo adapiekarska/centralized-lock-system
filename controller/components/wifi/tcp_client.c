@@ -24,13 +24,16 @@
 #define SERVER_IP_ADDR "192.168.101.59"
 #define SERVER_PORT CONFIG_SERVER_PORT
 
+static void *pending_data;
+static int  pending_data_size; 
+
 static const char *LOG_TAG = "tcp_client";
 static const char *payload = "Message from ESP32 ";
 
 void tcp_client_start()
 {
     // Task TCP Client should wait for connection
-    wifi_status_wait_bits(WIFI_CONNECTED_BIT);
+    wifi_status_wait_bits(WIFI_CONNECTED_BIT, DONT_CLEAR);
 
     char rx_buffer[128];
     char addr_str[128];
@@ -70,8 +73,16 @@ void tcp_client_start()
         // Communication loop
         while (TRUE)
         {
+            // notify capability to transfer data
+            wifi_status_set_bits(WIFI_CLIENT_READY_BIT);
+            // wait for pending data
+            wifi_status_wait_bits(WIFI_CLIENT_DATA_PENDING_BIT, CLEAR);
+            
             // Send data
-            int err = send(sock, payload, strlen(payload), 0);
+            int err = send(sock, pending_data, pending_data_size, 0);
+
+            // notify transmission completion
+            wifi_status_set_bits(WIFI_CLIENT_TRANSMISSION_COMPLETE_BIT);
 
             // Error occurred during sending
             if (err < 0)
@@ -111,4 +122,25 @@ void tcp_client_start()
 
     // Remove task from kernel's management
     vTaskDelete(NULL);
+}
+
+void send_data_to_server(
+    void*   data,
+    int     data_size
+)
+{
+    // wait for the tcp_client task to notify capability to send data
+    wifi_status_wait_bits(WIFI_CLIENT_READY_BIT, CLEAR);
+    
+    pending_data =      data;
+    pending_data_size = data_size;
+
+    // notify tcp client that there's new data to transfer
+    wifi_status_set_bits(WIFI_CLIENT_DATA_PENDING_BIT);
+
+    // block until transmission is complete. This is necessary since we dont copy
+    // input data. Instead we store the pointer so to guarantee the data is 
+    // correctly transfered, we cannot return from function until the transmission
+    // is in progress
+    wifi_status_wait_bits(WIFI_CLIENT_TRANSMISSION_COMPLETE_BIT, CLEAR);
 }

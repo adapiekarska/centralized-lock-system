@@ -84,9 +84,6 @@ static void wifi_configure_sta()
 // TODO: void or esp_err_t
 void wifi_init()
 {
-    // Create the event group to handle wifi events
-    wifi_status_create();
-
     // Initialize the tcp stack
     tcpip_adapter_init();
 
