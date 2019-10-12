@@ -22,6 +22,6 @@ void task_wifi_client(
     // Start wifi
     wifi_start();
 
-    // Start tcp client which handles wireless data exchange 
+    // Start wifi client which handles wireless data exchange 
     wifi_client_start();
 }

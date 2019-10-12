@@ -2,7 +2,7 @@
 #define WIFI_CLIENT_H
 
 /**
- * @brief Communicate via TCP socket
+ * @brief Start the process of data exchange with server
  *
  */
 void wifi_client_start();
