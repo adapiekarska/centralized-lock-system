@@ -16,7 +16,7 @@
 
 // project-related includes
 #include "types.h"
-#include "tcp_client.h"
+#include "wifi_client.h"
 #include "wifi_status.h"
 
 // TODO: define address and port
@@ -24,15 +24,14 @@
 #define SERVER_IP_ADDR "192.168.101.59"
 #define SERVER_PORT CONFIG_SERVER_PORT
 
-static void *pending_data;
-static int  pending_data_size; 
+static void         *pending_data;
+static unsigned int pending_data_size; 
 
-static const char *LOG_TAG = "tcp_client";
-static const char *payload = "Message from ESP32 ";
+static const char *LOG_TAG = "wifi_client";
 
-void tcp_client_start()
+void wifi_client_start()
 {
-    // Task TCP Client should wait for connection
+    // Task wifi_client should wait for connection
     wifi_status_wait_bits(WIFI_CONNECTED_BIT, DONT_CLEAR);
 
     char rx_buffer[128];
@@ -73,7 +72,7 @@ void tcp_client_start()
         // Communication loop
         while (TRUE)
         {
-            // notify capability to transfer data
+            // Notify capability to transfer data
             wifi_status_set_bits(WIFI_CLIENT_READY_BIT);
             // wait for pending data
             wifi_status_wait_bits(WIFI_CLIENT_DATA_PENDING_BIT, CLEAR);
@@ -81,15 +80,17 @@ void tcp_client_start()
             // Send data
             int err = send(sock, pending_data, pending_data_size, 0);
 
-            // notify transmission completion
-            wifi_status_set_bits(WIFI_CLIENT_TRANSMISSION_COMPLETE_BIT);
-
             // Error occurred during sending
             if (err < 0)
             {
                 ESP_LOGE(LOG_TAG, "Error occurred during sending: errno %d", errno);
+                // Notify transmission fail
+                wifi_status_set_bits(WIFI_CLIENT_TRANSMISSION_FAIL_BIT);
                 break;
             }
+
+             // Notify transmission success
+            wifi_status_set_bits(WIFI_CLIENT_TRANSMISSION_SUCCESS_BIT);
 
             // Receive data
             int len = recv(sock, rx_buffer, sizeof(rx_buffer) - 1, 0);
@@ -124,23 +125,38 @@ void tcp_client_start()
     vTaskDelete(NULL);
 }
 
-void send_data_to_server(
-    void*   data,
+esp_err_t wifi_client_transfer_data(
+    void    *data,
     int     data_size
-)
+    )
 {
-    // wait for the tcp_client task to notify capability to send data
+    // Wait for the wifi_client task to notify capability to send data
     wifi_status_wait_bits(WIFI_CLIENT_READY_BIT, CLEAR);
     
     pending_data =      data;
     pending_data_size = data_size;
 
-    // notify tcp client that there's new data to transfer
+    // Notify wifi_client that there's new data to transfer
     wifi_status_set_bits(WIFI_CLIENT_DATA_PENDING_BIT);
 
-    // block until transmission is complete. This is necessary since we dont copy
-    // input data. Instead we store the pointer so to guarantee the data is 
-    // correctly transfered, we cannot return from function until the transmission
-    // is in progress
-    wifi_status_wait_bits(WIFI_CLIENT_TRANSMISSION_COMPLETE_BIT, CLEAR);
+    // Wait for transmission to finish
+    wifi_status_wait_bits(
+        WIFI_CLIENT_TRANSMISSION_SUCCESS_BIT | WIFI_CLIENT_TRANSMISSION_FAIL_BIT, 
+        DONT_CLEAR
+        );
+    
+    if (wifi_status_get_bit(WIFI_CLIENT_TRANSMISSION_SUCCESS_BIT)) 
+    {
+        // Transmission was succesfull
+        // Clear WIFI_CLIENT_TRANSMISSION_SUCCESS_BIT and return success code
+        wifi_status_clear_bits(WIFI_CLIENT_TRANSMISSION_SUCCESS_BIT);
+        return ESP_OK;
+    }
+    else
+    {
+        // Transmission failed
+        // Clear WIFI_CLIENT_TRANSMISSION_FAIL_BIT and return fail code
+        wifi_status_clear_bits(WIFI_CLIENT_TRANSMISSION_FAIL_BIT);
+        return ESP_FAIL;
+    }
 }

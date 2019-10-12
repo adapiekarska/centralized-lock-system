@@ -14,7 +14,9 @@ static const char *LOG_TAG = "task_wifi_connection_watcher";
 
 static esp_err_t status;
 
-void task_wifi_connection_watcher(void *pvParameters)
+void task_wifi_connection_watcher(
+    void    *pvParameters
+    )
 {
     // wait for connection
     ESP_LOGI(LOG_TAG, "waiting for connection to the wifi network... ");

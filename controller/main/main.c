@@ -81,7 +81,7 @@ void app_main()
         esp_err_t status = esp_event_loop_create_default();
         ESP_ERROR_CHECK(status);
 
-        // Create Wifi client task along with wifi event group
+        // Create Wifi client task along with wifi_status 
         wifi_status_create();
         xTaskCreate(&task_wifi_client, "wifi_client", 4096, NULL, 5, NULL);
 
