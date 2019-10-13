@@ -6,6 +6,8 @@
  *
  * @param pvParameters
  */
-void task_wifi_client(void *pvParameters);
+void task_wifi_client(
+    void    *pvParameters
+    );
 
 #endif // TASK_WIFI_CLIENT_H

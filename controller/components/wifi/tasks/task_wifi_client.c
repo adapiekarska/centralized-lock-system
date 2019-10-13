@@ -4,11 +4,13 @@
 #include "freertos/task.h"
 
 #include "wifi.h"
-#include "tcp_client.h"
+#include "wifi_client.h"
 #include "tasks/task_connection_watcher.h"
 
 
-void task_wifi_client(void *pvParameters)
+void task_wifi_client(
+    void    *pvParameters
+    )
 {
     // Initialize WIFI
     // This method has to be called before any tasks that use wifi_status
@@ -20,6 +22,6 @@ void task_wifi_client(void *pvParameters)
     // Start wifi
     wifi_start();
 
-    // Start tcp client which handles wireless data exchange 
-    tcp_client_start();
+    // Start wifi client which handles wireless data exchange 
+    wifi_client_start();
 }

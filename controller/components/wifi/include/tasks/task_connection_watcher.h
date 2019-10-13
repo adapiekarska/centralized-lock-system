@@ -6,6 +6,8 @@
  *
  * @param pvParameters
  */
-void task_wifi_connection_watcher(void *pvParameters);
+void task_wifi_connection_watcher(
+    void    *pvParameters
+    );
 
 #endif // TASK_ESTABLSIH_CONNECTION_H
