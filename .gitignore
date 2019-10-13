@@ -70,3 +70,7 @@ dkms.conf
 
 ### build files
 build/
+
+### secrets
+*.cer
+*.key

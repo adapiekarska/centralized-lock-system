@@ -13,6 +13,7 @@
 #include "types.h"
 #include "gpio_map.h"
 #include "tasks/task_wifi_client.h"
+#include "wifi_status.h"
 
 #define DEEP_SLEEP_WAKE_REASON_PIR ESP_SLEEP_WAKEUP_EXT0
 
@@ -80,7 +81,8 @@ void app_main()
         esp_err_t status = esp_event_loop_create_default();
         ESP_ERROR_CHECK(status);
 
-        // Create Wifi client task
+        // Create Wifi client task along with wifi_status 
+        wifi_status_create();
         xTaskCreate(&task_wifi_client, "wifi_client", 4096, NULL, 5, NULL);
 
         // TODO: Wake the RFID reader
