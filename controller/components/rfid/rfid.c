@@ -5,11 +5,6 @@
 #include "rc522.h"
 #include "wifi_client.h"
 
-void rfid_reader_stop()
-{
-    rc522_pause();
-}
-
 /**
  * @brief Copy detected card number to external buffer and stop polling
  *  
@@ -35,4 +30,9 @@ void rfid_reader_start()
     };
 
     rc522_start(start_args);
+}
+
+void rfid_reader_stop()
+{
+    rc522_pause();
 }
