@@ -450,10 +450,10 @@ esp_err_t rc522_start(
 
 esp_err_t rc522_resume() 
 {    
-    return rc522_timer_running ? ESP_OK : esp_timer_start_periodic(rc522_timer, 125000);
+    return esp_timer_start_periodic(rc522_timer, 125000);
 }
 
 esp_err_t rc522_pause() 
 {    
-    return ! rc522_timer_running ? ESP_OK : esp_timer_stop(rc522_timer);
+    return esp_timer_stop(rc522_timer);
 }

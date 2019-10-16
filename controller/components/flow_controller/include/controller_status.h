@@ -1,5 +1,5 @@
-#ifndef WIFI_STATUS_H
-#define WIFI_STATUS_H
+#ifndef CONTROLLER_STATUS_H
+#define CONTROLLER_STATUS_H
 
 #include "freertos/FreeRTOS.h"
 #include "freertos/event_groups.h"
@@ -12,8 +12,9 @@
 #define WIFI_CLIENT_DATA_PENDING_BIT            BIT2 // Data is waiting for transfer
 #define WIFI_CLIENT_TRANSMISSION_SUCCESS_BIT    BIT3 // Data has been succesfully transferred
 #define WIFI_CLIENT_TRANSMISSION_FAIL_BIT       BIT4 // Wifi client failed to transfer data
+#define RFID_CARD_DETECTED_BIT                  BIT5 // Rfid component has detected the card and retrieved its ID
 
-// Defines used by wifi_status_wait_bits
+// Defines used by controller_status_wait_bits
 #define CLEAR       TRUE    // Clear given bits on return
 #define DONT_CLEAR  FALSE   // Dont clear given bits on return
 
@@ -21,7 +22,7 @@
  * @brief
  *
  */
-void wifi_status_create();
+void controller_status_create();
 
 /**
  * @brief
@@ -30,7 +31,7 @@ void wifi_status_create();
  * @return true
  * @return false
  */
-bool wifi_status_get_bit(
+bool controller_status_get_bit(
     int bit
     );
 
@@ -39,7 +40,7 @@ bool wifi_status_get_bit(
  *
  * @param bits
  */
-void wifi_status_set_bits(
+void controller_status_set_bits(
     int bits
     );
 
@@ -48,7 +49,7 @@ void wifi_status_set_bits(
  *
  * @param bits
  */
-void wifi_status_clear_bits(
+void controller_status_clear_bits(
     int bits
     );
 
@@ -59,9 +60,9 @@ void wifi_status_clear_bits(
  * @param clear if set to CLEAR: set given bits to '0
  *              if set to DONT_CLEAR: dont change given bits  
  */
-void wifi_status_wait_bits(
+void controller_status_wait_bits(
     int bits, 
     bool clear
     );
 
-#endif // WIFI_STATUS_H
+#endif // CONTROLLER_STATUS_H

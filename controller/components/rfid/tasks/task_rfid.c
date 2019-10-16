@@ -5,12 +5,13 @@
 
 #include "types.h"
 #include "rfid.h"
-#include "wifi_status.h"
+#include "controller_status.h"
 
 void task_rfid(
     void *pvParameters
     ) 
 {
     rfid_reader_start();
+    controller_status_wait_bits(RFID_CARD_DETECTED_BIT, DONT_CLEAR);
     vTaskDelete(NULL);
 }

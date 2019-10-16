@@ -17,7 +17,7 @@
 // project-related includes
 #include "types.h"
 #include "wifi_client.h"
-#include "wifi_status.h"
+#include "controller_status.h"
 
 // TODO: define address and port
 
@@ -32,7 +32,7 @@ static const char *LOG_TAG = "wifi_client";
 void wifi_client_start()
 {
     // Task wifi_client should wait for connection
-    wifi_status_wait_bits(WIFI_CONNECTED_BIT, DONT_CLEAR);
+    controller_status_wait_bits(WIFI_CONNECTED_BIT, DONT_CLEAR);
 
     char rx_buffer[128];
     char addr_str[128];
@@ -73,9 +73,9 @@ void wifi_client_start()
         while (TRUE)
         {
             // Notify capability to transfer data
-            wifi_status_set_bits(WIFI_CLIENT_READY_BIT);
+            controller_status_set_bits(WIFI_CLIENT_READY_BIT);
             // wait for pending data
-            wifi_status_wait_bits(WIFI_CLIENT_DATA_PENDING_BIT, CLEAR);
+            controller_status_wait_bits(WIFI_CLIENT_DATA_PENDING_BIT, CLEAR);
             
             // Send data
             int err = send(sock, pending_data, pending_data_size, 0);
@@ -85,12 +85,12 @@ void wifi_client_start()
             {
                 ESP_LOGE(LOG_TAG, "Error occurred during sending: errno %d", errno);
                 // Notify transmission fail
-                wifi_status_set_bits(WIFI_CLIENT_TRANSMISSION_FAIL_BIT);
+                controller_status_set_bits(WIFI_CLIENT_TRANSMISSION_FAIL_BIT);
                 break;
             }
 
              // Notify transmission success
-            wifi_status_set_bits(WIFI_CLIENT_TRANSMISSION_SUCCESS_BIT);
+            controller_status_set_bits(WIFI_CLIENT_TRANSMISSION_SUCCESS_BIT);
 
             // Receive data
             int len = recv(sock, rx_buffer, sizeof(rx_buffer) - 1, 0);
@@ -123,32 +123,32 @@ esp_err_t wifi_client_transfer_data(
     )
 {
     // Wait for the wifi_client task to notify capability to send data
-    wifi_status_wait_bits(WIFI_CLIENT_READY_BIT, CLEAR);
+    controller_status_wait_bits(WIFI_CLIENT_READY_BIT, CLEAR);
     
     memcpy(pending_data, data, data_size);
     pending_data_size = data_size;
 
     // Notify wifi_client that there's new data to transfer
-    wifi_status_set_bits(WIFI_CLIENT_DATA_PENDING_BIT);
+    controller_status_set_bits(WIFI_CLIENT_DATA_PENDING_BIT);
 
     // Wait for transmission to finish
-    wifi_status_wait_bits(
+    controller_status_wait_bits(
         WIFI_CLIENT_TRANSMISSION_SUCCESS_BIT | WIFI_CLIENT_TRANSMISSION_FAIL_BIT, 
         DONT_CLEAR
         );
     
-    if (wifi_status_get_bit(WIFI_CLIENT_TRANSMISSION_SUCCESS_BIT)) 
+    if (controller_status_get_bit(WIFI_CLIENT_TRANSMISSION_SUCCESS_BIT)) 
     {
         // Transmission was succesfull
         // Clear WIFI_CLIENT_TRANSMISSION_SUCCESS_BIT and return success code
-        wifi_status_clear_bits(WIFI_CLIENT_TRANSMISSION_SUCCESS_BIT);
+        controller_status_clear_bits(WIFI_CLIENT_TRANSMISSION_SUCCESS_BIT);
         return ESP_OK;
     }
     else
     {
         // Transmission failed
         // Clear WIFI_CLIENT_TRANSMISSION_FAIL_BIT and return fail code
-        wifi_status_clear_bits(WIFI_CLIENT_TRANSMISSION_FAIL_BIT);
+        controller_status_clear_bits(WIFI_CLIENT_TRANSMISSION_FAIL_BIT);
         return ESP_FAIL;
     }
 }

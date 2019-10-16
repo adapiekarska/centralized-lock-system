@@ -9,7 +9,7 @@
 
 #include "types.h"
 #include "wifi_conifg.h"
-#include "wifi_status.h"
+#include "controller_status.h"
 
 #include "string.h" // think about writing our own strcmp if it's just for this one function
 
@@ -37,7 +37,7 @@ static void wifi_event_handler(
                 if (s_retry_num < WIFI_MAXIMUM_RETRY)
                 {
                     esp_wifi_connect();
-                    wifi_status_clear_bits(WIFI_CONNECTED_BIT);
+                    controller_status_clear_bits(WIFI_CONNECTED_BIT);
                     s_retry_num++;
                     ESP_LOGI(LOG_TAG, "retry to connect to the AP");
                 }
@@ -54,7 +54,7 @@ static void wifi_event_handler(
                 ip_event_got_ip_t* event = (ip_event_got_ip_t*) event_data;
                 ESP_LOGI(LOG_TAG, "got ip:%s", ip4addr_ntoa(&event->ip_info.ip));
                 s_retry_num = 0;
-                wifi_status_set_bits(WIFI_CONNECTED_BIT);
+                controller_status_set_bits(WIFI_CONNECTED_BIT);
             break;
             }
         }

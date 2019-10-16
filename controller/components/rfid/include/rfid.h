@@ -1,7 +1,11 @@
 #ifndef RFID_H
 #define RFID_H
 
+#include "freertos/FreeRTOS.h"
+
 #define RFID_TOKEN_LEN_BYTES 5
+
+uint8_t* rfid_card_id();
 
 void rfid_reader_start();
 
