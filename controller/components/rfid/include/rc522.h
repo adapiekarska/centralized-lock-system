@@ -29,7 +29,8 @@ SOFTWARE.
 
 typedef void(*rc522_tag_callback_t)(uint8_t*);
 
-typedef struct {
+typedef struct 
+{
     int miso_io;
     int mosi_io;
     int sck_io;

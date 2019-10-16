@@ -5,7 +5,7 @@
 #include "rc522.h"
 #include "wifi_client.h"
 
-static void rfid_reader_stop()
+void rfid_reader_stop()
 {
     rc522_pause();
 }
@@ -15,7 +15,7 @@ static void rfid_reader_stop()
  *  
  * @param serial_no detected card number
  */
-void card_read_callback(
+static void card_read_callback(
     uint8_t *serial_no
     ) 
 {   

@@ -3,6 +3,8 @@
 
 #define RFID_TOKEN_LEN_BYTES 5
 
+void rfid_reader_stop();
+
 void rfid_reader_start();
 
 #endif // RFID_H
