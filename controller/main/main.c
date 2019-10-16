@@ -13,6 +13,7 @@
 #include "types.h"
 #include "gpio_map.h"
 #include "tasks/task_wifi_client.h"
+#include "tasks/task_rfid.h"
 #include "wifi_status.h"
 
 #define DEEP_SLEEP_WAKE_REASON_PIR ESP_SLEEP_WAKEUP_EXT0
@@ -85,7 +86,8 @@ void app_main()
         wifi_status_create();
         xTaskCreate(&task_wifi_client, "wifi_client", 4096, NULL, 5, NULL);
 
-        // TODO: Wake the RFID reader
+        // Wake the RFID reader
+        xTaskCreate(&task_rfid, "rfid task", 4096, NULL, 5, NULL);
 
         // At the end of this flow, configure and enter deep sleep
         //deep_sleep_init();
