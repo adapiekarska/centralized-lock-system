@@ -7,7 +7,9 @@
 #include "rfid.h"
 #include "wifi_status.h"
 
-void task_rfid(void *pvParameters) 
+void task_rfid(
+    void *pvParameters
+    ) 
 {
     rfid_reader_start();
     vTaskDelete(NULL);
