@@ -1,18 +1,16 @@
 \documentclass[10pt,a4paper]{report}
 
 \usepackage{mystyle}
-\usepackage{hyperref}
-\usepackage{pdfpages}
 
 \begin{document}
 
 \includepdf[pages=-]{title/title-project.pdf}
 
+\include{abstract/abstract}
+
 \tableofcontents
 \listoffigures
 \listoftables
-
-\input{./chapters/introduction/introduction}
 
 
 \end{document}
