@@ -6,77 +6,41 @@
 #include "esp_wifi.h"
 #include "esp_event.h"
 #include "esp_log.h"
+#include "esp_err.h"
 #include "tcpip_adapter.h"
-
-// socket-related includes
-#include "lwip/err.h"
-#include "lwip/sockets.h"
-#include "lwip/sys.h"
-#include <lwip/netdb.h>
 
 // project-related includes
 #include "types.h"
 #include "wifi_client.h"
 #include "wifi_status.h"
+#include "wifi_socket.h"
+#include "wifi_tls.h"
+#include "wifi_config.h"
 
-// Embedded binary file - CA certificate
-extern const uint8_t ca_cer_start[] asm("_binary_ca_cer_start");
-extern const uint8_t ca_cer_end[]   asm("_binary_ca_cer_end");
-
-// TODO: define address and port
-
-#define SERVER_IP_ADDR "192.168.101.59"
-#define SERVER_PORT CONFIG_SERVER_PORT
 
 static char         pending_data[128];
 static unsigned int pending_data_size;
 
 static const char *LOG_TAG = "wifi_client";
 
-static void wifi_socket_connect()
-{
-    // Create a socket
-    int sock =  socket(AF_INET, SOCK_STREAM, IPPROTO_IP);
-    if (sock < 0)
-    {
-        ESP_LOGE(LOG_TAG, "Unable to create socket: errno %d", errno);
-        break;
-    }
-
-    // Specify server data
-    struct sockaddr_in server_addr;
-    server_addr.sin_family = AF_INET;
-    server_addr.sin_port = htons(SERVER_PORT);
-    // Inet_addr converts the Internet host address cp from IPv4 numbers-and-dots notation into binary data in network byte order
-    server_addr.sin_addr.s_addr = inet_addr(SERVER_IP_ADDR);
-
-    // Convert an Internet address into a string
-    inet_ntoa_r(server_addr.sin_addr, addr_str, sizeof(addr_str) - 1);
-
-    ESP_LOGI(LOG_TAG, "Socket created, connecting to %s:%d", SERVER_IP_ADDR, SERVER_PORT);
-
-    // Connect socket to the server
-    int err = connect(sock, (struct sockaddr *)&server_addr, sizeof(server_addr));
-    if (err != 0)
-    {
-        ESP_LOGE(LOG_TAG, "Socket unable to connect: errno %d", errno);
-        break;
-    }
-
-    ESP_LOGI(LOG_TAG, "Successfully connected");
-}
-
 void wifi_client_start()
 {
     // Task wifi_client should wait for connection to AP
     wifi_status_wait_bits(WIFI_CONNECTED_BIT, DONT_CLEAR);
 
+    // Receive buffer
     char rx_buffer[128];
-    char addr_str[128];
+
+    esp_err_t err;
 
     while (TRUE)
     {
-        wifi_socket_connect();
+        err = TLS_ENABLED ? wifi_tls_connect() : wifi_socket_connect();
+
+        if (err == ESP_FAIL)
+        {
+            break;
+        }
 
         // Communication loop
         while (TRUE)
@@ -88,13 +52,10 @@ void wifi_client_start()
             wifi_status_wait_bits(WIFI_CLIENT_DATA_PENDING_BIT, CLEAR);
 
             // Send data
-            int err = send(sock, pending_data, pending_data_size, 0);
+            err = TLS_ENABLED ? wifi_tls_transfer_data() : wifi_socket_connect();
 
-            // Error occurred during sending
-            if (err < 0)
+            if (err == ESP_FAIL)
             {
-                ESP_LOGE(LOG_TAG, "Error occurred during sending: errno %d", errno);
-                // Notify transmission fail
                 wifi_status_set_bits(WIFI_CLIENT_TRANSMISSION_FAIL_BIT);
                 break;
             }
@@ -103,24 +64,17 @@ void wifi_client_start()
             wifi_status_set_bits(WIFI_CLIENT_TRANSMISSION_SUCCESS_BIT);
 
             // Receive data
-            int len = recv(sock, rx_buffer, sizeof(rx_buffer) - 1, 0);
+            err = TLS_ENABLED ? wifi_tls_receive_data(rx_buffer) : wifi_socket_receive_data(rx_buffer);
 
-            // Error occurred during receiving
-            if (len < 0)
+            if (err == ESP_FAIL)
             {
-                ESP_LOGE(LOG_TAG, "Error occurred during receiving: errno %d", errno);
                 break;
             }
 
             vTaskDelay(2000 / portTICK_PERIOD_MS);
         }
 
-        if (sock != -1)
-        {
-            ESP_LOGE(LOG_TAG, "Shutting down socket and restarting...");
-            shutdown(sock, 0);
-            close(sock);
-        }
+        TLS_ENABLED ? wifi_tls_shutdown() : wifi_socket_shutdown();
     }
 
     // Remove task from kernel's management

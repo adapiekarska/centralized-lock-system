@@ -7,4 +7,10 @@
 
 #define WIFI_MAXIMUM_RETRY  10
 
+#define SERVER_IP_ADDR "192.168.101.59"
+#define SERVER_PORT CONFIG_SERVER_PORT
+
+// Flags
+#define TLS_ENABLED TRUE
+
 #endif // WIFI_CONFIG_H

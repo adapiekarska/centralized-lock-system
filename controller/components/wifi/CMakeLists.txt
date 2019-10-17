@@ -5,8 +5,12 @@ idf_component_register(
         "wifi_client.c"
         "wifi_status.c"
         "wifi.c"
+        "wifi_socket/wifi_socket.c"
+        "wifi_tls/wifi_tls.h"
     INCLUDE_DIRS
         "include"
+        "include/wifi_socket"
+        "include/wifi_tls"
         "../../common/"
     EMBED_TXTFILES
         ca.cer
