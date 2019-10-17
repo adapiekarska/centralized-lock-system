@@ -19,7 +19,7 @@
 #include "wifi_client.h"
 #include "wifi_status.h"
 
-// Embedded binary files
+// Embedded binary file - CA certificate
 extern const uint8_t ca_cer_start[] asm("_binary_ca_cer_start");
 extern const uint8_t ca_cer_end[]   asm("_binary_ca_cer_end");
 
@@ -33,9 +33,42 @@ static unsigned int pending_data_size;
 
 static const char *LOG_TAG = "wifi_client";
 
+static void wifi_socket_connect()
+{
+    // Create a socket
+    int sock =  socket(AF_INET, SOCK_STREAM, IPPROTO_IP);
+    if (sock < 0)
+    {
+        ESP_LOGE(LOG_TAG, "Unable to create socket: errno %d", errno);
+        break;
+    }
+
+    // Specify server data
+    struct sockaddr_in server_addr;
+    server_addr.sin_family = AF_INET;
+    server_addr.sin_port = htons(SERVER_PORT);
+    // Inet_addr converts the Internet host address cp from IPv4 numbers-and-dots notation into binary data in network byte order
+    server_addr.sin_addr.s_addr = inet_addr(SERVER_IP_ADDR);
+
+    // Convert an Internet address into a string
+    inet_ntoa_r(server_addr.sin_addr, addr_str, sizeof(addr_str) - 1);
+
+    ESP_LOGI(LOG_TAG, "Socket created, connecting to %s:%d", SERVER_IP_ADDR, SERVER_PORT);
+
+    // Connect socket to the server
+    int err = connect(sock, (struct sockaddr *)&server_addr, sizeof(server_addr));
+    if (err != 0)
+    {
+        ESP_LOGE(LOG_TAG, "Socket unable to connect: errno %d", errno);
+        break;
+    }
+
+    ESP_LOGI(LOG_TAG, "Successfully connected");
+}
+
 void wifi_client_start()
 {
-    // Task wifi_client should wait for connection
+    // Task wifi_client should wait for connection to AP
     wifi_status_wait_bits(WIFI_CONNECTED_BIT, DONT_CLEAR);
 
     char rx_buffer[128];
@@ -43,35 +76,7 @@ void wifi_client_start()
 
     while (TRUE)
     {
-        // Create a socket
-        int sock =  socket(AF_INET, SOCK_STREAM, IPPROTO_IP);
-        if (sock < 0)
-        {
-            ESP_LOGE(LOG_TAG, "Unable to create socket: errno %d", errno);
-            break;
-        }
-
-        // Specify server data
-        struct sockaddr_in server_addr;
-        server_addr.sin_family = AF_INET;
-        server_addr.sin_port = htons(SERVER_PORT);
-        // Inet_addr converts the Internet host address cp from IPv4 numbers-and-dots notation into binary data in network byte order
-        server_addr.sin_addr.s_addr = inet_addr(SERVER_IP_ADDR);
-
-        // Convert an Internet address into a string
-        inet_ntoa_r(server_addr.sin_addr, addr_str, sizeof(addr_str) - 1);
-
-        ESP_LOGI(LOG_TAG, "Socket created, connecting to %s:%d", SERVER_IP_ADDR, SERVER_PORT);
-
-        // Connect socket to the server
-        int err = connect(sock, (struct sockaddr *)&server_addr, sizeof(server_addr));
-        if (err != 0)
-        {
-            ESP_LOGE(LOG_TAG, "Socket unable to connect: errno %d", errno);
-            break;
-        }
-
-        ESP_LOGI(LOG_TAG, "Successfully connected");
+        wifi_socket_connect();
 
         // Communication loop
         while (TRUE)
