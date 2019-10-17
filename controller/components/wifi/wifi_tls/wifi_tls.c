@@ -1,14 +1,11 @@
-#include "wifi_tls.h"
+#include "wifi_tls/wifi_tls.h"
 
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
 #include "freertos/event_groups.h"
 #include "esp_system.h"
-#include "esp_event.h"
 #include "esp_log.h"
 #include "esp_err.h"
-#include "tcpip_adapter.h"
-#include "esp_tls.h"
 
 #include "lwip/err.h"
 #include "lwip/sockets.h"
@@ -16,7 +13,9 @@
 #include "lwip/netdb.h"
 #include "lwip/dns.h"
 
-#include "wifi_config.h"
+#include "esp_tls.h"
+
+#include "../include/wifi_conifg.h"
 
 static const char *LOG_TAG = "wifi_tls";
 
@@ -24,7 +23,8 @@ static const char *LOG_TAG = "wifi_tls";
 extern const uint8_t ca_cer_start[] asm("_binary_ca_cer_start");
 extern const uint8_t ca_cer_end[]   asm("_binary_ca_cer_end");
 
-static esp_tls *tls_conn;
+static esp_tls_t *tls_conn;
+static esp_tls_cfg_t tls_cfg;
 
 esp_err_t wifi_tls_connect()
 {
@@ -37,13 +37,13 @@ esp_err_t wifi_tls_connect()
     // Convert an Internet address into a string
     inet_ntoa_r(server_addr.sin_addr, addr_str, sizeof(addr_str) - 1);
 
-    esp_tls_cfg_t tls_cfg =
+    tls_cfg =
     {
         .cacert_buf  = ca_cer_start,
         .cacert_bytes = ca_cer_end - ca_cer_start,
     };
 
-    esp_tls *tls_conn = esp_tls_conn_http_new(addr_str, &cfg);
+    tls_conn = esp_tls_conn_http_new(addr_str, &tls_cfg);
 
     if (tls_conn != NULL)
     {
@@ -84,6 +84,7 @@ esp_err_t wifi_tls_transfer_data(char *data, size_t size)
 
 esp_err_t wifi_tls_receive_data(char *rx_buffer)
 {
+    esp_err_t ret;
     do
         {
             len = sizeof(buf) - 1;
@@ -95,14 +96,14 @@ esp_err_t wifi_tls_receive_data(char *rx_buffer)
 
             if(ret < 0)
            {
-                ESP_LOGE(TAG, "esp_tls_conn_read  returned -0x%x", -ret);
-                break;
+                ESP_LOGE(LOG_TAG, "esp_tls_conn_read  returned -0x%x", -ret);
+                return ESP_FAIL;
             }
 
             if(ret == 0)
             {
-                ESP_LOGI(TAG, "connection closed");
-                break;
+                ESP_LOGI(LOG_TAG, "connection closed");
+                return ESP_FAIL;
             }
 
             len = ret;
@@ -112,6 +113,8 @@ esp_err_t wifi_tls_receive_data(char *rx_buffer)
                 putchar(buf[i]);
             }
         } while(1);
+
+    return ESP_OK;
 }
 
 void wifi_tls_shutdown()

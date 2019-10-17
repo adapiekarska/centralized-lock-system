@@ -1,4 +1,4 @@
-#include "wifi_socket.h"
+#include "wifi_socket/wifi_socket.h"
 
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
@@ -16,7 +16,7 @@
 #include "lwip/sys.h"
 #include <lwip/netdb.h>
 
-#include "wifi_config.h"
+#include "../include/wifi_conifg.h"
 
 static const char *LOG_TAG = "wifi_sock";
 
@@ -31,7 +31,7 @@ esp_err_t wifi_socket_connect()
     if (sock < 0)
     {
         ESP_LOGE(LOG_TAG, "Unable to create socket: errno %d", errno);
-        break;
+        return ESP_FAIL;
     }
 
     // Specify server data

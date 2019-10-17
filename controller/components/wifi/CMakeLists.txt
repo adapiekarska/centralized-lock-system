@@ -6,12 +6,12 @@ idf_component_register(
         "wifi_status.c"
         "wifi.c"
         "wifi_socket/wifi_socket.c"
-        "wifi_tls/wifi_tls.h"
+        "wifi_tls/wifi_tls.c"
     INCLUDE_DIRS
-        "include"
-        "include/wifi_socket"
-        "include/wifi_tls"
+        "include/"
         "../../common/"
     EMBED_TXTFILES
         ca.cer
+    REQUIRES
+        esp-tls
 )

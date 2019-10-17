@@ -1,6 +1,8 @@
 #ifndef WIFI_CLIENT_H
 #define WIFI_CLIENT_H
 
+#include "esp_err.h"
+
 /**
  * @brief Start the process of data exchange with server
  *
@@ -9,10 +11,10 @@ void wifi_client_start();
 
 /**
  * @brief Transfer given data to attestation server
- * 
+ *
  * @param data      pointer to buffer containing data to be sent
  * @param data_size data buffer size
- * 
+ *
  * @return ESP_OK   transmission succesful
  * @return ESP_FAIL transmission failed
  */

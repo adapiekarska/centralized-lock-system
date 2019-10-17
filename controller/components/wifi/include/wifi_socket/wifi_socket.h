@@ -1,5 +1,5 @@
 #ifndef WIFI_SOCKET_H
-#include WIFI_SOCKET_H
+#define WIFI_SOCKET_H
 
 #include "esp_err.h"
 

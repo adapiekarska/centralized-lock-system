@@ -1,27 +1,25 @@
+#include "wifi_client.h"
+
 #include <sys/param.h>
+#include <string.h>
+
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
 #include "freertos/event_groups.h"
 #include "esp_system.h"
-#include "esp_wifi.h"
-#include "esp_event.h"
 #include "esp_log.h"
 #include "esp_err.h"
-#include "tcpip_adapter.h"
 
 // project-related includes
 #include "types.h"
-#include "wifi_client.h"
 #include "wifi_status.h"
-#include "wifi_socket.h"
-#include "wifi_tls.h"
-#include "wifi_config.h"
+#include "wifi_socket/wifi_socket.h"
+#include "wifi_tls/wifi_tls.h"
+#include "wifi_conifg.h"
 
 
 static char         pending_data[128];
-static unsigned int pending_data_size;
-
-static const char *LOG_TAG = "wifi_client";
+static size_t       pending_data_size;
 
 void wifi_client_start()
 {
@@ -52,7 +50,9 @@ void wifi_client_start()
             wifi_status_wait_bits(WIFI_CLIENT_DATA_PENDING_BIT, CLEAR);
 
             // Send data
-            err = TLS_ENABLED ? wifi_tls_transfer_data() : wifi_socket_connect();
+            err = TLS_ENABLED ?
+                    wifi_tls_transfer_data(pending_data, pending_data_size)
+                    : wifi_socket_transfer_data(pending_data, pending_data_size);
 
             if (err == ESP_FAIL)
             {
@@ -64,7 +64,9 @@ void wifi_client_start()
             wifi_status_set_bits(WIFI_CLIENT_TRANSMISSION_SUCCESS_BIT);
 
             // Receive data
-            err = TLS_ENABLED ? wifi_tls_receive_data(rx_buffer) : wifi_socket_receive_data(rx_buffer);
+            err = TLS_ENABLED ?
+                    wifi_tls_receive_data(rx_buffer)
+                    : wifi_socket_receive_data(rx_buffer);
 
             if (err == ESP_FAIL)
             {
