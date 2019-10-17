@@ -28,7 +28,7 @@ extern const uint8_t ca_cer_end[]   asm("_binary_ca_cer_end");
 #define SERVER_IP_ADDR "192.168.101.59"
 #define SERVER_PORT CONFIG_SERVER_PORT
 
-static void         *pending_data;
+static char         pending_data[128];
 static unsigned int pending_data_size;
 
 static const char *LOG_TAG = "wifi_client";
@@ -107,14 +107,6 @@ void wifi_client_start()
                 break;
             }
 
-            // Data received
-            else
-            {
-                rx_buffer[len] = 0; // Null-terminate whatever we received and treat like a string
-                ESP_LOGI(LOG_TAG, "Received %d bytes from %s:", len, addr_str);
-                ESP_LOGI(LOG_TAG, "%s", rx_buffer);
-            }
-
             vTaskDelay(2000 / portTICK_PERIOD_MS);
         }
 
@@ -138,7 +130,7 @@ esp_err_t wifi_client_transfer_data(
     // Wait for the wifi_client task to notify capability to send data
     wifi_status_wait_bits(WIFI_CLIENT_READY_BIT, CLEAR);
 
-    pending_data =      data;
+    memcpy(pending_data, data, data_size);
     pending_data_size = data_size;
 
     // Notify wifi_client that there's new data to transfer

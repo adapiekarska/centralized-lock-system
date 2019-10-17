@@ -1,6 +1,14 @@
 #ifndef GPIO_MAP_H
 #define GPIO_MAP_H
 
-#define GPIO_EXT_WAKE_PIN GPIO_NUM_26
+#include "driver/gpio.h"
+
+#define GPIO_RC522_SPI_CLK  GPIO_NUM_18
+#define GPIO_RC522_SPI_MISO GPIO_NUM_19
+#define GPIO_RC522_SPI_CS   GPIO_NUM_21
+#define GPIO_RC522_SPI_RST  GPIO_NUM_22
+#define GPIO_RC522_SPI_MOSI GPIO_NUM_23
+
+#define GPIO_EXT_WAKE_PIN   GPIO_NUM_26
 
 #endif // GPIO_MAP_H
