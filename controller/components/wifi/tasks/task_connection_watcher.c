@@ -8,7 +8,7 @@
 #include "tasks/task_connection_watcher.h"
 #include "types.h"
 #include "wifi_conifg.h"
-#include "wifi_status.h"
+#include "controller_status.h"
 
 static const char *LOG_TAG = "task_wifi_connection_watcher";
 
@@ -21,7 +21,7 @@ void task_wifi_connection_watcher(
     // wait for connection
     ESP_LOGI(LOG_TAG, "waiting for connection to the wifi network... ");
 
-    wifi_status_wait_bits(WIFI_CONNECTED_BIT, DONT_CLEAR);
+    controller_status_wait_bits(WIFI_CONNECTED_BIT, DONT_CLEAR);
     ESP_LOGI(LOG_TAG, "connected!\n");
 
     // print the local IP address
