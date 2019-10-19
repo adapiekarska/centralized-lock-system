@@ -12,6 +12,8 @@ idf_component_register(
         "../../common/"
     EMBED_TXTFILES
         ca.cer
+        client.cer
+        client.key
     REQUIRES
         esp-tls
 )

@@ -9,6 +9,7 @@
 
 #define SERVER_IP_ADDR "192.168.101.59"
 #define SERVER_PORT CONFIG_SERVER_PORT
+#define SERVER_HOSTNAME "cls-AUTH"
 
 // Flags
 #define TLS_ENABLED TRUE

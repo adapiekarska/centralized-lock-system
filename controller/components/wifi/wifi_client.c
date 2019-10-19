@@ -17,6 +17,7 @@
 #include "wifi_tls/wifi_tls.h"
 #include "wifi_conifg.h"
 
+#define RX_BUFFER_SIZE
 
 static char         pending_data[128];
 static size_t       pending_data_size;
@@ -28,12 +29,15 @@ void wifi_client_start()
 
     // Receive buffer
     char rx_buffer[128];
+    size_t rx_buffer_size = 128;
 
     esp_err_t err;
 
     while (TRUE)
     {
-        err = TLS_ENABLED ? wifi_tls_connect() : wifi_socket_connect();
+        err = TLS_ENABLED ?
+            wifi_tls_connect()
+            : wifi_socket_connect();
 
         if (err == ESP_FAIL)
         {
@@ -65,8 +69,8 @@ void wifi_client_start()
 
             // Receive data
             err = TLS_ENABLED ?
-                    wifi_tls_receive_data(rx_buffer)
-                    : wifi_socket_receive_data(rx_buffer);
+                    wifi_tls_receive_data(rx_buffer, rx_buffer_size)
+                    : wifi_socket_receive_data(rx_buffer, rx_buffer_size);
 
             if (err == ESP_FAIL)
             {

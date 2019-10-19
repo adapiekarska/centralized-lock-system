@@ -17,15 +17,22 @@ esp_err_t wifi_socket_connect();
  * @param size size
  * @return esp_err_t status
  */
-esp_err_t wifi_socket_transfer_data(char *data, size_t size);
+esp_err_t wifi_socket_transfer_data(
+    char *data,
+    size_t size
+    );
 
 /**
  * @brief Receive data via socket
  *
  * @param rx_buffer output buffer
+ * @param size size
  * @return esp_err_t status
  */
-esp_err_t wifi_socket_receive_data(char *rx_buffer);
+esp_err_t wifi_socket_receive_data(
+    char *rx_buffer,
+    size_t size
+    );
 
 /**
  * @brief Shutdown the socket

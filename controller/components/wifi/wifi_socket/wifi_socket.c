@@ -58,7 +58,10 @@ esp_err_t wifi_socket_connect()
     return ESP_OK;
 }
 
-esp_err_t wifi_socket_transfer_data(char *data, size_t size)
+esp_err_t wifi_socket_transfer_data(
+    char *data,
+    size_t size
+    )
 {
     // Send data
     int err = send(sock, data, size, 0);
@@ -72,10 +75,13 @@ esp_err_t wifi_socket_transfer_data(char *data, size_t size)
     return ESP_OK;
 }
 
-esp_err_t wifi_socket_receive_data(char *rx_buffer)
+esp_err_t wifi_socket_receive_data(
+    char *rx_buffer,
+    size_t size
+    )
 {
     // Receive data
-    int len = recv(sock, rx_buffer, sizeof(rx_buffer) - 1, 0);
+    int len = recv(sock, rx_buffer, size - 1, 0);
 
     // Error occurred during receiving
     if (len < 0)
