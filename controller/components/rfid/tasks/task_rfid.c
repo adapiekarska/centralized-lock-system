@@ -12,6 +12,6 @@ void task_rfid(
     ) 
 {
     rfid_reader_start();
-    controller_status_wait_bits(RFID_CARD_DETECTED_BIT, DONT_CLEAR);
+    controller_status_wait_bits(RFID_CARD_HANDLING_IN_PROGRESS_BIT, DONT_CLEAR);
     vTaskDelete(NULL);
 }

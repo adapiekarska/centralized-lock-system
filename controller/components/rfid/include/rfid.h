@@ -5,7 +5,7 @@
 
 #define RFID_TOKEN_LEN_BYTES 5
 
-uint8_t* rfid_card_id();
+uint8_t* rfid_get_card_id();
 
 void rfid_reader_start();
 

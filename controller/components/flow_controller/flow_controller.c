@@ -37,9 +37,11 @@ void deep_sleep_wakeup_flow()
 
     // Wait for the rfid to notify about detected card
     ESP_LOGI(LOG_TAG, "Waiting for card");
-    controller_status_wait_bits(RFID_CARD_DETECTED_BIT, DONT_CLEAR);
+    controller_status_wait_bits(RFID_CARD_HANDLING_IN_PROGRESS_BIT, DONT_CLEAR);
+
     // Retrieve detected card id
-    uint8_t *detected_card = rfid_card_id();
+    uint8_t *detected_card = rfid_get_card_id();
+    ESP_ERROR_CHECK(detected_card == NULL ? ESP_FAIL : ESP_OK);
     ESP_LOGI(LOG_TAG, "Detected card: %x %x %x %x %x", 
         detected_card[0],
         detected_card[1],

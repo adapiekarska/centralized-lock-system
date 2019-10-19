@@ -9,9 +9,9 @@
 
 static uint8_t card_id_buffer[RFID_TOKEN_LEN_BYTES];
 
-uint8_t* rfid_card_id()
+uint8_t* rfid_get_card_id()
 {
-    if(controller_status_get_bit(RFID_CARD_DETECTED_BIT) == TRUE)
+    if(controller_status_get_bit(RFID_CARD_HANDLING_IN_PROGRESS_BIT) == TRUE)
     {
         return card_id_buffer;
     }
@@ -30,9 +30,9 @@ static void card_read_callback(
     uint8_t *serial_no
     ) 
 {   
-    if(controller_status_get_bit(RFID_CARD_DETECTED_BIT) == FALSE)
+    if(controller_status_get_bit(RFID_CARD_HANDLING_IN_PROGRESS_BIT) == FALSE)
     {
-        controller_status_set_bits(RFID_CARD_DETECTED_BIT);
+        controller_status_set_bits(RFID_CARD_HANDLING_IN_PROGRESS_BIT);
         memcpy(card_id_buffer, serial_no, RFID_TOKEN_LEN_BYTES);
     }
 }

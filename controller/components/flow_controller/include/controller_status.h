@@ -12,7 +12,7 @@
 #define WIFI_CLIENT_DATA_PENDING_BIT            BIT2 // Data is waiting for transfer
 #define WIFI_CLIENT_TRANSMISSION_SUCCESS_BIT    BIT3 // Data has been succesfully transferred
 #define WIFI_CLIENT_TRANSMISSION_FAIL_BIT       BIT4 // Wifi client failed to transfer data
-#define RFID_CARD_DETECTED_BIT                  BIT5 // Rfid component has detected the card and retrieved its ID
+#define RFID_CARD_HANDLING_IN_PROGRESS_BIT      BIT5 // Rfid component has detected the card and retrieved its ID
 
 // Defines used by controller_status_wait_bits
 #define CLEAR       TRUE    // Clear given bits on return
