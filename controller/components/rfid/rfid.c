@@ -1,9 +1,25 @@
 #include "rfid.h"
 
+#include "string.h" // provides memcpy function
+
 #include "types.h"
 #include "gpio_map.h"
 #include "rc522.h"
-#include "wifi_client.h"
+#include "controller_status.h"
+
+static uint8_t card_id_buffer[RFID_TOKEN_LEN_BYTES];
+
+uint8_t* rfid_get_card_id()
+{
+    if(controller_status_get_bit(RFID_CARD_HANDLING_IN_PROGRESS_BIT) == TRUE)
+    {
+        return card_id_buffer;
+    }
+    else
+    {
+        return NULL;
+    }
+}
 
 /**
  * @brief Copy detected card number to external buffer and stop polling
@@ -14,8 +30,11 @@ static void card_read_callback(
     uint8_t *serial_no
     ) 
 {   
-    wifi_client_transfer_data(serial_no, RFID_TOKEN_LEN_BYTES);
-    rfid_reader_stop();
+    if(controller_status_get_bit(RFID_CARD_HANDLING_IN_PROGRESS_BIT) == FALSE)
+    {
+        controller_status_set_bits(RFID_CARD_HANDLING_IN_PROGRESS_BIT);
+        memcpy(card_id_buffer, serial_no, RFID_TOKEN_LEN_BYTES);
+    }
 }
 
 void rfid_reader_start()

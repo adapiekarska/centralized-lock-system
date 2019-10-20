@@ -2,17 +2,18 @@ idf_component_register(
     SRCS
         "tasks/task_wifi_client.c"
         "wifi_client.c"
-        "wifi_status.c"
         "wifi.c"
         "wifi_socket/wifi_socket.c"
         "wifi_tls/wifi_tls.c"
     INCLUDE_DIRS
         "include/"
         "../../common/"
+        "../flow_controller/include/"
     EMBED_TXTFILES
         ca.cer
         client.cer
         client.key
     REQUIRES
         esp-tls
+        flow_controller
 )
