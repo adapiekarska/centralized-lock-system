@@ -17,7 +17,6 @@
 #include "wifi_tls/wifi_tls.h"
 #include "wifi_conifg.h"
 
-#define RX_BUFFER_SIZE
 
 static char         pending_data[128];
 static size_t       pending_data_size;
@@ -47,6 +46,8 @@ void wifi_client_start()
         // Communication loop
         while (TRUE)
         {
+            ESP_LOGE("wifi_client", "Ready to transmit");
+
             // Notify capability to transfer data
             wifi_status_set_bits(WIFI_CLIENT_READY_BIT);
 

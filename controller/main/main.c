@@ -18,6 +18,9 @@
 
 #define DEEP_SLEEP_WAKE_REASON_PIR ESP_SLEEP_WAKEUP_EXT0
 
+#define TASK_WIFI_PRIORITY 10
+#define TASK_RFID_PRIORITY 5
+
 static const char *LOG_TAG = "main";
 
 /**
@@ -82,12 +85,12 @@ void app_main()
         esp_err_t status = esp_event_loop_create_default();
         ESP_ERROR_CHECK(status);
 
-        // Create Wifi client task along with wifi_status 
+        // Create Wifi client task along with wifi_status
         wifi_status_create();
-        xTaskCreate(&task_wifi_client, "wifi_client", 4096, NULL, 5, NULL);
+        xTaskCreate(&task_wifi_client, "wifi_client", 4096, NULL, TASK_WIFI_PRIORITY, NULL);
 
         // Wake the RFID reader
-        xTaskCreate(&task_rfid, "rfid task", 4096, NULL, 5, NULL);
+        xTaskCreate(&task_rfid, "rfid task", 4096, NULL, TASK_RFID_PRIORITY, NULL);
 
         // At the end of this flow, configure and enter deep sleep
         //deep_sleep_init();

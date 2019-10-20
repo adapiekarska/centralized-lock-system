@@ -22,6 +22,7 @@
 #include "esp_tls.h"
 
 #include "../include/wifi_conifg.h"
+#include "types.h"
 
 static const char *LOG_TAG = "wifi_tls";
 
@@ -56,22 +57,30 @@ esp_err_t wifi_tls_connect()
     tls_cfg.clientkey_buf = client_pkey_start;
     tls_cfg.clientkey_bytes = client_pkey_end - client_pkey_start;
 
-    // Blocking TLS/SSL connection
-    int status = esp_tls_conn_new_sync(SERVER_HOSTNAME, sizeof(SERVER_HOSTNAME), SERVER_PORT, &tls_cfg, tls_conn);
+    // Set common name
+    tls_cfg.common_name = "AUTH-SERV";
 
-    if (status == 1)
+    // Set non-blocking mode
+    tls_cfg.non_block = TRUE;
+
+    tls_conn = esp_tls_init();
+
+    // Non-Blocking TLS/SSL connection
+    esp_tls_conn_new_async(SERVER_HOSTNAME, sizeof(SERVER_HOSTNAME), SERVER_PORT, &tls_cfg, tls_conn);
+
+    // Wait for
+    while (tls_conn->conn_state != ESP_TLS_DONE && tls_conn->conn_state != ESP_TLS_FAIL)
     {
-        ESP_LOGI(LOG_TAG, "Connection established...");
-        return ESP_OK;
+        ESP_LOGE(LOG_TAG, "Waiting for connection, current state: %d", tls_conn->conn_state);
+        // Delay for 0.5 s - 50 ticks - each tick is 10 ms
+        vTaskDelay(500 / portTICK_PERIOD_MS);
     }
-    else if (status == -1)
+    if (tls_conn->conn_state == ESP_TLS_DONE)
     {
-        ESP_LOGE(LOG_TAG, "Connection failed...");
-        return ESP_FAIL;
+        return ESP_OK;
     }
     else
     {
-        ESP_LOGI(LOG_TAG, "Connection in progress, but shouldn't be...");
         return ESP_FAIL;
     }
 
@@ -87,7 +96,8 @@ esp_err_t wifi_tls_transfer_data(
     do
     {
         ret = esp_tls_conn_write(
-            tls_conn, data + bytes_written,
+            tls_conn,
+            data + bytes_written,
             strlen(data) - bytes_written
             );
 
@@ -113,33 +123,33 @@ esp_err_t wifi_tls_receive_data(
 {
     esp_err_t ret;
     do
+    {
+        size_t len = size - 1;
+        bzero(rx_buffer, size);
+        ret = esp_tls_conn_read(tls_conn, rx_buffer, len);
+
+        if(ret == MBEDTLS_ERR_SSL_WANT_WRITE  || ret == MBEDTLS_ERR_SSL_WANT_READ)
+            continue;
+
+        if(ret < 0)
         {
-            size_t len = size - 1;
-            bzero(rx_buffer, size);
-            ret = esp_tls_conn_read(tls_conn, rx_buffer, len);
+            ESP_LOGE(LOG_TAG, "esp_tls_conn_read  returned -0x%x", -ret);
+            return ESP_FAIL;
+        }
 
-            if(ret == MBEDTLS_ERR_SSL_WANT_WRITE  || ret == MBEDTLS_ERR_SSL_WANT_READ)
-                continue;
+        if(ret == 0)
+        {
+            ESP_LOGI(LOG_TAG, "connection closed");
+            return ESP_FAIL;
+        }
 
-            if(ret < 0)
-           {
-                ESP_LOGE(LOG_TAG, "esp_tls_conn_read  returned -0x%x", -ret);
-                return ESP_FAIL;
-            }
-
-            if(ret == 0)
-            {
-                ESP_LOGI(LOG_TAG, "connection closed");
-                return ESP_FAIL;
-            }
-
-            len = ret;
-            ESP_LOGD(LOG_TAG, "%d bytes read", len);
-            /* Print response directly to stdout as it is read */
-            for(int i = 0; i < len; i++) {
-                putchar(rx_buffer[i]);
-            }
-        } while(1);
+        len = ret;
+        ESP_LOGD(LOG_TAG, "%d bytes read", len);
+        /* Print response directly to stdout as it is read */
+        for(int i = 0; i < len; i++) {
+            putchar(rx_buffer[i]);
+        }
+    } while(1);
 
     return ESP_OK;
 }
