@@ -1,8 +1,14 @@
 \chapter{Wstep i cel pracy}
 
 % Jakies catchy zdanie na poczatek
-Rozwój technologii bezprzewodowych oraz postępująca miniaturyzacja sprawiają, że systemy oparte na urządzeniach elektronicznych znajdują zastosowania w wielu obszarach zdominowanych wcześniej przez ich tradycyjne odpowiedniki. Technologie bezprzewodowe oferują coraz lepsze standardy bezpieczeństwa, wygody użytkowania oraz wydajności, co przyczynia się do ciągłego wzrostu ich popularności wśród konsumentów.
 
-Przedmiotem niniejszej pracy inżynierskiej jest bezprzewodowy sytem dostępu do pomieszczeń z wykorzystaniem technologii
-bezprzewodowych takich jak WiFi oraz RFID (ang. Radio-frequency identification).
-Nowoczesny system zamków elektronicznych stanowi alternatywę dla tradycyjnych systemów.
+Zapewnienie bezpieczeństwa ludziom oraz budynkom stanowi istotny problem w różnego rodzaju firmach i przedsiębiorstwach. Jednym z głównych elementów, bez którego nie sposób osiągnąć wysokiego poziomu bezpieczeństwa, jest system kontroli dostępu do pomieszczeń. Dzięki jego zastosowaniu znacznie podnosi się bezpieczeństwo osób przebywających na terenie budynku oraz spada ryzyko kradzieży lub zniszczenia mienia.
+
+System kontroli dostępu do pomieszczeń składa się z kluczy oraz fizycznych punktów dostępu (zamków, bramek, szafek), a jego głównym zadaniem jest autoryzowanie prób dostępu na podstawie kluczy w taki sposób, aby tylko osoby posiadające powiązane z danym punktem dostępu klucze, zostały uwierzytelnione. Dzięki zastosowaniu takiego rozwiązania zarówno ludzie, jak i budynek, są pod odpowiednią ochroną.
+
+Obecnie najczęściej stosowane systemy oparte są na architekturze rozproszonej \textbf{potrzebne zrodlo}, co oznacza, że przeprowadzenie całego procesu uwierzytelniania dokonywane jest przez oprogramowanie mikroprocesora obsługującego zamek. Rozwiązanie to jest wątpliwe pod względem bezpieczeństwa, ponieważ baza danych zawierająca klucze otwierające zamek, znajduje się w pamięci mikrokontrolera. Jest wysoce prawdopodobne, że jednym z tych kluczy jest tzw. klucz generalny (ang. Master Key), otwierający również inne zamki.
+
+Przedmiotem niniejszej pracy inżynierskiej jest bezprzewodowy sytem dostępu do pomieszczeń z wykorzystaniem technologii bezprzewodowych takich jak WiFi oraz RFID (ang. Radio-frequency identification).
+Nowoczesny system zamków elektronicznych stanowi alternatywę dla tradycyjnych systemów. Jest on oparty na architekturze scentralizowanej. Dzięki wykorzystaniu zdalnego serwera do przeprowadzenia procesu uwierzytelnienia, zapewnia większą elastyczność i łatwość zarządzania niż systemy rozproszone. Cały system korzysta z centralnej bazy danych, znajdującej się na serwerze, którą można w prosty sposób zarządzać z poziomu aplikacji internetowej.
+Rozwiązanie cechuje się wygodą montażu, ponieważ nie wykorzystuje przewodów zasilających znajdujących się w ścianach budynków.
+Bezpieczeństwo na wielu poziomach zapewniają różnorodne mechanizmy takie jak TLS (ang. Transport Layer Security) w warstwie komunikacji czy szyfrowanie pamięci Flash w warstwie operacji na danych w mikroprocesorze. Wydajność energetyczna została osiągnięta poprzez wykorzystania zasilania bateryjnego oraz mechanizmu "usypiania" poszczególnych komponentów układu w momentach bezczynności oraz "wybudzania" pod wpływem odpowiednich impulsów. Możliwość zarządzania kartami
