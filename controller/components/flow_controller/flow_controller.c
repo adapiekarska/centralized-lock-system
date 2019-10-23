@@ -30,14 +30,36 @@ void deep_sleep_wakeup_flow()
     controller_status_create();
 
     // Create Wifi client task
-    xTaskCreate(&task_wifi_client, "wifi_client", 4096, NULL, 5, NULL);
+    xTaskCreate(
+        &task_wifi_client, 
+        "wifi_client", 
+        4096, 
+        NULL, 
+        TASK_WIFI_PRIORITY, 
+        NULL
+        );
 
     // Wake the RFID reader
-    xTaskCreate(&task_rfid, "rfid task", 4096, NULL, 5, NULL);
+    xTaskCreate(
+        &task_rfid, 
+        "rfid task", 
+        4096, 
+        NULL, 
+        TASK_RFID_PRIORITY, 
+        NULL
+        );
 
     // Wait for the rfid to notify about detected card
     ESP_LOGI(LOG_TAG, "Waiting for card");
-    controller_status_wait_bits(RFID_CARD_HANDLING_IN_PROGRESS_BIT, DONT_CLEAR);
+    status = controller_status_wait_bits_timeout(RFID_CARD_HANDLING_IN_PROGRESS_BIT, DONT_CLEAR, 2000);
+    
+    if (status == ESP_ERR_TIMEOUT)
+    {
+        // no card detected before timeout
+        // log error and finish flow
+        ESP_LOGE(LOG_TAG, "TIMEOUT while waiting for card");
+        return;
+    }
 
     // Retrieve detected card id
     uint8_t *detected_card = rfid_get_card_id();
@@ -54,8 +76,4 @@ void deep_sleep_wakeup_flow()
 
     // Communicate with server    
     status = wifi_client_transfer_data(detected_card, RFID_TOKEN_LEN_BYTES);
-
-    // At the end of this flow, configure and enter deep sleep
-    //deep_sleep_init();
-    //deep_sleep_start();
 }

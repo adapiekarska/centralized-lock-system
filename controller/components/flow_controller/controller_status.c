@@ -35,3 +35,21 @@ void controller_status_wait_bits(
 {
     xEventGroupWaitBits(controller_event_group, bits, clear, false, portMAX_DELAY);
 }
+
+esp_err_t controller_status_wait_bits_timeout(
+    int     bits, 
+    bool    clear,
+    int     timeout_ms
+    )
+{
+    EventBits_t event_bits = xEventGroupWaitBits(controller_event_group, bits, clear, false, timeout_ms / portTICK_PERIOD_MS);
+    if((event_bits & bits) != bits) 
+    {
+        // not all bits were set before timeout
+        return ESP_ERR_TIMEOUT;
+    }
+    else 
+    {
+        return ESP_OK;
+    }
+}
