@@ -43,6 +43,12 @@ static esp_tls_t *tls_conn;
 static esp_tls_cfg_t tls_cfg;
 
 
+static void zeromem(void* ptr, size_t len){
+    for(int i = 0; i < len; i++){
+        ((char*)ptr)[i] = 0;
+    }
+}
+
 esp_err_t wifi_tls_connect()
 {
     // Set up root CA certificate
@@ -61,12 +67,15 @@ esp_err_t wifi_tls_connect()
     tls_cfg.common_name = "AUTH-SERV";
 
     // Set non-blocking mode
-    tls_cfg.non_block = TRUE;
+    // tls_cfg.non_block = TRUE;
 
     tls_conn = esp_tls_init();
 
     // Non-Blocking TLS/SSL connection
-    esp_tls_conn_new_async(SERVER_HOSTNAME, sizeof(SERVER_HOSTNAME), SERVER_PORT, &tls_cfg, tls_conn);
+    // esp_tls_conn_new_async(SERVER_HOSTNAME, sizeof(SERVER_HOSTNAME), SERVER_PORT, &tls_cfg, tls_conn);
+
+    esp_tls_conn_new_sync(SERVER_HOSTNAME, sizeof(SERVER_HOSTNAME), SERVER_PORT, &tls_cfg, tls_conn);
+
 
     // Wait for
     while (tls_conn->conn_state != ESP_TLS_DONE && tls_conn->conn_state != ESP_TLS_FAIL)
@@ -124,12 +133,14 @@ esp_err_t wifi_tls_receive_data(
     esp_err_t ret;
     do
     {
-        size_t len = size - 1;
-        bzero(rx_buffer, size);
-        ret = esp_tls_conn_read(tls_conn, rx_buffer, len);
+        zeromem(rx_buffer, size);
+        ret = esp_tls_conn_read(tls_conn, rx_buffer, size);
 
-        if(ret == MBEDTLS_ERR_SSL_WANT_WRITE  || ret == MBEDTLS_ERR_SSL_WANT_READ)
+        if(ret == MBEDTLS_ERR_SSL_WANT_WRITE || ret == MBEDTLS_ERR_SSL_WANT_READ){
+            // small delay to reset watchdog
+            vTaskDelay(20 / portTICK_PERIOD_MS);
             continue;
+        }
 
         if(ret < 0)
         {
@@ -143,12 +154,8 @@ esp_err_t wifi_tls_receive_data(
             return ESP_FAIL;
         }
 
-        len = ret;
-        ESP_LOGD(LOG_TAG, "%d bytes read", len);
-        /* Print response directly to stdout as it is read */
-        for(int i = 0; i < len; i++) {
-            putchar(rx_buffer[i]);
-        }
+        ESP_LOGD(LOG_TAG, "%d bytes received", ret);
+        break;
     } while(1);
 
     return ESP_OK;

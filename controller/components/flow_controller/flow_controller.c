@@ -75,5 +75,13 @@ void deep_sleep_wakeup_flow()
     rfid_reader_stop();
 
     // Communicate with server    
-    status = wifi_client_transfer_data(detected_card, RFID_TOKEN_LEN_BYTES);
+    status = wifi_client_send_data(detected_card, RFID_TOKEN_LEN_BYTES);
+    char received_bytes[RFID_TOKEN_LEN_BYTES];
+    status = wifi_client_receive_data(received_bytes, RFID_TOKEN_LEN_BYTES);
+    ESP_LOGI(LOG_TAG, "Received data: %x %x %x %x %x", 
+        received_bytes[0],
+        received_bytes[1],
+        received_bytes[2],
+        received_bytes[3],
+        received_bytes[4]);
 }
