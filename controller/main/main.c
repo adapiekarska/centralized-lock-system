@@ -76,11 +76,15 @@ void app_main()
     if (esp_sleep_get_wakeup_cause() == DEEP_SLEEP_WAKE_REASON_PIR)
     {
         deep_sleep_wakeup_flow();
+        // Configure and enter deep sleep
+        ESP_LOGI(LOG_TAG, "Reenter deep sleep");
+        deep_sleep_init();
+        deep_sleep_start();
     }
     else
     {
         // Not a deep sleep reset
-        ESP_LOGI(LOG_TAG, "Normal reset");
+        ESP_LOGI(LOG_TAG, "PowerOn reset");
 
         // Configure and enter deep sleep
         deep_sleep_init();
