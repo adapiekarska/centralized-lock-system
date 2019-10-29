@@ -15,6 +15,9 @@
 #define WIFI_CLIENT_TRANSMISSION_FAIL_BIT       BIT5 // Wifi client failed to transfer data
 #define RFID_CARD_HANDLING_IN_PROGRESS_BIT      BIT6 // Rfid component has detected the card and retrieved its ID
 
+#define RFID_CARD_HANDLING_IN_PROGRESS_TIMEOUT  10000
+#define WIFI_CLIENT_READY_TIMEOUT               15000
+
 // Defines used by controller_status_wait_bits
 #define CLEAR       TRUE    // Clear given bits on return
 #define DONT_CLEAR  FALSE   // Dont clear given bits on return

@@ -105,8 +105,17 @@ esp_err_t wifi_client_send_data(
     int     data_size
     )
 {
+    esp_err_t status;
     // Wait for the wifi_client task to notify capability to send data
-    controller_status_wait_bits(WIFI_CLIENT_READY_BIT, CLEAR);
+    status = controller_status_wait_bits_timeout(
+        WIFI_CLIENT_READY_BIT, 
+        CLEAR, 
+        WIFI_CLIENT_READY_TIMEOUT
+        );
+    if (status == ESP_ERR_TIMEOUT)
+    {
+        return ESP_ERR_TIMEOUT;
+    }
 
     memcpy(pending_data, data, data_size);
     pending_data_size = data_size;
@@ -141,8 +150,17 @@ esp_err_t wifi_client_receive_data(
     int     buffer_size
     )
 {
+    esp_err_t status;
     // Wait for the wifi_client task to notify capability to send data
-    controller_status_wait_bits(WIFI_CLIENT_READY_BIT, CLEAR);
+    status = controller_status_wait_bits_timeout(
+        WIFI_CLIENT_READY_BIT, 
+        CLEAR, 
+        WIFI_CLIENT_READY_TIMEOUT
+        );
+    if (status == ESP_ERR_TIMEOUT)
+    {
+        return ESP_ERR_TIMEOUT;
+    }
 
     // Notify wifi_client that there's new data to transfer
     controller_status_set_bits(WIFI_CLIENT_RECEIVE_PENDING_BIT);

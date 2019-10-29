@@ -15,8 +15,9 @@ void wifi_client_start();
  * @param data      pointer to buffer containing data to be sent
  * @param data_size data buffer size
  *
- * @return ESP_OK   transmission succesful
- * @return ESP_FAIL transmission failed
+ * @return ESP_OK           transmission succesful
+ * @return ESP_FAIL         transmission failed
+ * @return ESP_ERR_TIMEOUT  timeout waiting for wifi_client
  */
 esp_err_t wifi_client_send_data(
     void    *data,
@@ -29,8 +30,9 @@ esp_err_t wifi_client_send_data(
  * @param buffer      pointer to buffer containing data to be sent
  * @param buffer_size data buffer size
  *
- * @return ESP_OK   transmission succesful
- * @return ESP_FAIL transmission failed
+ * @return ESP_OK           transmission succesful
+ * @return ESP_FAIL         transmission failed
+ * @return ESP_ERR_TIMEOUT  timeout waiting for wifi_client
  */
 esp_err_t wifi_client_receive_data(
     void    *buffer,
