@@ -1,0 +1,27 @@
+\chapter{Wstep i cel pracy}
+
+Zapewnienie bezpieczeństwa przestrzeni użytkowych i osób z nich korzystających stanowi kluczowy aspekt zarządzania obiektami zarówno publicznymi, jak i prywatnymi. Podstawowym celem infrastruktury bezpieczeństwa obiektów użytkowych powinna być ochrona jej użytkowników wraz z przestrzenią i mieniem. Dzięki jej zastosowaniu bezpieczeństwo osób przebywających na terenie obiektu rośnie, a ryzyko kradzieży lub zniszczenia mienia przez niepowołane osoby spada. Najbardziej podstawowym sposobem kontroli dostępu do pomieszczeń są zabezpieczenia mechaniczne. Jednak ze względu na postępujący rozwój technologiczny, w obecnych czasach coraz częściej stosowane są systemy oparte na uwierzytelnianiu elektronicznym.
+
+Elektroniczny system kontroli dostępu do pomieszczeń na poziomie funkcjonalnym składa się z kluczy i punktów dostępu. Pod względem celu i ogólnych zasad działania, elektroniczny system nie rózni się od swojego tradycyjnego odpowiednika. Nadrzędnym celem jest autoryzacja prób dostępu na podstawie kluczy w taki sposób, aby dostęp został przyznany tylko osobie posiadającej powiązany z danym punktem dostępu klucz.
+
+Przewagę systemów opartych na urządzeniach elektronicznych nad systemami czysto mechanicznymi stanowią cechy takie jak łatwość obsługi czy możliwość zdalnego zarządzania oraz zbierania danych i monitorowania prób dostępu w celu późniejszej analizy.
+
+Celem niniejszej pracy jest projekt oraz implementacja sytemu dostępu do pomieszczeń z wykorzystaniem technologii takich jak WiFi oraz RFID (ang. Radio-frequency identification), w którym podmiotem odpowiedzialnym za autoryzację prób dostępu jest serwer, a komunikacja pomiędzy podsystemem sterowania zamkiem a podsystemem autoryzacji jest realizowana bezprzewodowo. Może on znaleźć zastosowanie jako łatwy w instalacji i obsłudze, lekki i wydajny system dla małych i średnich obiektów.
+
+Dzięki wykorzystaniu zdalnego serwera do przeprowadzenia procesu uwierzytelniania system zapewnia większą elastyczność i łatwość zarządzania niż alternatywne systemy wykorzystujące zamki pracujące w sposób autonomiczny. Informacje o uprawnieniach przechowywane są w centralnej bazy danych, znajdującej się na serwerze, którą można w prosty sposób zarządzać z poziomu aplikacji internetowej.
+
+Rozwiązanie cechuje się wygodą montażu, ponieważ nie wymaga przewodów zasilających i komunikacyjnych prowadzonych w ścianach budynków. Przy wdrażaniu rozwiązania nie jest konieczna modyfikacja istniejącej infrastruktury budynku, z wyjątkiem wymiany samych zamków. System nie wymaga żadnych dodatkowych komponentów sprzętowych poza zamkami i serwerem. Do poprawnego działania systemu potrzebna jest sieć WiFi. Założono, że wykorzystana sieć nie musi być bezpieczna.
+
+Bezpieczeństwo systemu na wielu poziomach zapewnia wykorzystanie mechanizmów takich jak TLS (ang. Transport Layer Security) w warstwie komunikacji pomiędzy zamkiem a serwerem czy szyfrowanie pamięci Flash w warstwie operacji na danych w mikroprocesorze w układzie zamka.
+
+Wydajność energetyczna podsystemu sterowania zamkiem została osiągnięta przez zarządzanie zasilaniem jego peryferiów oraz kontrolę stanu zasilania mikrokontrolera w celu minimalizacji poboru mocy i maksymalizacji czasu pracy na zasilaniu bateryjnym.
+
+\section{Struktura pracy}
+
+Rozdział \ref{chap:problem-domain} pokrótce przedstawia dziedzinę problemu, przywołuje najważniejsze definicje związane z tematem oraz ogólny opis działania systemów kontroli dostępu. Dokonuje także przedstawienia oraz porównania kilku istniejących na rynku rozwiązań.
+
+Rozdział \ref{chap:hl-arch} prezentuje projekt rozwiązania.
+
+W ramach pracy zaimplementowany został prototyp rozwiązania. Możliwe modyfikacje i rozszerzenia rozwiązania zaprezentowane są w \textbf{jakims tam} rodziale.
+
+% Wydajność energetyczna została osiągnięta dzięki implementacji mechanizmu "usypiania" poszczególnych komponentów układu w momentach bezczynności oraz "wybudzania" ich pod wpływem odpowiednich impulsów. tutaj o baterii

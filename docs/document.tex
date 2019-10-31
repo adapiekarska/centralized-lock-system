@@ -1,6 +1,7 @@
 \documentclass[10pt,a4paper]{report}
 
 \usepackage{mystyle}
+\usepackage{url}
 
 \begin{document}
 
@@ -12,18 +13,15 @@
 \listoffigures
 \listoftables
 
-\include{chapters/introduction/introduction}
-\include{chapters/high-level-architecture/high-level-architecture}
+\include{chapters/glossary}
 
-\begin{thebibliography}{99}
+\include{chapters/introduction}
+\include{chapters/problem-domain}
+\include{chapters/high-level-architecture}
+\include{chapters/implementation}
+\include{chapters/sw-hw-components-description}
 
-    \bibitem{lamport94}
-      Leslie Lamport,
-      \emph{\LaTeX: A Document Preparation System}.
-      Addison Wesley, Massachusetts,
-      2nd Edition,
-      1994.
-
-\end{thebibliography}
+\bibliographystyle{ieeetr}
+\bibliography{bibliography}
 
 \end{document}
