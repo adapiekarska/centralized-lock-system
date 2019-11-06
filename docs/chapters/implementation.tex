@@ -2,31 +2,74 @@
 
 \section{Uproszczenia}
 
-W ramach niniejszej pracy stworzony został prototyp końcowego rozwiązania. Niektóre z opisywanych w rozdziale \ref{chap:hl-arch} funkcjonalności nie zostały zaimplementowane. Zostawiono jednak możliwość rozbudowy systemu.
+    W ramach niniejszej pracy stworzony został prototyp końcowego rozwiązania. Niektóre z opisywanych w rozdziale \ref{chap:hl-arch} funkcjonalności nie zostały zaimplementowane. Zostawiono jednak możliwość rozbudowy systemu.
 
-Opisywane rozwiązanie nie obejmuje implementacji mechanizmu opuszczenia strefy chronionej systemem kontroli dostępu. W zależności od potrzeb końcowego użytkownika, możliwe rozwiązanie to montaż analogicznego układu czytnika i kontrolera po przeciwnej stronie drzwi w przypadku gdy wymagana jest obustronna kontrola dostępu bądź zastosowanie przycisku którego naciśnięcie powoduje zwolnienie zamka w przypadku gdy wymagana jest tylko kontrola wejścia do chronionego obszaru.
+    Opisywane rozwiązanie nie obejmuje implementacji mechanizmu opuszczenia strefy chronionej systemem kontroli dostępu. W zależności od potrzeb końcowego użytkownika, możliwe rozwiązanie to montaż analogicznego układu czytnika i kontrolera po przeciwnej stronie drzwi w przypadku gdy wymagana jest obustronna kontrola dostępu bądź zastosowanie przycisku którego naciśnięcie powoduje zwolnienie zamka w przypadku gdy wymagana jest tylko kontrola wejścia do chronionego obszaru.
 
-W sytuacjach awaryjnych, jakimi jest brak zasilania bądź brak połączenia z serwerem \textbf{wymyslic co}. Szczegółowy opis tych zagadnień znajduje się \textbf{gdziee?}.
+    W sytuacjach awaryjnych, jakimi jest brak zasilania bądź brak połączenia z serwerem \textbf{wymyslic co}. Szczegółowy opis tych zagadnień znajduje się \textbf{gdziee?}.
 
-Implementacja prototypu obejmowała stworzenie pojedynczego układu zamka. Ze względu na prototypowy charakter pracy, nie przetestowano działania systemu z większą liczbą zamków. Nie ma jednak powodów by twierdzić, że system nie działałby poprawnie z większą liczbą zamków. Wystarczającym rozszerzeniem byłaby modyfikacja oprogramowania serwera umożliwiająca obsługę kilku klientów jednocześnie. \textbf{czy to pisac?}
+    Implementacja prototypu obejmowała stworzenie pojedynczego układu zamka. Ze względu na prototypowy charakter pracy, nie przetestowano działania systemu z większą liczbą zamków. Nie ma jednak powodów by twierdzić, że system nie działałby poprawnie z większą liczbą zamków. Wystarczającym rozszerzeniem byłaby modyfikacja oprogramowania serwera umożliwiająca obsługę kilku klientów jednocześnie. \textbf{czy to pisac?}
 
 \section{Układ sterowania zamkiem}
 
-Prototyp układu sterowania zamkiem powstał w oparciu o platformę ESP32-DevKitC-32D z wbudowanym modułem ESP-WROOM-32D.
+    Zadaniem układu sterowania zamkiem jest wykrycie próby dostępu na podstawie sygnalizacji czujnika zbliżeniowego, odczyt klucza dostępu oraz realizacja bezpiecznej komunkacji z serwerem w celu uwierzytelnienia próby dostępu.
 
-\subsection{Platforma}
+    \textbf{Potrzebne subsection o tym czemu taki a nie inny sprzet}
+    \subsection{Oprogramowanie}
+        Kod podzielony jest na komponenty o zadanych funkcjonalnościach:
+        \begin{enumerate}
+            \item komponent główny (\textit{main}): odpowiedzialny za rozróżnienie rodzajów uruchomienia (pierwsze uruchomienie lub wybudzenie z uśpienia), wywołanie odpowiedniej procedury komponentu flow-controller oraz uśpienie układu po jej zakończeniu.
+            \item komponent RFID: odpowiedzialny za inicjalizację czytnika MFRC522, wykrywanie i odczyt karty oraz sygnalizację zdarzeń związanych z odczytem kluczy dostępu do pomieszczeń.
+            \item komponent WiFi: odpowiedzialny za realizację komumnikacji bezprzewodowej z serwerem. Obsługuje transmisje wychodzące i przychodzące wraz z opcjonalnym zestawieniem bezpiecznego kanału komunikacji z wykorzystaniem protokołu TLS.
+            \item komponent sterujący (\textit{flow-controller}): odpowiedzialny za kontrolę przepływu sterowania, aktywowanie poszczególnych komponentów w.
+        \end{enumerate}
+        \textbf{cos o logach}
 
-ESP32-DevKitC jest produkowaną przez firmę Espressif platformą z wbudowanym modułem ESP32-WROOM-32D. Rdzeniem modułu jest układ z rodziny ESP32 (ESP32-D0WD) wyposażony w dwa rdzenie CPU, które mogą być kontrolowane niezależnie od siebie~\cite{esp32-wroom32-ds}. Moduł integruje Bluetooth, Bluetooth Low Energy oraz WiFi, a także szeroki zakres peryferiów: czujniki dotyku, czujniki pola magnetycznego, interfejs karty SD, Ethernet, SPI (ang. Serial Peripheral Interface), UART (ang. Universal Asynchronous Receiver-Transmitter), I\textsuperscript{2}S (ang. Inter-IC Sound) i I\textsuperscript{2}C (ang. Inter-Integrated Circuit)~\cite{esp32-wroom32-ds}.
+    \subsection{Przeplyw sterowania}
 
-ESP32 działa w oparciu o system operacyjny freeRTOS.
+        \subsubsection{Pierwsze uruchomienie}
 
-ESP32 oferuje efektywną i elastyczną technologię zarządzania energią. Istnieje pięć predefiniowanych stanów energetycznych. Dodatkowo umożliwia korzystanie z niskoenergetycznego koprocesora Ultra-Low-Power (ang. ULP co-processor), podczas gdy główne jednostki pozostają w trybie głębokiego uśpienia (ang. Deep-sleep mode).~\cite{esp32-tech-ref-man}
+            Przy pierwszym uruchomienu zamka, które następuje automatycznie po podłączeniu zasilania do układu, wykonywana jest procedura przejścia w stan głębokiego uśpienia (Deep-sleep mode) \textbf{przejście w tryb konfiguracji?}. W tym celu jako sposób wybudzenia konfigurowany jest tryb EXT0 (External Wakeup 0). Tryb ten wymusza aby po przejściu w stan uśpienia podtrzymane zostało zasilanie peryferiów RTC (\textit{ang. Real-Time Clock}, zegar czasu rzeczywistego)~\cite{esp32-api-ref}, co z kolei pozwala na konfigurację źródła wybudzającego przerwania zewnętrznego jako wybranego wejścia RTC GPIO (\textit{ang. General-Purpose Input/Output}, Wejście-wyjście ogólnego przeznaczenia). W projekcie w tym celu wykorzystany został pin nr 26. Ze względu na charakterystykę wykorzystanego źródła przerwania (pasywny czujnik zbliżeniowy), konieczne było zastosowanie trybu pulldown \textbf{dlaczego?} dla wspomnianego wyżej wejścia. Po konfiguracji źródła przerwania układ zostaje wprowadzony w stan uśpienia.
+
+        \subsubsection{Wybudzenie z głębokiego uśpienia}
+
+            Po wybudzeniu z uśpienia \textbf{w jakiej sytuacji} następuje inicjalizacja systemu obsługi zdarzeń. Wszystie zdarzenia w oprogramowaniu zamka realizowane są przez grupę zdarzeń, mechanizm zapewniany przez system operacyjny czasu rzeczywistego FreeRTOS.
+
+            W celu realizacji komunikacji bezprzewodowej wykonywana jest procedura uruchomienia komponentu WiFi \textbf{konfiguracja WiFi pobierana z nvsflash}, co wiąże się z próbą połączenia z określonym z góry serwerem \textbf{sprecyzowac gdzie jest okreslony serwer} w wybranej sieci. W przypadku niepowodzenia kontroler zostaje uśpiony. \textbf{Tutaj dać pseudokod klienta wifi i uszczegółowić}
+            Ze względu na restrykcyjne wymagania dotyczące czasu trwania procesu zestawiania połączenia z serwerem, system stosuje przetwarzanie współbieżne z wykorzystaniem dwóch głównych wątków.
+
+\section{Serwer Autoryzacji}
+
+\section {Wykorzystane technologie}
+
+    \subsection{ESP32}
+        ESP32-DevKitC jest produkowaną przez firmę Espressif platformą deweloperską bazującą na module ESP32-WROOM-32D. Sercem modułu jest układ z rodziny ESP32 (ESP32-D0WD) wyposażony w CPU (\textit{ang. Central Processing Unit}, centralna jednostka obliczeniowa) o dwóch rdzeniach, z których każdy może być kontrolowany niezależnie~\cite{esp32-wroom32-ds}. Moduł integruje Bluetooth, Bluetooth Low Energy oraz WiFi, a także szeroki zakres peryferiów: czujniki dotyku, czujniki pola magnetycznego, interfejs karty SD, Ethernet, SPI (ang. Serial Peripheral Interface), UART (ang. Universal Asynchronous Receiver-Transmitter), I\textsuperscript{2}S (ang. Inter-IC Sound) i I\textsuperscript{2}C (ang. Inter-Integrated Circuit)~\cite{esp32-wroom32-ds}.
+
+        ESP32 oferuje efektywną i elastyczną technologię zarządzania energią. Dokument \textit{ESP32 Series Datasheet} wymienia pięć predefiniowanychstanów energetycznych~\cite{esp32-ds}:
+        \begin{enumerate}
+            \item Active mode: Aktywne CPU wraz z układem radiowym, możliwa bezprzewodowa transmisja.
+            \item Modem-sleep mode: Aktywne CPU z konfigurowalnym zegarem. Chip radiowy w tym trybie pozostaje wyłączony.
+            \item Light-sleep mode: Uśpione CPU. Pamięć i peryferia RTC wraz z koprocesorem ULP pozostają aktywne. Jakiekolwiek zdarzenia wybudzające (MAC, host, timer RTC i zewnętrzne przerwania) doprowadzą do wybudzenia układu.
+            \item Deep-sleep mode: Tylko pamięć RTC i peryferia RTC pozostają zasilone. Dane dotyczące połączeń WiFi i Bluetooth zostają przechowane w pamięci RTC. Opcjonalnie dostępny jest koprocesor ULP.
+            \item Hibernation mode: Wewnętrzny rezonator kwarcowy o częstotliwośći 8~MHz wraz z koprocesorem ULP zostają wyłączone. Również pamięć RTC jest wyłączona. Wybodzenie możliwe jest tylko poprzez timer RTC lub predefiniowane wejścia RTC GPIO.
+        \end{enumerate}
+        \textbf{tekst o ULP przeniesc przed enumerate}
+        Dodatkowo umożliwia korzystanie z niskoenergetycznego koprocesora Ultra-Low-Power (ang. ULP co-processor), podczas gdy główne jednostki pozostają w trybie głębokiego uśpienia~\cite{esp32-tech-ref-man}.
+
+    \subsection{Czytnik RFID}
+
+        Do realizacji komunikacji w standardzie RFID High Frequency (13,56~MHz) wykorzystany został zintegrowany odbiornik/nadajnik MFRC522 produkowany przez firmę NXP Semiconductors, umożliwający bezprzewodową komunikację z kartami zgodnymi ze standardem ISO/IEC 14443 A/MIFARE. Układ wspiera komunikację poprzez interfejsy SPI, UART oraz I\textsuperscript{2}C~\cite{mfrc522-ds}. Rozwiązanie to zostało wybrane ze względu na jego powszechne zastosowanie w układach realizujących komunikację przez RFID jak i przez wsparcie interfejsów komunikacji obsługiwanych również przez zastosowany kontroler.\textbf{ostatnie zdanie przeniesc do sekcji implementacji}
+
+    \subsection{Czujnik Zbliżeniowy}
 
 
 \section{Problemy}
-Konfiguracja WiFi?
-Sygnalizacja stanu baterii?
-Bezpieczeństwo komunikacji
-zarządzanie stanami energetycznymi
-Enkrypcja flash
-mozna cos z technical reference manual
+    Konfiguracja WiFi?
+    Sygnalizacja stanu baterii?
+    Bezpieczeństwo komunikacji
+    zarządzanie stanami energetycznymi
+    Enkrypcja flash
+    mozna cos z technical reference manual
+
+\section{Możliwe usprawnienia}
+Dane dostępu do sieci zostały zagnieżdżone w oprogramowaniu konrolera. Zmniejsza to elastyczność konfiguracji urządzenia, wymagając przeprogramowania urządzenia za każdym razem gdy zmianie ulegnie nazwa lub klucz dostępu do sieci. Możliwym rozwiązaniem byłoby przejście kontrolera w tryb access point przy pierwszym uruchomieniu. W ten sposób kontroler, działając w charakterze serwera http udostępniałby interfejs umożliwiający konfigurację zamka. Mechanizm byłby wykorzystywany w celu zapisania w pamięci danych dostępu do sieci wifi.
