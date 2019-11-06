@@ -1,10 +1,11 @@
 \chapter{Implementacja}
+\label{chap:implementation}
 
 \section{Uproszczenia}
 
     W ramach niniejszej pracy stworzony został prototyp końcowego rozwiązania. Niektóre z opisywanych w rozdziale \ref{chap:hl-arch} funkcjonalności nie zostały zaimplementowane. Zostawiono jednak możliwość rozbudowy systemu.
 
-    Opisywane rozwiązanie nie obejmuje implementacji mechanizmu opuszczenia strefy chronionej systemem kontroli dostępu. W zależności od potrzeb końcowego użytkownika, możliwe rozwiązanie to montaż analogicznego układu czytnika i kontrolera po przeciwnej stronie drzwi w przypadku gdy wymagana jest obustronna kontrola dostępu bądź zastosowanie przycisku którego naciśnięcie powoduje zwolnienie zamka w przypadku gdy wymagana jest tylko kontrola wejścia do chronionego obszaru.
+    Opisywane rozwiązanie nie obejmuje implementacji mechanizmu opuszczenia strefy chronionej systemem kontroli dostępu. W zależności od potrzeb końcowego użytkownika, możliwe rozwiązanie to montaż dodatkowego czytnika po przeciwnej stronie drzwi i połączenie go z kontrolerem wejścia w przypadku gdy wymagana jest obustronna kontrola dostępu bądź zastosowanie przycisku którego naciśnięcie powoduje zwolnienie zamka w przypadku gdy wymagana jest tylko kontrola wejścia do chronionego obszaru.
 
     W sytuacjach awaryjnych, jakimi jest brak zasilania bądź brak połączenia z serwerem \textbf{wymyslic co}. Szczegółowy opis tych zagadnień znajduje się \textbf{gdziee?}.
 
@@ -43,7 +44,8 @@
 \section {Wykorzystane technologie}
 
     \subsection{ESP32}
-        ESP32-DevKitC jest produkowaną przez firmę Espressif platformą deweloperską bazującą na module ESP32-WROOM-32D. Sercem modułu jest układ z rodziny ESP32 (ESP32-D0WD) wyposażony w CPU (\textit{ang. Central Processing Unit}, centralna jednostka obliczeniowa) o dwóch rdzeniach, z których każdy może być kontrolowany niezależnie~\cite{esp32-wroom32-ds}. Moduł integruje Bluetooth, Bluetooth Low Energy oraz WiFi, a także szeroki zakres peryferiów: czujniki dotyku, czujniki pola magnetycznego, interfejs karty SD, Ethernet, SPI (ang. Serial Peripheral Interface), UART (ang. Universal Asynchronous Receiver-Transmitter), I\textsuperscript{2}S (ang. Inter-IC Sound) i I\textsuperscript{2}C (ang. Inter-Integrated Circuit)~\cite{esp32-wroom32-ds}.
+        ESP32-DevKitC jest produkowaną przez firmę Espressif platformą deweloperską bazującą na module ESP32-WROOM-32D. Sercem modułu jest układ z rodziny ESP32 (ESP32-D0WD) wyposażony w CPU (\textit{ang. Central Processing Unit}, centralna jednostka obliczeniowa) o dwóch rdzeniach, z których każdy może być kontrolowany niezależnie~\cite{esp32-wroom32-ds}. Moduł integruje Bluetooth, Bluetooth Low Energy oraz WiFi, a także szeroki zakres peryferiów: czujniki dotyku, czujniki pola magnetycznego, interfejs karty SD, Ethernet, SPI (ang. \textit{Serial Peripheral Interface}), UART (ang. \textit{Universal Asynchronous Receiver-Transmitter}), I\textsuperscript{2}S (ang. \textit{Inter-IC Sound}) i I\textsuperscript{2}C (ang. \textit{Inter-Integrated Circuit})~\cite{esp32-wroom32-ds}.
+
 
         ESP32 oferuje efektywną i elastyczną technologię zarządzania energią. Dokument \textit{ESP32 Series Datasheet} wymienia pięć predefiniowanychstanów energetycznych~\cite{esp32-ds}:
         \begin{enumerate}
