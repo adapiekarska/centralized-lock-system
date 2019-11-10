@@ -1,42 +1,43 @@
-import sqlite3
-
-from model import table_names
+from model.db_utils import table_names
+from model.db_utils.db_utils import create_connection
 
 
 class Card:
-
     def __init__(self):
         self.table_name = table_names.CARDS_TABLE
-        self.conn = sqlite3.connect('acs.db')
+        self.QUERY_CREATE = f'INSERT into {self.table_name} (ID) values (:id)'
+        self.QUERY_DELETE = f'DELETE from {self.table_name} where id = :id'
+        self.QUERY_GET = f'SELECT * from {self.table_name}'
+        self.QUERY_UPDATE = f'UPDATE {self.table_name} SET :set_query WHERE id = :id'
 
     def create(self, id):
-        query = f'insert into {self.table_name} ' \
-                f'(ID) ' \
-                f'values ("{id}")'
+        conn = create_connection('acs.db')
+        with conn:
+            return conn.execute(self.QUERY_CREATE, {"id": id})
 
-        result = self.conn.execute(query)
-        return result
+    def delete(self, id):
+        conn = create_connection('acs.db')
+        with conn:
+            return conn.execute(self.QUERY_DELETE, {"id": id})
 
     def get_by_id(self, id):
         where = f"AND id={id}"
         return self.list_items(where)
 
     def update(self, id, update_dict):
-        set_query = " ".join([f'{column} = {value}'
-                              for column, value in update_dict.items()])
+        conn = create_connection('acs.db')
+        with conn:
+            set_query = " ".join([f'{column} = {value}'
+                                  for column, value in update_dict.items()])
 
-        query = f"UPDATE {self.table_name} " \
-                f"SET {set_query} " \
-                f"WHERE id = {id}"
-        self.conn.execute(query)
-        return self.get_by_id(id)
+            conn.execute(self.QUERY_UPDATE, {'id': id, 'set_query': set_query})
+            return self.get_by_id(id)
 
     def list_items(self, where=""):
-        query = f"SELECT ID " \
-                f"from {self.table_name} " + where
-        print(query)
-        result_set = self.conn.execute(query).fetchall()
-        result = [{column: row[i]
-                   for i, column in enumerate(result_set[0].keys())}
-                  for row in result_set]
-        return result
+        conn = create_connection('acs.db')
+        with conn:
+            query = self.QUERY_GET + where
+            results = conn.execute(query).fetchall()
+
+            rows_dicts = [{"id": row[0]} for row in results]
+            return rows_dicts
