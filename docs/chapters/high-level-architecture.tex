@@ -1,7 +1,9 @@
 \chapter{Projekt rozwiązania}
 \label{chap:hl-arch}
 
-        Niniejszy rozdział opisuje koncept rozwiązania, który powstał w ramach pracy. Ogólny zarys konceptu działania systemu przedstawiony jest na rysnku \ref{fig:door}.
+        Niniejszy rozdział opisuje koncept rozwiązania, który powstał w ramach pracy. Przedstawia schematyczną budowę systemu oraz nakreśla zakładany sposób działania.
+
+        Ogólny zarys konceptu działania systemu przedstawiony jest na rysnku \ref{fig:door}.
 
         \begin{figure}[]
                 \includegraphics[width=\linewidth]{chapters/images/door2.png}
@@ -17,7 +19,7 @@
                         \item Podsystem zarządzania.
                 \end{enumerate}
 
-                Podsystemy te istnieją w ramach komponentów sprzętowych. Są to:
+                Podsystemy te istnieją w ramach dwóch komponentów sprzętowych. Są to:
                 \begin{enumerate}
                         \item Komponent sterujący zamkiem (inaczej: kontroler, układ zamka),
                         \item Komponent serwera.
@@ -51,7 +53,7 @@
                         Zadaniem podsystemu autoryzacji jest podjęcie decyzji o przyznaniu bądź odmowie dostępu na podstawie otrzymanych danych. Podsystem komunikuje się z bazą danych w celu uzyskania informacji na temat autoryzowanych kart.
 
                 \subsubsection{Podsystem zarządzania}
-                        Zadaniem podsystemu zarządzania jest umożliwienie użytkownikowi systemu wglądu do danych takich jak historia prób dostępu, zbiór zamków, kart oraz powiązań między nimi, oraz stan poszczególnych zamków.
+                        Zadaniem podsystemu zarządzania jest umożliwienie użytkownikowi systemu wglądu do danych takich jak historia prób dostępu, zbiór zamków, kart oraz powiązań między nimi, oraz stan poszczególnych zamków. Dzięki niemu możliwa jest konfiguracja rozpoznawanych przez system kart, zamków oraz manualne przyznawanie dostępu poszczególnym identyfikatorom i punktom dostępu.
 
         \section{Zasada działania}
                 Kontroler wbudowany w zamek pozostaje uśpiony do momentu wykrycia ruchu w pobliżu przez wbudowany czujnik ruchu. Po wybudzeniu nawiązuje bezpieczne połączenie z serwerem autoryzacji, jednocześnie zasilając czytnik RFID oraz oczekując na zbliżenie do niego karty. Gdy karta zostanie zbliżona, kontroler przesyła odczytany z niej numer identyfikacyjny do serwera, korzystając z nawiązanego wcześniej połączenia. Serwer podejmuje decyzję, którą jest przyznanie bądź odmowa dostępu, porównując odebrany numer identyfikacyjny z zawartością bazy danych, a następnie przesyła informację zwrotną do kontrolera. Jeżeli podjęto decyzję o przyznaniu dostępu, kontroler wysyła sygnał otwarcia zamka oraz sygnalizuje powodzenie. Jeżeli podjęto decyzję o odmowie dostępu, kontroler sygnalizuje niepowodzenie. Diagram sekwencji przedstawiony jest na rysunku \ref{fig:sequence1}.

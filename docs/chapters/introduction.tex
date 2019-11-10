@@ -1,46 +1,46 @@
 \chapter{Wstep i cel pracy}
 
-Zapewnienie bezpieczeństwa przestrzeni użytkowych i osób z nich korzystających stanowi kluczowy aspekt zarządzania obiektami zarówno publicznymi, jak i prywatnymi. Dzięki zastosowaniu odpowiedniej infrstruktury, bezpieczeństwo osób przebywających na terenie obiektu rośnie, a ryzyko kradzieży lub zniszczenia mienia przez niepowołane osoby spada. Podstawową metodą kontroli dostępu do pomieszczeń są metody mechaniczne wykorzystujące jedynie fizyczne zabezpieczenia. Ze względu na postępujący rozwój technologiczny, w obecnych czasach coraz częściej stosowane są systemy oparte na uwierzytelnianiu elektronicznym.
+	Zapewnienie bezpieczeństwa przestrzeni użytkowych i osób z nich korzystających stanowi kluczowy aspekt zarządzania obiektami zarówno publicznymi, jak i prywatnymi. Dzięki zastosowaniu odpowiedniej infrstruktury, bezpieczeństwo osób przebywających na terenie obiektu rośnie, a ryzyko kradzieży lub zniszczenia mienia przez niepowołane osoby spada. Podstawową metodą kontroli dostępu do pomieszczeń są metody mechaniczne wykorzystujące jedynie fizyczne zabezpieczenia. Ze względu na postępujący rozwój technologiczny, w obecnych czasach coraz częściej stosowane są systemy oparte na uwierzytelnianiu elektronicznym.
 
-Pod względem celu i ogólnych zasad działania, elektroniczny system kontroli dostępu do pomieszczeń nie rózni się od swojego tradycyjnego odpowiednika. Głównym celem pozostaje autoryzacja prób dostępu użytkowników na podstawie kluczy w taki sposób, aby dostęp został przyznany tylko osobie posiadającej powiązany z danym punktem dostępu klucz.
+	Pod względem celu i ogólnych zasad działania, elektroniczny system kontroli dostępu do pomieszczeń nie rózni się od swojego tradycyjnego odpowiednika. Głównym celem pozostaje autoryzacja prób dostępu użytkowników na podstawie kluczy w taki sposób, aby dostęp został przyznany tylko osobie posiadającej powiązany z danym punktem dostępu klucz.
 
-Przewagę systemów opartych na urządzeniach elektronicznych nad systemami czysto mechanicznymi stanowią cechy takie jak łatwość obsługi czy możliwość zdalnego zarządzania oraz zbierania danych i monitorowania prób dostępu w celu późniejszej analizy.
+	Przewagę systemów opartych na urządzeniach elektronicznych nad systemami czysto mechanicznymi stanowią cechy takie jak łatwość obsługi czy możliwość zdalnego zarządzania oraz zbierania danych i monitorowania prób dostępu w celu późniejszej analizy.
 
-Celem niniejszej pracy jest projekt oraz implementacja sytemu dostępu do pomieszczeń z wykorzystaniem technologii takich jak WiFi oraz RFID (ang. \textit{Radio-frequency identification}), w którym podmiotem odpowiedzialnym za autoryzację prób dostępu jest serwer, a komunikacja pomiędzy podsystemem sterowania zamkiem a podsystemem autoryzacji jest realizowana bezprzewodowo. Może on znaleźć zastosowanie jako łatwy w instalacji i obsłudze, lekki i wydajny system dla małych i średnich obiektów.
+	Celem niniejszej pracy jest projekt oraz implementacja sytemu dostępu do pomieszczeń z wykorzystaniem technologii takich jak WiFi oraz RFID (ang. \textit{Radio-frequency identification}), w którym podmiotem odpowiedzialnym za autoryzację prób dostępu jest serwer, a komunikacja pomiędzy podsystemem sterowania zamkiem a podsystemem autoryzacji jest realizowana bezprzewodowo. Może on znaleźć zastosowanie jako łatwy w instalacji i obsłudze, lekki i wydajny system dla małych i średnich obiektów.
 
-Podstawowe założenia dotyczące opisywanego systemu są następujące:
+	Podstawowe założenia dotyczące opisywanego systemu są następujące:
 
-\begin{enumerate}
-    \item Logika uwierzytelniania powinna być zaimplementowana na serwerze. Urządzenie klienckie (zamek) powinno pełnić jedynie rolę pośrednika w tym procesie.
-    \item Komunikacja pomiędzy urządzeniami klienckimi (zamkami) a serwerem powinna odbywać się bezprzewodowo.
-    \item System powinien być wydajny energetycznie i umożliwiać operację zamków na zasilaniu bateryjnym.
-    \item System powinien implementować niezbędne mechanizmy bezpieczeństwa.
-\end{enumerate}
+	\begin{enumerate}
+	    \item Logika uwierzytelniania powinna być zaimplementowana na serwerze. Urządzenie klienckie (zamek) powinno pełnić jedynie rolę pośrednika w tym procesie.
+	    \item Komunikacja pomiędzy urządzeniami klienckimi (zamkami) a serwerem powinna odbywać się bezprzewodowo.
+	    \item System powinien być wydajny energetycznie i umożliwiać operację zamków na zasilaniu bateryjnym.
+	    \item System powinien implementować niezbędne mechanizmy bezpieczeństwa.
+	\end{enumerate}
 
-Dzięki wykorzystaniu zdalnego serwera do przeprowadzenia procesu uwierzytelniania system zapewnia większą elastyczność i łatwość zarządzania niż alternatywne systemy wykorzystujące zamki pracujące w sposób autonomiczny. Informacje o uprawnieniach przechowywane są w centralnej bazy danych, znajdującej się na serwerze, którą można w prosty sposób zarządzać z poziomu aplikacji internetowej.
+	Dzięki wykorzystaniu zdalnego serwera do przeprowadzenia procesu uwierzytelniania system zapewnia większą elastyczność i łatwość zarządzania niż alternatywne systemy wykorzystujące zamki pracujące w sposób autonomiczny. Informacje o uprawnieniach przechowywane są w centralnej bazy danych, znajdującej się na serwerze, którą można w prosty sposób zarządzać z poziomu aplikacji internetowej.
 
-Rozwiązanie cechuje się wygodą montażu, ponieważ nie wymaga przewodów zasilających i komunikacyjnych prowadzonych w ścianach budynków. Przy wdrażaniu rozwiązania nie jest konieczna modyfikacja istniejącej infrastruktury budynku, z wyjątkiem wymiany samych zamków. System nie wymaga żadnych dodatkowych komponentów sprzętowych poza zamkami i serwerem. Do poprawnego działania systemu potrzebna jest sieć WiFi. Założono, że wykorzystana sieć nie musi być bezpieczna.
+	Rozwiązanie cechuje się wygodą montażu, ponieważ nie wymaga przewodów zasilających i komunikacyjnych prowadzonych w ścianach budynków. Przy wdrażaniu rozwiązania nie jest konieczna modyfikacja istniejącej infrastruktury budynku, z wyjątkiem wymiany samych zamków. System nie wymaga żadnych dodatkowych komponentów sprzętowych poza zamkami i serwerem. Do poprawnego działania systemu potrzebna jest sieć WiFi. Założono, że wykorzystana sieć nie musi być bezpieczna.
 
-Wydajność energetyczna podsystemu sterowania zamkiem została osiągnięta przez zarządzanie zasilaniem jego peryferiów oraz kontrolę stanu zasilania mikrokontrolera w celu minimalizacji poboru mocy i maksymalizacji czasu pracy na zasilaniu bateryjnym.
+	Wydajność energetyczna podsystemu sterowania zamkiem została osiągnięta przez zarządzanie zasilaniem jego peryferiów oraz kontrolę stanu zasilania mikrokontrolera w celu minimalizacji poboru mocy i maksymalizacji czasu pracy na zasilaniu bateryjnym.
 
-Bezpieczeństwo systemu na wielu poziomach zapewnia wykorzystanie mechanizmów takich jak TLS (ang. \textit{Transport Layer Security}) w warstwie komunikacji pomiędzy zamkiem a serwerem czy szyfrowanie pamięci Flash w warstwie operacji na danych w mikroprocesorze w układzie zamka.
+	Bezpieczeństwo systemu na wielu poziomach zapewnia wykorzystanie mechanizmów takich jak TLS (ang. \textit{Transport Layer Security}) w warstwie komunikacji pomiędzy zamkiem a serwerem czy szyfrowanie pamięci Flash w warstwie operacji na danych w mikroprocesorze w układzie zamka.
 
-\section{Zakres pracy}
-Pracę nad systemem prowadziły dwie osoby. W ramach tej pracy powstały:
-\begin{itemize}
-    \item Protoyp układu zamka,
-    \item Implementacja logiki uwierzytelniania,
-    \item Implementacja prostej aplikacji do zarządzania. \textbf{???????}
-\end{itemize}
+	\section{Zakres pracy}
+	Pracę nad systemem prowadziły dwie osoby. W ramach tej pracy powstały:
+	\begin{itemize}
+	    \item Protoyp układu zamka,
+	    \item Oprogramowanie serwera uwierzytelniania,
+	    \item Aplikacja do zarządzania.
+	\end{itemize}
 
-Praca nie obejmuje zdefiniowania zachowania systemu w przypadkach awarii. Zachowanie to można zdefiniować w dowolny sposób i rozszerzyć prototyp o mechanizmy niezbędne do jego wsparcia.
+	Praca nie obejmuje zdefiniowania zachowania systemu w przypadkach awarii. Zachowanie to można zdefiniować w dowolny sposób i rozszerzyć prototyp o mechanizmy niezbędne do jego wsparcia.
 
-\textbf{tutaj cos o podziale pracy}
+	\textbf{Tutaj podział pracy i obowiązków}
 
-\section{Struktura pracy}
+	\section{Struktura pracy}
 
-Rozdział \ref{chap:problem-domain} pokrótce przedstawia dziedzinę problemu, przywołuje najważniejsze definicje związane z tematem oraz ogólny opis działania systemów kontroli dostępu. Dokonuje także przedstawienia oraz porównania kilku istniejących na rynku rozwiązań.
+	Rozdział \ref{chap:problem-domain} pokrótce przedstawia dziedzinę problemu, przywołuje najważniejsze definicje związane z tematem oraz ogólny opis działania systemów kontroli dostępu. Dokonuje także przedstawienia oraz porównania kilku istniejących na rynku rozwiązań.
 
-Rozdział \ref{chap:hl-arch} prezentuje projekt rozwiązania.
+	Rozdział \ref{chap:hl-arch} prezentuje projekt rozwiązania.
 
-Rozdział \ref{chap:implementation} przedstawia proces implementacji systemu wraz z prezentacją najciekawszych problemów implementacyjnych oraz wykorzystanych technologii. W ramach pracy zaimplementowany został prototyp rozwiązania. Rozdział prezentuje również możliwe modyfikacje i rozszerzenia tego prototypu.
+	Rozdział \ref{chap:implementation} przedstawia proces implementacji systemu wraz z prezentacją najciekawszych problemów implementacyjnych oraz wykorzystanych technologii. W ramach pracy zaimplementowany został prototyp rozwiązania. Rozdział prezentuje również możliwe modyfikacje i rozszerzenia tego prototypu.
