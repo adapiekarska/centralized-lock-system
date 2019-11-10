@@ -1,5 +1,7 @@
 from flask import Flask
 
+from model.schema import Schema
+
 app = Flask(__name__)
 
 
@@ -9,4 +11,5 @@ def hello():
 
 
 if __name__ == "__main__":
-    app.run()
+    Schema()
+    app.run(debug=True)
