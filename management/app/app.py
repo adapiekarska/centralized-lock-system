@@ -21,9 +21,11 @@ def create_card():
 def get_cards():
     return jsonify(cardService.get_all())
 
+
 @app.route("/cards", methods=["DELETE"])
 def delete_card():
     return jsonify(cardService.delete(request.get_json()))
+
 
 if __name__ == "__main__":
     Schema()
