@@ -1,30 +1,17 @@
-from flask import Flask, request, jsonify
+from flask import Flask
 
 from model.schema import Schema
-from service.card_service import CardService
+from resource.card_resource import card_resource
+from resource.lock_resource import lock_resource
 
 app = Flask(__name__)
-cardService = CardService()
+app.register_blueprint(card_resource)
+app.register_blueprint(lock_resource)
 
 
 @app.route("/")
 def welcome():
     return "Welcome"
-
-
-@app.route("/cards", methods=["POST"])
-def create_card():
-    return jsonify(cardService.create(request.get_json()))
-
-
-@app.route("/cards", methods=["GET"])
-def get_cards():
-    return jsonify(cardService.get_all())
-
-
-@app.route("/cards", methods=["DELETE"])
-def delete_card():
-    return jsonify(cardService.delete(request.get_json()))
 
 
 if __name__ == "__main__":
