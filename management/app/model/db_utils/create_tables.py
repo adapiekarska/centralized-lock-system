@@ -15,7 +15,9 @@ create_tables = {
             CREATE TABLE IF NOT EXISTS CARDS_LOCKS (
                 ID integer PRIMARY KEY,
                 CARD_ID integer,
-                LOCK_ID integer
+                LOCK_ID integer,
+                FOREIGN KEY(CARD_ID) REFERENCES cards(id),
+                FOREIGN KEY(LOCK_ID) REFERENCES locks(id)
             );
             """
 }
