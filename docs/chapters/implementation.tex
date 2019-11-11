@@ -41,13 +41,19 @@
 
             \subsubsection{Wybudzenie z głębokiego uśpienia}
 
-                Po wykryciu ruchu, czujnik PIR generuje stan wysoki na linii wybudzającej mikrokontrolera, co wywołuje procedurę wyjścia z głębokiego uśpienia. Po wybudzeniu następuje inicjalizacja systemu obsługi zdarzeń. Po przygotowaniu mechanizmu sygnalizacji zdarzeń następuje współbieżna inicjalizacja komponentów RFID oraz WiFi.
+                Po wykryciu ruchu, czujnik PIR generuje stan wysoki na linii wybudzającej mikrokontrolera, co wywołuje procedurę wyjścia z głębokiego uśpienia. Po wybudzeniu następuje inicjalizacja systemu obsługi zdarzeń, wykorzystywany przez wszystkie wątki jako główne narzędzie sygnalizacji postępu i synchronizacji dostępu do danych. Po przygotowaniu mechanizmu sygnalizacji zdarzeń następuje współbieżna inicjalizacja komponentów RFID oraz WiFi.
 
-                W celu realizacji komunikacji bezprzewodowej wykonywana jest procedura uruchomienia komponentu WiFi \textbf{opisac: konfiguracja WiFi pobierana z nvsflash, kontroler w trybie station}, co wiąże się z próbą połączenia z serwerem w wybranej sieci. Dane dostępu do sieci (SSID, hasło) jaki i adres serwera są osadzone w kodzie programu. W przypadku niepowodzenia kontroler zostaje uśpiony.
+                Inicjalizacja komponentu WiFi może przebiec na dwa sposoby. Jeśli następuje po raz pierwszy od czasu podłączenia zasilania do układu, wymagane jest wykonanie konfiguracji sterownika WiFi dostarczanego przez ESP-IDF. W tym celu ustawiane są dane dostępu do sieci (SSID i hasło, osadzone w bezpośrednio w oprogramowaniu) a sterownik przestawiany jest w tryb station, pozwalający mikrokontrolerowi na nawiązanie połączenia z punktem dostępu sieci bezprzewodowej. Następnie dane konfiguracji zapisywane są w pamięci nieulotnej. Alternatywny scenariusz następuje przy każdej następnej inicjalizacji. Wykorzystuje on dane zapisane podczas poprzedniej inicjalizacji w celu odtworzenia konfiguracji sterownika WiFi.
 
-                Na listingu \ref{snip:wifi_client} przedstawiono pseudokod komponentu WiFi.
+                Wspomniana wyżej konfiguracja zostaje następnie wykorzystana do nawiązania połączenia z siecą, po czym zgodnie z standardem TLS następuje próba zestawienia połączenia z serwerem. Po zabezpieczeniu połączenia program przechodzi do pętli obsługi żądań transmisji, pochodzących od pozostałych komponentów.
+
+                Na listingu \ref{snip:wifi_client} przedstawiono pseudokod pętli obsługi żądań.
 
                 \lstinputlisting[language=Python,label=snip:wifi_client,caption=Pseudokod komponentu WiFi]{chapters/pseudocodes/wifi_client_pseudocode.py}
+
+                \textbf{inicjalizacja komponentu rfid}
+
+                \textbf{sterowanie po przylozeniu karty}
 
     \section{Podsystem autoryzacji}
         \textbf{TBD}
