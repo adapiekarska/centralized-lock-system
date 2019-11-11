@@ -1,36 +1,18 @@
 \chapter{Implementacja}
 \label{chap:implementation}
 
-    Niniejszy rozdział zagłębia się w szczegóły implementacyjne projektu.
+    Niniejszy rozdział zagłębia się w szczegóły implementacyjne projektu. Opisuje sposób konfiguracji środowiska deweloperskiego, przedstawia wybrane zagadnienia związane z implementacją oraz wykorzystane w projekcie technologie sprzętowe i programowe.
 
-    \textbf{dodac section o  konfiguracji srodowiska deweloperskiego}
-
-    Poniżej opisano implementację posczególnych podsystemów.
+    \section{Konfiguracja środowiska}
+        \textbf{TBD}
 
     \section{Podsystem sterowania zamkiem}
 
-        Zadaniem układu sterowania zamkiem jest wykrycie próby dostępu na podstawie sygnalizacji czujnika zbliżeniowego, odczyt klucza dostępu oraz realizacja bezpiecznej komunkacji z serwerem w celu uwierzytelnienia próby dostępu.
+        Spełnienie złożeń dotyczących systemu wymienionych w rozdziale \ref{chap:hl-arch} wymaga zastosowania mikrokontrolera integrującego układ komunikacji bezprzewodowej zgodnej ze zbiorem standardów IEEE 802.11, obsługującego interfejs szeregowej komunikacji z peryferiami (SPI) jednocześnie umożliwiając komunikację za pośrednictwem programowalnych wejść/wyjść (GPIO). Pośród wielu rozwiązań  dostępnych na rynku, wybrany został mikrokontroler ESP3 ze względu na możliwość równoległego przetwarzania za pomocą dwóch fizycznych rdzeni, sprzętowe wsparcie dla algorytmów kryptograficzynch oraz możliwość zaawansowanej kontroli pracy podzespołów mikrokontrolera, szczególnie w zakresie zasilania.
 
-        \subsection{Wykorzystane rozwiązania sprzętowe}
+        Kryterium wyboru czytnika kart RFID była obsługa kart o częstotliwości nośnej 13,56 MHz, dostępność oprogramowania sterującego czytnikiem dla wybranego mikrokontrolera oraz obsługa interfejsu komunikacji szeregowej SPI w celu prostej integracji czytnika z mikrokontrolerem. Do tego zadania wybrany został układ MFRC522.
 
-            \subsubsection{Mikrokontroler}
-
-                Architektura systemu zakłada realizację mastępujących funkcjonalności w ramach układu mikrokontrolera:
-                \begin{itemize}
-                    \item Komunikacja bezprzewodowa z serwerem autoryzacji
-                    \item Komunikacja z pozostałymi komponentami podsystemu sterowania zamkiem (czujnik ruchu, czytnik RFID)
-                    \item Kontrola przepływu sterowania
-                    \item Kontrola stanu zasilania komponentów podsystemu
-                \end{itemize}
-                Spełnienie powyższych złożeń wymaga zastosowania mikrokontrolera integrującego układ komunikacji bezprzewodowej zgodnej ze zbiorem standardów IEEE 802.11, obsługującego interfejs szeregowej komunikacji z peryferiami (SPI) jednocześnie umożliwiając komunikację za pośrednictwem programowalnych wejść/wyjść (GPIO). Pośród wielu rozwiązań  dostępnych na rynku, wybrany został mikrokontroler ESP3 ze względu na możliwość równoległego przetwarzania za pomocą dwóch fizycznych rdzeni, sprzętowe wsparcie dla algorytmów kryptograficzynch oraz możliwość zaawansowanej kontroli pracy podzespołów mikrokontrolera, szczególnie w zakresie zasilania.
-
-            \subsubsection{Czytnik RFID}
-
-                Kryterium wyboru czytnika kart RFID była obsługa kart o częstotliwości nośnej 13,56 MHz, dostępność oprogramowania sterującego czytnikiem dla wybranego mikrokontrolera oraz obsługa interfejsu komunikacji szeregowej SPI w celu prostej integracji czytnika z mikrokontrolerem. Do tego zadania wybrany został układ MFRC522.
-
-            \subsubsection{Czujnik ruchu}
-
-                Efektywne wykorzystanie energii w układzie zamka wymaga źródła impulsu wybudzającego o jak najniższym poborze mocy w stanie spoczynku. Wybranym rozwiązaniem jest czujnik PIR (ang. \textit{Passive Infra Red}, pasywny czujnik podczerwieni), model HC-SR501.
+        Efektywne wykorzystanie energii w układzie zamka wymaga źródła impulsu wybudzającego o jak najniższym poborze mocy w stanie spoczynku. Wybranym rozwiązaniem jest czujnik PIR (ang. \textit{Passive Infra Red}, pasywny czujnik podczerwieni), model HC-SR501.
 
         \subsection{Oprogramowanie}
 
