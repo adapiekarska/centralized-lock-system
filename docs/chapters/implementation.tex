@@ -3,15 +3,6 @@
 
     Niniejszy rozdział zagłębia się w szczegóły implementacyjne projektu.
 
-    \section{Uproszczenia}
-
-        W ramach niniejszej pracy stworzony został prototyp końcowego rozwiązania. Niektóre z opisywanych w rozdziale \ref{chap:hl-arch} funkcjonalności nie zostały zaimplementowane ze względu na ograniczenia czasowe i budżetowe. Pozostawiono jednak możliwość rozbudowy systemu.
-
-        Opisywane rozwiązanie nie obejmuje implementacji mechanizmu opuszczenia strefy chronionej systemem kontroli dostępu. W zależności od potrzeb końcowego użytkownika, możliwe rozwiązanie to montaż dodatkowego czytnika po przeciwnej stronie drzwi i połączenie go z kontrolerem wejścia w przypadku gdy wymagana jest obustronna kontrola dostępu bądź zastosowanie przycisku którego naciśnięcie powoduje zwolnienie zamka w przypadku gdy wymagana jest tylko kontrola wejścia do chronionego obszaru.
-
-        W sytuacjach awaryjnych, jakimi jest brak zasilania bądź brak połączenia z serwerem \textbf{wymyslic co}. Szczegółowy opis tych zagadnień znajduje się \textbf{gdziee?}.
-
-        Implementacja prototypu obejmowała stworzenie pojedynczego układu zamka. Ze względu na prototypowy charakter pracy, nie przetestowano działania systemu z większą liczbą zamków. Nie ma jednak powodów by twierdzić, że system nie działałby poprawnie z większą liczbą zamków. Wystarczającym rozszerzeniem byłaby modyfikacja oprogramowania serwera umożliwiająca obsługę kilku klientów jednocześnie. \textbf{czy to pisac?}
     \textbf{dodac section o  konfiguracji srodowiska deweloperskiego}
 
     Poniżej opisano implementację posczególnych podsystemów.
@@ -39,7 +30,7 @@
 
             \subsubsection{Czujnik ruchu}
 
-                Efektywne wykorzystanie energii w układzie zamka wymaga źródła impulsu wybudzającego o jak najniższym poborze mocy w stanie spoczynku. Wybranym rozwiązaniem jest czujnik PIR (\textit{ang. Passive Infra Red}, pasywny czujnik podczerwieni) model HC-SR501.
+                Efektywne wykorzystanie energii w układzie zamka wymaga źródła impulsu wybudzającego o jak najniższym poborze mocy w stanie spoczynku. Wybranym rozwiązaniem jest czujnik PIR (ang. \textit{Passive Infra Red}, pasywny czujnik podczerwieni), model HC-SR501.
 
         \subsection{Oprogramowanie}
 
@@ -53,11 +44,11 @@
             \textbf{cos o logach}
 
         \subsection{Przeplyw sterowania}
-            Przy pierwszym uruchomienu zamka, które następuje automatycznie po podłączeniu zasilania do układu, wykonywana jest procedura przejścia w stan głębokiego uśpienia (Deep-sleep mode) \textbf{przejście w tryb konfiguracji?}. W tym celu jako sposób wybudzenia konfigurowany jest tryb EXT0 (External Wakeup 0). Tryb ten wymusza aby po przejściu w stan uśpienia podtrzymane zostało zasilanie peryferiów RTC (\textit{ang. Real-Time Clock}, zegar czasu rzeczywistego)~\cite{esp32-api-ref-deep-sleep}, co z kolei pozwala na konfigurację źródła wybudzającego przerwania zewnętrznego jako wybranego wejścia RTC GPIO (\textit{ang. General-Purpose Input/Output}, Wejście-wyjście ogólnego przeznaczenia). W projekcie w tym celu wykorzystany został pin nr 26. Ze względu na charakterystykę wykorzystanego źródła przerwania (pasywny czujnik zbliżeniowy), konieczne było zastosowanie trybu pulldown dla wspomnianego wyżej wejścia aby zapobiec występowaniu na nim stanu nieokreślonego. Po konfiguracji źródła przerwania układ zostaje wprowadzony w stan uśpienia.
+            Przy pierwszym uruchomienu zamka, które następuje automatycznie po podłączeniu zasilania do układu, wykonywana jest procedura przejścia w stan głębokiego uśpienia (Deep-sleep mode) \textbf{przejście w tryb konfiguracji?}. W tym celu jako sposób wybudzenia konfigurowany jest tryb EXT0 (External Wakeup 0). Tryb ten wymusza aby po przejściu w stan uśpienia podtrzymane zostało zasilanie peryferiów RTC (ang. \textit{Real-Time Clock}, zegar czasu rzeczywistego)~\cite{esp32-api-ref-deep-sleep}, co z kolei pozwala na konfigurację źródła wybudzającego przerwania zewnętrznego jako wybranego wejścia RTC GPIO (ang. \textit{General-Purpose Input/Output}, Wejście-wyjście ogólnego przeznaczenia). W projekcie w tym celu wykorzystany został pin nr 26. Ze względu na charakterystykę wykorzystanego źródła przerwania (pasywny czujnik zbliżeniowy), konieczne było zastosowanie trybu pulldown dla wspomnianego wyżej wejścia aby zapobiec występowaniu na nim stanu nieokreślonego. Po konfiguracji źródła przerwania układ zostaje wprowadzony w stan uśpienia.
 
             \subsubsection{Pierwsze uruchomienie}
 
-                Przy pierwszym uruchomienu zamka, które następuje automatycznie po podłączeniu zasilania do układu, wykonywana jest procedura przejścia w stan głębokiego uśpienia (Deep-sleep mode) \textbf{przejście w tryb konfiguracji?}. W tym celu jako sposób wybudzenia konfigurowany jest tryb EXT0 (External Wakeup 0). Tryb ten wymusza aby po przejściu w stan uśpienia podtrzymane zostało zasilanie peryferiów RTC (\textit{ang. Real-Time Clock}, zegar czasu rzeczywistego)~\cite{esp32-api-ref}, co z kolei pozwala na konfigurację źródła wybudzającego przerwania zewnętrznego jako wybranego wejścia RTC GPIO (\textit{ang. General-Purpose Input/Output}, Wejście-wyjście ogólnego przeznaczenia). W projekcie w tym celu wykorzystany został pin nr 26. Ze względu na charakterystykę wykorzystanego źródła przerwania (pasywny czujnik zbliżeniowy), konieczne było zastosowanie trybu pulldown dla wspomnianego wyżej wejścia aby zapobiec występowaniu na nim stanu nieokreślonego. Po konfiguracji źródła przerwania układ zostaje wprowadzony w stan uśpienia.
+                Przy pierwszym uruchomienu zamka, które następuje automatycznie po podłączeniu zasilania do układu, wykonywana jest procedura przejścia w stan głębokiego uśpienia (Deep-sleep mode) \textbf{przejście w tryb konfiguracji?}. W tym celu jako sposób wybudzenia konfigurowany jest tryb EXT0 (External Wakeup 0). Tryb ten wymusza aby po przejściu w stan uśpienia podtrzymane zostało zasilanie peryferiów RTC (ang. \textit{Real-Time Clock}, zegar czasu rzeczywistego)~\cite{esp32-api-ref}, co z kolei pozwala na konfigurację źródła wybudzającego przerwania zewnętrznego jako wybranego wejścia RTC GPIO (ang. \textit{General-Purpose Input/Output}, Wejście-wyjście ogólnego przeznaczenia). W projekcie w tym celu wykorzystany został pin nr 26. Ze względu na charakterystykę wykorzystanego źródła przerwania (pasywny czujnik zbliżeniowy), konieczne było zastosowanie trybu pulldown dla wspomnianego wyżej wejścia aby zapobiec występowaniu na nim stanu nieokreślonego. Po konfiguracji źródła przerwania układ zostaje wprowadzony w stan uśpienia.
 
             \subsubsection{Wybudzenie z głębokiego uśpienia}
 
@@ -78,7 +69,7 @@
 
         \subsection{ESP32}
 
-            ESP32-DevKitC jest produkowaną przez firmę Espressif platformą deweloperską bazującą na module ESP32-WROOM-32D. Sercem modułu jest układ z rodziny ESP32 (ESP32-D0WD) wyposażony w CPU (\textit{ang. Central Processing Unit}, centralna jednostka obliczeniowa) o dwóch rdzeniach, z których każdy może być kontrolowany niezależnie~\cite{esp32-wroom32-ds}. Moduł integruje Bluetooth, Bluetooth Low Energy oraz WiFi, a także szeroki zakres peryferiów: czujniki dotyku, czujniki pola magnetycznego, interfejs karty SD, Ethernet, SPI (ang. \textit{Serial Peripheral Interface}), UART (ang. \textit{Universal Asynchronous Receiver-Transmitter}), I\textsuperscript{2}S (ang. \textit{Inter-IC Sound}) i I\textsuperscript{2}C (ang. \textit{Inter-Integrated Circuit})~\cite{esp32-wroom32-ds}. Dodatkowo umożliwia korzystanie z niskoenergetycznego koprocesora Ultra-Low-Power (ang. ULP co-processor), podczas gdy główne jednostki pozostają w trybie głębokiego uśpienia~\cite{esp32-tech-ref-man}.
+            ESP32-DevKitC jest produkowaną przez firmę Espressif platformą deweloperską bazującą na module ESP32-WROOM-32D. Sercem modułu jest układ z rodziny ESP32 (ESP32-D0WD) wyposażony w CPU (ang. \textit{Central Processing Unit}, centralna jednostka obliczeniowa) o dwóch rdzeniach, z których każdy może być kontrolowany niezależnie~\cite{esp32-wroom32-ds}. Moduł integruje Bluetooth, Bluetooth Low Energy oraz WiFi, a także szeroki zakres peryferiów: czujniki dotyku, czujniki pola magnetycznego, interfejs karty SD, Ethernet, SPI (ang. \textit{Serial Peripheral Interface}), UART (ang. \textit{Universal Asynchronous Receiver-Transmitter}), I\textsuperscript{2}S (ang. \textit{Inter-IC Sound}) i I\textsuperscript{2}C (ang. \textit{Inter-Integrated Circuit})~\cite{esp32-wroom32-ds}. Dodatkowo umożliwia korzystanie z niskoenergetycznego koprocesora Ultra-Low-Power (ang. \textit{ULP co-processor}), podczas gdy główne jednostki pozostają w trybie głębokiego uśpienia~\cite{esp32-tech-ref-man}.
 
             ESP32 oferuje efektywną i elastyczną technologię zarządzania energią. Dokument \textit{ESP32 Series Datasheet} wymienia pięć predefiniowanychstanów energetycznych~\cite{esp32-ds}:
             \begin{enumerate}
@@ -89,6 +80,8 @@
                 \item Hibernation mode: Wewnętrzny rezonator kwarcowy o częstotliwośći 8~MHz wraz z koprocesorem ULP zostają wyłączone. Również pamięć RTC jest wyłączona. Wybodzenie możliwe jest tylko poprzez timer RTC lub predefiniowane wejścia RTC GPIO.
             \end{enumerate}
 
+        \subsection{ESP-IDF}
+
         \subsection{Czytnik MFRC522}
 
             Do realizacji komunikacji w standardzie RFID High Frequency (13,56~MHz) wykorzystany został zintegrowany odbiornik/nadajnik MFRC522 produkowany przez firmę NXP Semiconductors, umożliwający bezprzewodową komunikację z kartami zgodnymi ze standardem ISO/IEC 14443 A/MIFARE. Układ wspiera komunikację poprzez interfejsy SPI, UART oraz I\textsuperscript{2}C~\cite{mfrc522-ds}.
@@ -97,6 +90,7 @@
 
 
     \section{Problemy}
+
         Konfiguracja WiFi?
         Sygnalizacja stanu baterii?
         Bezpieczeństwo komunikacji
@@ -104,7 +98,32 @@
         Enkrypcja flash
         mozna cos z technical reference manual
 
+        \subsection{Zarządzanie energią}
+
+            \textbf{Szacunki długości życia na baterii - TBD}
+            \textbf{Pomiary poboru mocy w różnych fazach działania - TBD}
+
     \section{Możliwe rozszerzenia}
 
+        W ramach niniejszej pracy stworzony został prototyp rozwiązania. Niektóre planowane funkcjonalności nie zostały zaimplementowane ze względu na ograniczenia czasowe i budżetowe. Pozostawiono jednak możliwość rozbudowy systemu. Poniżej przedstawiono kilka problemów, których system w obecnym stanie nie adresuje, wraz z możliwymi rozwiązaniami.
+
+        \subsection{Mechanizm wyjścia}
+
+            Opisywane rozwiązanie nie obejmuje implementacji mechanizmu opuszczenia strefy chronionej systemem kontroli dostępu. W zależności od potrzeb końcowego użytkownika, możliwe rozwiązanie to montaż dodatkowego czytnika po przeciwnej stronie drzwi i połączenie go z kontrolerem wejścia w przypadku gdy wymagana jest obustronna kontrola dostępu bądź zastosowanie przycisku którego naciśnięcie powoduje zwolnienie zamka w przypadku gdy wymagana jest tylko kontrola wejścia do chronionego obszaru.
+
+        \subsection{Obsługa większej liczby zamków}
+
+            W celu umożliwienia obsługi przez system liczby zamków przekraczającej 1, wystarczająca byłaby modyfikacja podsystemu autoryzacji w taki sposób, aby mógł on obsługiwać równoległe żądania od klientów.
+
         \subsection{Wygodna konfiguracja parametrów sieci}
-            W obecnej implementacji dane dostępu do sieci (nazwa sieci oraz hasło) zostały zagnieżdżone w oprogramowaniu konrolera. Zmniejsza to elastyczność konfiguracji urządzenia, wymagając jego przeprogramowania za każdym razem gdy zmianie ulegnie nazwa lub klucz dostępu do sieci. Możliwym rozwiązaniem tego problemu byłaby implementacja trybu konfiguracji. Tryb ten powodowałby przejście kontrolera w tryb Access Point przy zachowaniu dwóch warunków: (1) nastąpiło uruchomienie, a nie wybudzenie z trybu głębokiego uśpienia, oraz (2) na określonym wejściu pojawiło się napięcie. Przejście kontrolera w tryb Access Point umożliwiłoby udostępnienie prostego interfejsu webowego, za pomocą którego administrator systemu mógłby wprowadzić niezbędne do działania dane, takie jak nazwa sieci, hasło, a także adres IP i numer portu serwera autoryzacji. Aby zachować wysoki poziom bezpieczeństwa, komunikacja pomiędzy urządzeniem administratora i kontrolerem powinna odbywać się przy wykorzystaniu protokołu TLS.
+            W obecnej implementacji dane dostępu do sieci (nazwa sieci oraz hasło) zostały zagnieżdżone w oprogramowaniu konrolera. Zmniejsza to elastyczność konfiguracji urządzenia, wymagając jego przeprogramowania za każdym razem gdy zmianie ulegnie nazwa lub klucz dostępu do sieci.
+
+            Możliwym rozwiązaniem tego problemu byłaby implementacja trybu konfiguracji. Tryb ten powodowałby przejście kontrolera w tryb Access Point przy zachowaniu dwóch warunków: (1) nastąpiło uruchomienie, a nie wybudzenie z trybu głębokiego uśpienia, oraz (2) na określonym wejściu pojawiło się napięcie. Przejście kontrolera w tryb Access Point umożliwiłoby udostępnienie prostego interfejsu webowego, za pomocą którego administrator systemu mógłby wprowadzić niezbędne do działania dane, takie jak nazwa sieci, hasło, a także adres IP i numer portu serwera autoryzacji. Aby zachować wysoki poziom bezpieczeństwa, komunikacja pomiędzy urządzeniem administratora i kontrolerem powinna odbywać się przy wykorzystaniu protokołu TLS.
+
+        \subsection{Sygnalizacja stanu baterii}
+            W obecnym stanie system nie implementuje mechanizmów informowania serwera o swoim stanie energetycznym.
+            Sygnalizacja stanu baterii umożliwiłaby administratorowi systemu bieżące monitorowanie wszystkich zamków objętych systemem oraz szybką reakcję w przypadku, gdy baterie wymagałyby wymiany. Modyfikacja ta wymagałaby uzyskania dostępu do danych na temat naładowania baterii przez mikrokontroler oraz przesyłania ich okresowo do serwera, najlepiej w momentach, gdy jest on już wybudzony z powodu wykrycia ruchu w jego otoczeniu.
+            \textbf{TBD}
+
+        \subsection{Obsługa kont użytkowników w podsystemie zarządzania}
+            \textbf{TBD}

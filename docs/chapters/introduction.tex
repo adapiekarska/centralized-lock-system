@@ -26,21 +26,29 @@
 	Bezpieczeństwo systemu na wielu poziomach zapewnia wykorzystanie mechanizmów takich jak TLS (ang. \textit{Transport Layer Security}) w warstwie komunikacji pomiędzy zamkiem a serwerem czy szyfrowanie pamięci Flash w warstwie operacji na danych w mikroprocesorze w układzie zamka.
 
 	\section{Zakres pracy}
-	Pracę nad systemem prowadziły dwie osoby. W ramach tej pracy powstały:
-	\begin{itemize}
-	    \item Protoyp układu zamka,
-	    \item Oprogramowanie serwera uwierzytelniania,
-	    \item Aplikacja do zarządzania.
-	\end{itemize}
+		Pracę nad systemem prowadziły dwie osoby. W ramach tej pracy powstały:
+		\begin{itemize}
+		    \item Protoyp układu zamka,
+		    \item Oprogramowanie serwera uwierzytelniania,
+		    \item Aplikacja do zarządzania.
+		\end{itemize}
 
-	Praca nie obejmuje zdefiniowania zachowania systemu w przypadkach awarii. Zachowanie to można zdefiniować w dowolny sposób i rozszerzyć prototyp o mechanizmy niezbędne do jego wsparcia.
+		Implementacja prototypu obejmowała stworzenie pojedynczego układu zamka. Ze względu na prototypowy charakter pracy, nie przetestowano działania systemu z większą liczbą zamków. Nie ma jednak powodów by twierdzić, że system nie działałby poprawnie z większą liczbą zamków.
 
-	\textbf{Tutaj podział pracy i obowiązków}
+		%  Wystarczającym rozszerzeniem byłaby modyfikacja oprogramowania serwera umożliwiająca obsługę kilku klientów jednocześnie.
+
+		% Praca nie obejmuje zdefiniowania zachowania systemu w przypadkach awarii. Zachowanie to można zdefiniować w dowolny sposób i rozszerzyć prototyp o mechanizmy niezbędne do jego wsparcia.
+
+		\textbf{Tutaj podział pracy i obowiązków - TBD}
 
 	\section{Struktura pracy}
 
-	Rozdział \ref{chap:problem-domain} pokrótce przedstawia dziedzinę problemu, przywołuje najważniejsze definicje związane z tematem oraz ogólny opis działania systemów kontroli dostępu. Dokonuje także przedstawienia oraz porównania kilku istniejących na rynku rozwiązań.
+		Rozdział \ref{chap:problem-domain} pokrótce przedstawia dziedzinę problemu, przywołuje najważniejsze definicje związane z tematem oraz ogólny opis działania systemów kontroli dostępu. Dokonuje także przedstawienia oraz porównania kilku istniejących na rynku rozwiązań.
 
-	Rozdział \ref{chap:hl-arch} prezentuje projekt rozwiązania.
+		Rozdział \ref{chap:hl-arch} prezentuje projekt rozwiązania.
 
-	Rozdział \ref{chap:implementation} przedstawia proces implementacji systemu wraz z prezentacją najciekawszych problemów implementacyjnych oraz wykorzystanych technologii. W ramach pracy zaimplementowany został prototyp rozwiązania. Rozdział prezentuje również możliwe modyfikacje i rozszerzenia tego prototypu.
+		Rozdział \ref{chap:implementation} przedstawia proces implementacji systemu wraz z prezentacją najciekawszych problemów implementacyjnych oraz wykorzystanych technologii. W ramach pracy zaimplementowany został prototyp rozwiązania. Rozdział prezentuje również możliwe modyfikacje i rozszerzenia tego prototypu.
+
+		Rozdział \ref{chap:results} opisuje rezultaty pracy nad projektem.
+
+		Rozdział \ref{chap:conclusions} dokonuje podsumowania pracy.
