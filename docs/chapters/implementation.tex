@@ -8,7 +8,7 @@
 
     \section{Podsystem sterowania zamkiem}
 
-        Spełnienie złożeń dotyczących systemu wymienionych w rozdziale \ref{chap:hl-arch} wymaga zastosowania mikrokontrolera integrującego układ komunikacji bezprzewodowej zgodnej ze zbiorem standardów IEEE 802.11, obsługującego interfejs szeregowej komunikacji z peryferiami (SPI) jednocześnie umożliwiając komunikację za pośrednictwem programowalnych wejść/wyjść (GPIO). Pośród wielu rozwiązań  dostępnych na rynku, wybrany został mikrokontroler ESP3 ze względu na możliwość równoległego przetwarzania za pomocą dwóch fizycznych rdzeni, sprzętowe wsparcie dla algorytmów kryptograficzynch oraz możliwość zaawansowanej kontroli pracy podzespołów mikrokontrolera, szczególnie w zakresie zasilania.
+        Spełnienie założeń dotyczących systemu wymienionych w rozdziale \ref{chap:hl-arch} wymaga zastosowania mikrokontrolera integrującego układ komunikacji bezprzewodowej zgodnej ze zbiorem standardów IEEE 802.11, obsługującego interfejs szeregowej komunikacji z peryferiami (SPI) jednocześnie umożliwiając komunikację za pośrednictwem programowalnych wejść/wyjść (GPIO). Pośród wielu rozwiązań  dostępnych na rynku, wybrany został mikrokontroler ESP3 ze względu na możliwość równoległego przetwarzania za pomocą dwóch fizycznych rdzeni, sprzętowe wsparcie dla algorytmów kryptograficzynch oraz możliwość zaawansowanej kontroli pracy podzespołów mikrokontrolera, szczególnie w zakresie zasilania.
 
         Kryterium wyboru czytnika kart RFID była obsługa kart o częstotliwości nośnej 13,56 MHz, dostępność oprogramowania sterującego czytnikiem dla wybranego mikrokontrolera oraz obsługa interfejsu komunikacji szeregowej SPI w celu prostej integracji czytnika z mikrokontrolerem. Do tego zadania wybrany został układ MFRC522.
 
@@ -26,6 +26,9 @@
             \textbf{cos o logach}
 
         \subsection{Przeplyw sterowania}
+
+            \textbf{TBD - Ogólna struktura kodu}
+
             Przy pierwszym uruchomienu zamka, które następuje automatycznie po podłączeniu zasilania do układu, wykonywana jest procedura przejścia w stan głębokiego uśpienia (Deep-sleep mode) \textbf{przejście w tryb konfiguracji?}. W tym celu jako sposób wybudzenia konfigurowany jest tryb EXT0 (External Wakeup 0). Tryb ten wymusza aby po przejściu w stan uśpienia podtrzymane zostało zasilanie peryferiów RTC (ang. \textit{Real-Time Clock}, zegar czasu rzeczywistego)~\cite{esp32-api-ref-deep-sleep}, co z kolei pozwala na konfigurację źródła wybudzającego przerwania zewnętrznego jako wybranego wejścia RTC GPIO (ang. \textit{General-Purpose Input/Output}, Wejście-wyjście ogólnego przeznaczenia). W projekcie w tym celu wykorzystany został pin nr 26. Ze względu na charakterystykę wykorzystanego źródła przerwania (pasywny czujnik zbliżeniowy), konieczne było zastosowanie trybu pulldown dla wspomnianego wyżej wejścia aby zapobiec występowaniu na nim stanu nieokreślonego. Po konfiguracji źródła przerwania układ zostaje wprowadzony w stan uśpienia.
 
             \subsubsection{Pierwsze uruchomienie}
@@ -37,10 +40,9 @@
                 Po wykryciu ruchu, czujnik PIR generuje stan wysoki na wejściu wybudzającym układu kontrolera co inicjalizuje procedurę wyjścia z głębokiego uśpienia. Po wybudzeniu następuje inicjalizacja systemu obsługi zdarzeń. Wszystie zdarzenia w oprogramowaniu zamka realizowane są przez grupę zdarzeń, mechanizm zapewniany przez system operacyjny czasu rzeczywistego FreeRTOS.
 
                 W celu realizacji komunikacji bezprzewodowej wykonywana jest procedura uruchomienia komponentu WiFi \textbf{konfiguracja WiFi pobierana z nvsflash}, co wiąże się z próbą połączenia z serwerem w wybranej sieci. Dane dostępu do sieci (SSID, hasło) jaki i adres serwera są osadzone w kodzie programu. W przypadku niepowodzenia kontroler zostaje uśpiony. \textbf{Tutaj dać pseudokod klienta wifi i uszczegółowić}
-                \lstinputlisting[language=Python]{chapters/pseudocodes/wifi_client_pseudocode.py}
+                
+                \lstinputlisting[language=Python,label=snip:wifi_client,caption=Pseudokod WiFi]{chapters/pseudocodes/wifi_client_pseudocode.py}
 
-                \textbf{dodac label do pseudokodu}
-                \textbf{dodac tez pseudokod flow controllera}
                 Ze względu na restrykcyjne wymagania dotyczące czasu trwania procesu zestawiania połączenia z serwerem, system stosuje przetwarzanie współbieżne z wykorzystaniem dwóch głównych wątków.
 
     \section{Podsystem autoryzacji}
@@ -61,14 +63,17 @@
                 \item Deep-sleep mode: Tylko pamięć RTC i peryferia RTC pozostają zasilone. Dane dotyczące połączeń WiFi i Bluetooth zostają przechowane w pamięci RTC. Opcjonalnie dostępny jest koprocesor ULP.
                 \item Hibernation mode: Wewnętrzny rezonator kwarcowy o częstotliwośći 8~MHz wraz z koprocesorem ULP zostają wyłączone. Również pamięć RTC jest wyłączona. Wybodzenie możliwe jest tylko poprzez timer RTC lub predefiniowane wejścia RTC GPIO.
             \end{enumerate}
+            Jest to szczególnie istotne z punktu widzenia wymagań dotyczących poboru energii.
 
         \subsection{ESP-IDF}
+            \textbf{TBD}
 
         \subsection{Czytnik MFRC522}
 
             Do realizacji komunikacji w standardzie RFID High Frequency (13,56~MHz) wykorzystany został zintegrowany odbiornik/nadajnik MFRC522 produkowany przez firmę NXP Semiconductors, umożliwający bezprzewodową komunikację z kartami zgodnymi ze standardem ISO/IEC 14443 A/MIFARE. Układ wspiera komunikację poprzez interfejsy SPI, UART oraz I\textsuperscript{2}C~\cite{mfrc522-ds}.
 
         \subsection{Czujnik zbliżeniowy}
+            \textbf{TBD}
 
 
     \section{Problemy}
