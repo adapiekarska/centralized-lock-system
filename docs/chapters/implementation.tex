@@ -37,10 +37,10 @@
 
             \subsubsection{Wybudzenie z głębokiego uśpienia}
 
-                Po wykryciu ruchu, czujnik PIR generuje stan wysoki na wejściu wybudzającym układu kontrolera co inicjalizuje procedurę wyjścia z głębokiego uśpienia. Po wybudzeniu następuje inicjalizacja systemu obsługi zdarzeń. Wszystie zdarzenia w oprogramowaniu zamka realizowane są przez grupę zdarzeń, mechanizm zapewniany przez system operacyjny czasu rzeczywistego FreeRTOS.
+                Po wykryciu ruchu, czujnik PIR generuje stan wysoki na wejściu wybudzającym układu kontrolera co inicjalizuje procedurę wyjścia z głębokiego uśpienia. Po wybudzeniu następuje inicjalizacja systemu obsługi zdarzeń. Wszystie zdarzenia w oprogramowaniu zamka realizowane są przez grupę zdarzeń, mechanizm zapewniany przez system operacyjny czasu rzeczywistego FreeRTOS. W przypadku wystąpienia zdarzenia związanego z przepływem sterowania, zostaje ono zapisane w grupie zdarzen, co jest równoznaczne z ustawieniem w stan wysoki bitu przypisanego danemu zdarzeniu \textbf{wypisać zdefiniowane w kodzie bity zdarzen}. Kluczowy z perspektywy przepływu sterowania jest wykorzystany mechanizm oczekiwania na zdarzenia, który przez wywłaszczenie oczekującego wątku pozwala na efektywną implementację synchronizacji wątków \textbf{odniesienie do dokumentacji freertos}. Po przygotowaniu mechanizmu sygnalizacji zdarzeń, następuje współbieżna inicjalizacja komponentów RFID oraz WiFi.
 
-                W celu realizacji komunikacji bezprzewodowej wykonywana jest procedura uruchomienia komponentu WiFi \textbf{konfiguracja WiFi pobierana z nvsflash}, co wiąże się z próbą połączenia z serwerem w wybranej sieci. Dane dostępu do sieci (SSID, hasło) jaki i adres serwera są osadzone w kodzie programu. W przypadku niepowodzenia kontroler zostaje uśpiony. \textbf{Tutaj dać pseudokod klienta wifi i uszczegółowić}
-                
+                W celu realizacji komunikacji bezprzewodowej wykonywana jest procedura uruchomienia komponentu WiFi \textbf{opisac: konfiguracja WiFi pobierana z nvsflash, kontroler w trybie station}, co wiąże się z próbą połączenia z serwerem w wybranej sieci. Dane dostępu do sieci (SSID, hasło) jaki i adres serwera są osadzone w kodzie programu. W przypadku niepowodzenia kontroler zostaje uśpiony. \textbf{Tutaj dać pseudokod klienta wifi i uszczegółowić}
+
                 \lstinputlisting[language=Python,label=snip:wifi_client,caption=Pseudokod WiFi]{chapters/pseudocodes/wifi_client_pseudocode.py}
 
                 Ze względu na restrykcyjne wymagania dotyczące czasu trwania procesu zestawiania połączenia z serwerem, system stosuje przetwarzanie współbieżne z wykorzystaniem dwóch głównych wątków.
