@@ -1,147 +1,182 @@
+#include "wifi_client.h"
+
 #include <sys/param.h>
+#include <string.h>
+
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
 #include "freertos/event_groups.h"
 #include "esp_system.h"
-#include "esp_wifi.h"
-#include "esp_event.h"
 #include "esp_log.h"
-#include "tcpip_adapter.h"
-
-// socket-related includes
-#include "lwip/err.h"
-#include "lwip/sockets.h"
-#include "lwip/sys.h"
-#include <lwip/netdb.h>
+#include "esp_err.h"
 
 // project-related includes
 #include "types.h"
-#include "wifi_client.h"
+#include "wifi_socket/wifi_socket.h"
+#include "wifi_tls/wifi_tls.h"
+#include "wifi_conifg.h"
 #include "controller_status.h"
 
-// TODO: define address and port
-
-#define SERVER_IP_ADDR "192.168.101.59"
-#define SERVER_PORT CONFIG_SERVER_PORT
 
 static char         pending_data[128];
-static unsigned int pending_data_size; 
-
-static const char *LOG_TAG = "wifi_client";
+static size_t       pending_data_size;
 
 void wifi_client_start()
 {
-    // Task wifi_client should wait for connection
+    // Task wifi_client should wait for connection to AP
     controller_status_wait_bits(WIFI_CONNECTED_BIT, DONT_CLEAR);
 
-    char rx_buffer[128];
-    char addr_str[128];
+    esp_err_t err;
 
     while (TRUE)
     {
-        // Create a socket
-        int sock =  socket(AF_INET, SOCK_STREAM, IPPROTO_IP);
-        if (sock < 0)
+        err = TLS_ENABLED ?
+            wifi_tls_connect()
+            : wifi_socket_connect();
+
+        if (err == ESP_FAIL)
         {
-            ESP_LOGE(LOG_TAG, "Unable to create socket: errno %d", errno);
             break;
         }
-
-        // Specify server data
-        struct sockaddr_in server_addr;
-        server_addr.sin_family = AF_INET;
-        server_addr.sin_port = htons(SERVER_PORT);
-        // Inet_addr converts the Internet host address cp from IPv4 numbers-and-dots notation into binary data in network byte order
-        server_addr.sin_addr.s_addr = inet_addr(SERVER_IP_ADDR);
-
-        // Convert an Internet address into a string
-        inet_ntoa_r(server_addr.sin_addr, addr_str, sizeof(addr_str) - 1);
-
-        ESP_LOGI(LOG_TAG, "Socket created, connecting to %s:%d", SERVER_IP_ADDR, SERVER_PORT);
-
-        // Connect socket to the server
-        int err = connect(sock, (struct sockaddr *)&server_addr, sizeof(server_addr));
-        if (err != 0)
-        {
-            ESP_LOGE(LOG_TAG, "Socket unable to connect: errno %d", errno);
-            break;
-        }
-
-        ESP_LOGI(LOG_TAG, "Successfully connected");
 
         // Communication loop
         while (TRUE)
         {
-            // Notify capability to transfer data
+            ESP_LOGE("wifi_client", "Ready to transmit");
+
             controller_status_set_bits(WIFI_CLIENT_READY_BIT);
-            // wait for pending data
-            controller_status_wait_bits(WIFI_CLIENT_DATA_PENDING_BIT, CLEAR);
             
-            // Send data
-            int err = send(sock, pending_data, pending_data_size, 0);
+            // Wait for pending operation
+            controller_status_wait_bits(
+                WIFI_CLIENT_SEND_PENDING_BIT | WIFI_CLIENT_RECEIVE_PENDING_BIT,
+                DONT_CLEAR
+                );
 
-            // Error occurred during sending
-            if (err < 0)
+            if (controller_status_get_bit(WIFI_CLIENT_SEND_PENDING_BIT))
             {
-                ESP_LOGE(LOG_TAG, "Error occurred during sending: errno %d", errno);
-                // Notify transmission fail
-                controller_status_set_bits(WIFI_CLIENT_TRANSMISSION_FAIL_BIT);
-                break;
-            }
+                // Requested operation is SEND
+                // Clear WIFI_CLIENT_SEND_PENDING_BIT
+                controller_status_clear_bits(WIFI_CLIENT_SEND_PENDING_BIT);
 
-             // Notify transmission success
+                // Send data
+                err = TLS_ENABLED ?
+                        wifi_tls_transfer_data(pending_data, pending_data_size)
+                        : wifi_socket_transfer_data(pending_data, pending_data_size);
+                if (err == ESP_FAIL)
+                {
+                    // Notify transmission fail
+                    controller_status_set_bits(WIFI_CLIENT_TRANSMISSION_FAIL_BIT);
+                    break; // TODO: What should be done when data transmission fails?
+                }
+            }
+            else
+            {
+                // Requested operation is RECEIVE
+                // Clear WIFI_CLIENT_RECEIVE_PENDING_BIT
+                controller_status_clear_bits(WIFI_CLIENT_RECEIVE_PENDING_BIT);
+
+                // Receive data
+                err = TLS_ENABLED ?
+                        wifi_tls_receive_data(pending_data, pending_data_size)
+                        : wifi_socket_receive_data(pending_data, pending_data_size);
+
+                if (err == ESP_FAIL)
+                {
+                    // Notify transmission fail
+                    controller_status_set_bits(WIFI_CLIENT_TRANSMISSION_FAIL_BIT);
+                    break; // TODO: What should be done when data transmission fails?
+                }
+            }
+      
+            // Notify transmission success
             controller_status_set_bits(WIFI_CLIENT_TRANSMISSION_SUCCESS_BIT);
-
-            // Receive data
-            int len = recv(sock, rx_buffer, sizeof(rx_buffer) - 1, 0);
-
-            // Error occurred during receiving
-            if (len < 0)
-            {
-                ESP_LOGE(LOG_TAG, "Error occurred during receiving: errno %d", errno);
-                break;
-            }
-
             vTaskDelay(2000 / portTICK_PERIOD_MS);
         }
 
-        if (sock != -1)
-        {
-            ESP_LOGE(LOG_TAG, "Shutting down socket and restarting...");
-            shutdown(sock, 0);
-            close(sock);
-        }
+        TLS_ENABLED ? wifi_tls_shutdown() : wifi_socket_shutdown();
     }
 
     // Remove task from kernel's management
     vTaskDelete(NULL);
 }
 
-esp_err_t wifi_client_transfer_data(
+esp_err_t wifi_client_send_data(
     void    *data,
     int     data_size
     )
 {
+    esp_err_t status;
     // Wait for the wifi_client task to notify capability to send data
-    controller_status_wait_bits(WIFI_CLIENT_READY_BIT, CLEAR);
-    
+    status = controller_status_wait_bits_timeout(
+        WIFI_CLIENT_READY_BIT, 
+        CLEAR, 
+        WIFI_CLIENT_READY_TIMEOUT
+        );
+    if (status == ESP_ERR_TIMEOUT)
+    {
+        return ESP_ERR_TIMEOUT;
+    }
+
     memcpy(pending_data, data, data_size);
     pending_data_size = data_size;
 
     // Notify wifi_client that there's new data to transfer
-    controller_status_set_bits(WIFI_CLIENT_DATA_PENDING_BIT);
+    controller_status_set_bits(WIFI_CLIENT_SEND_PENDING_BIT);
 
     // Wait for transmission to finish
     controller_status_wait_bits(
-        WIFI_CLIENT_TRANSMISSION_SUCCESS_BIT | WIFI_CLIENT_TRANSMISSION_FAIL_BIT, 
+        WIFI_CLIENT_TRANSMISSION_SUCCESS_BIT | WIFI_CLIENT_TRANSMISSION_FAIL_BIT,
         DONT_CLEAR
         );
-    
-    if (controller_status_get_bit(WIFI_CLIENT_TRANSMISSION_SUCCESS_BIT)) 
+
+    if (controller_status_get_bit(WIFI_CLIENT_TRANSMISSION_SUCCESS_BIT))
     {
         // Transmission was succesfull
         // Clear WIFI_CLIENT_TRANSMISSION_SUCCESS_BIT and return success code
         controller_status_clear_bits(WIFI_CLIENT_TRANSMISSION_SUCCESS_BIT);
+        return ESP_OK;
+    }
+    else
+    {
+        // Transmission failed
+        // Clear WIFI_CLIENT_TRANSMISSION_FAIL_BIT and return fail code
+        controller_status_clear_bits(WIFI_CLIENT_TRANSMISSION_FAIL_BIT);
+        return ESP_FAIL;
+    }
+}
+
+esp_err_t wifi_client_receive_data(
+    void    *buffer,
+    int     buffer_size
+    )
+{
+    esp_err_t status;
+    // Wait for the wifi_client task to notify capability to send data
+    status = controller_status_wait_bits_timeout(
+        WIFI_CLIENT_READY_BIT, 
+        CLEAR, 
+        WIFI_CLIENT_READY_TIMEOUT
+        );
+    if (status == ESP_ERR_TIMEOUT)
+    {
+        return ESP_ERR_TIMEOUT;
+    }
+
+    // Notify wifi_client that there's new data to transfer
+    controller_status_set_bits(WIFI_CLIENT_RECEIVE_PENDING_BIT);
+
+    // Wait for transmission to finish
+    controller_status_wait_bits(
+        WIFI_CLIENT_TRANSMISSION_SUCCESS_BIT | WIFI_CLIENT_TRANSMISSION_FAIL_BIT,
+        DONT_CLEAR
+        );
+
+    if (controller_status_get_bit(WIFI_CLIENT_TRANSMISSION_SUCCESS_BIT))
+    {
+        // Transmission was succesfull
+        // Clear WIFI_CLIENT_TRANSMISSION_SUCCESS_BIT and return success code
+        controller_status_clear_bits(WIFI_CLIENT_TRANSMISSION_SUCCESS_BIT);
+        memcpy(buffer, pending_data, buffer_size);
         return ESP_OK;
     }
     else
