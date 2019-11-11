@@ -16,7 +16,7 @@
 #define RFID_CARD_HANDLING_IN_PROGRESS_BIT      BIT6 // Rfid component has detected the card and retrieved its ID
 
 #define RFID_CARD_HANDLING_IN_PROGRESS_TIMEOUT  10000
-#define WIFI_CLIENT_READY_TIMEOUT               15000
+#define WIFI_CLIENT_READY_TIMEOUT               30000
 
 // Defines used by controller_status_wait_bits
 #define CLEAR       TRUE    // Clear given bits on return

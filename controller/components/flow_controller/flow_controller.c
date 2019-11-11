@@ -81,15 +81,16 @@ void deep_sleep_wakeup_flow()
     status = wifi_client_send_data(detected_card, RFID_TOKEN_LEN_BYTES);
     if (status != ESP_OK){
         // TODO: handle ESP_FAIL and ESP_ERR_TIMEOUT separately
-        ESP_LOGE(LOG_TAG, "TFailed to send data");
+        ESP_LOGE(LOG_TAG, "Failed to send data");
         return;
     }
     char received_bytes[1];
     status = wifi_client_receive_data(received_bytes, 1);
     if (status != ESP_OK){
         // TODO: handle ESP_FAIL and ESP_ERR_TIMEOUT separately
-        ESP_LOGE(LOG_TAG, "TFailed to send data");
+        ESP_LOGE(LOG_TAG, "Failed to receive data");
         return;
     }
-    ESP_LOGI(LOG_TAG, "SERVER RESPONSE: %s", *received_bytes == 1 ? "OK" : "NOK");
+    ESP_LOGI(LOG_TAG, "GOT DATA: %d", received_bytes[0]);
+    ESP_LOGI(LOG_TAG, "SERVER RESPONSE: %s", received_bytes[0] == 1 ? "OK" : "NOK");
 }
