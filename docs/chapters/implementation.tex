@@ -7,14 +7,14 @@
 
         Spełnienie założeń dotyczących systemu wymienionych w rozdziale \ref{chap:hl-arch} wymagało zastosowania mikrokontrolera integrującego układ komunikacji bezprzewodowej zgodnej ze zbiorem standardów IEEE 802.11, obsługującego interfejs szeregowej komunikacji z peryferiami SPI (ang. \textit{Serial Peripheral Interface}) jednocześnie umożliwiając komunikację za pośrednictwem programowalnych wejść/wyjść GPIO (ang. \textit{General-Purpose Input/Output}). Pośród wielu rozwiązań dostępnych na rynku wybrany został mikrokontroler ESP32, ze względu na możliwość równoległego przetwarzania za pomocą dwóch fizycznych rdzeni, sprzętowe wsparcie dla algorytmów kryptograficzynch oraz możliwość zaawansowanej kontroli pracy podzespołów mikrokontrolera, szczególnie w zakresie zasilania.
 
-        Mikrokontroler ESP32 może być programowany za pomocą środowiska Arduino. Jednakże na potrzeby projektu zdecydowano się na wykorzystanie frameworka ESP-IDF firmy Espressif Systems. Dzięki temu uzyskano większą kontrolę nad sprzętem.
+        Oprogramowanie dla mikrokontrolera ESP32 może być wytwarzane za pomocą środowiska Arduino. Jednakże na potrzeby projektu zdecydowano się na wykorzystanie w tym celu oficjalnego frameworka Espressif IoT Development Framework (ESP-IDF) firmy Espressif Systems. Motywacją tej decyzji była chęć uzyskania pełniejszej kontroli nad sprzętem oraz lepszego poznania mechanizmów działania systemu operacyjnego czasu rzeczywistego FreeRTOS, na którym bazuje framework ESP-IDF.
 
         Kryterium wyboru czytnika kart RFID była obsługa kart o częstotliwości nośnej 13,56 MHz, dostępność oprogramowania sterującego czytnikiem dla wybranego mikrokontrolera oraz obsługa interfejsu komunikacji szeregowej SPI w celu prostej integracji czytnika z mikrokontrolerem. Do tego zadania wybrany został układ MFRC522.
 
         Efektywne wykorzystanie energii w układzie zamka wymaga źródła impulsu wybudzającego o jak najniższym poborze mocy w stanie spoczynku. Wybranym rozwiązaniem jest czujnik PIR (ang. \textit{Passive Infra Red}, pasywny czujnik podczerwieni), model HC-SR501.
 
         \subsection{Konfiguracja środowiska}
-            
+            \textbf{TBD}
 
         \subsection{Oprogramowanie mikrokontrolera}
 
@@ -27,7 +27,11 @@
                     \item Komponent sterujący (\textit{flow-controller}): odpowiedzialny za kontrolę przepływu sterowania, aktywowanie poszczególnych komponentów.
                 \end{enumerate}
 
+            \subsubsection{Współbieżność}
                 Ze względu na restrykcyjne wymagania dotyczące czasu trwania procesu zestawiania połączenia z serwerem, wykorzystano przetwarzanie współbieżne na dwóch wątkach.
+                \textbf{Coś o naszych taskach - TBD}
+
+                Powiadamianie o wszystkich zdarzeniach w oprogramowaniu mikrokontrolera realizowane jest przez mechanizm tzw. \textit{Event Group}. Jest on zapewniany przez system FreeRTOS. W przypadku wystąpienia zdarzenia zostaje ono zapisane we wspomnianym wyżej \textit{Event Group}, co jest równoznaczne z ustawieniem w stan wysoki bitu przypisanego danemu zdarzeniu. Kluczowy z perspektywy przepływu sterowania jest wykorzystany mechanizm oczekiwania na zdarzenia, który przez wywłaszczenie oczekującego wątku pozwala na efektywną implementację synchronizacji wątków \textbf{odniesienie do dokumentacji freertos}.
 
             \textbf{TBD - Schematy blokowe}
 
@@ -37,7 +41,7 @@
 
             \subsubsection{Wybudzenie z głębokiego uśpienia}
 
-                Po wykryciu ruchu, czujnik PIR generuje stan wysoki na wejściu wybudzającym układu kontrolera co inicjalizuje procedurę wyjścia z głębokiego uśpienia. Po wybudzeniu następuje inicjalizacja systemu obsługi zdarzeń. Wszystie zdarzenia w oprogramowaniu zamka realizowane są przez grupę zdarzeń, mechanizm zapewniany przez system operacyjny czasu rzeczywistego FreeRTOS. W przypadku wystąpienia zdarzenia związanego z przepływem sterowania, zostaje ono zapisane w grupie zdarzen, co jest równoznaczne z ustawieniem w stan wysoki bitu przypisanego danemu zdarzeniu \textbf{wypisać zdefiniowane w kodzie bity zdarzen}. Kluczowy z perspektywy przepływu sterowania jest wykorzystany mechanizm oczekiwania na zdarzenia, który przez wywłaszczenie oczekującego wątku pozwala na efektywną implementację synchronizacji wątków \textbf{odniesienie do dokumentacji freertos}. Po przygotowaniu mechanizmu sygnalizacji zdarzeń, następuje współbieżna inicjalizacja komponentów RFID oraz WiFi.
+                Po wykryciu ruchu, czujnik PIR generuje stan wysoki na linii wybudzającej mikrokontrolera, co wywołuje procedurę wyjścia z głębokiego uśpienia. Po wybudzeniu następuje inicjalizacja systemu obsługi zdarzeń. Po przygotowaniu mechanizmu sygnalizacji zdarzeń następuje współbieżna inicjalizacja komponentów RFID oraz WiFi.
 
                 W celu realizacji komunikacji bezprzewodowej wykonywana jest procedura uruchomienia komponentu WiFi \textbf{opisac: konfiguracja WiFi pobierana z nvsflash, kontroler w trybie station}, co wiąże się z próbą połączenia z serwerem w wybranej sieci. Dane dostępu do sieci (SSID, hasło) jaki i adres serwera są osadzone w kodzie programu. W przypadku niepowodzenia kontroler zostaje uśpiony.
 
@@ -74,12 +78,31 @@
         \subsection{Czujnik zbliżeniowy}
             \textbf{TBD}
 
+    \section{Bezpieczeństwo}
+
+        \textbf{Tutaj opisać mechanizmy wykorzystane w celu zapewnienia bezpieczeństwa systemu - TBD}
+
+        Ważnym aspektem opracowanego systemu jest bezpieczeństwo. Bezpieczeństwo systemu tworzą następujące składowe:
+            \begin{enumerate}
+                \item Bezpieczeństwo zastosowanego mikrokontrolera
+                \item Bezpieczeństwo komunikacji bezprzewodowej
+                \item Bezpieczeństwo serwera
+            \end{enumerate}
+
+            \subsection{Bezpieczeństwo mikrokontrolerów}
+                \textbf{TBD}
+
+            \subsection{Bezpieczeństwo komunikacji bezprzewodowej}
+                \textbf{TBD}
+
+            \subsection{Bezpieczeństwo serwera}
+                \textbf{TBD}
+
 
     \section{Problemy}
 
         Konfiguracja WiFi?
         Sygnalizacja stanu baterii?
-        Bezpieczeństwo komunikacji
         zarządzanie stanami energetycznymi
         Enkrypcja flash
         mozna cos z technical reference manual
@@ -103,14 +126,15 @@
             W celu umożliwienia obsługi przez system liczby zamków przekraczającej 1, wystarczająca byłaby modyfikacja podsystemu autoryzacji w taki sposób, aby mógł on obsługiwać równoległe żądania od klientów.
 
         \subsection{Wygodna konfiguracja parametrów sieci}
+
             W obecnej implementacji dane dostępu do sieci (nazwa sieci oraz hasło) zostały zagnieżdżone w oprogramowaniu konrolera. Zmniejsza to elastyczność konfiguracji urządzenia, wymagając jego przeprogramowania za każdym razem gdy zmianie ulegnie nazwa lub klucz dostępu do sieci.
 
-            Możliwym rozwiązaniem tego problemu byłaby implementacja trybu konfiguracji. Tryb ten powodowałby przejście kontrolera w tryb Access Point przy zachowaniu dwóch warunków: (1) nastąpiło uruchomienie, a nie wybudzenie z trybu głębokiego uśpienia, oraz (2) na określonym wejściu pojawiło się napięcie. Przejście kontrolera w tryb Access Point umożliwiłoby udostępnienie prostego interfejsu webowego, za pomocą którego administrator systemu mógłby wprowadzić niezbędne do działania dane, takie jak nazwa sieci, hasło, a także adres IP i numer portu serwera autoryzacji. Aby zachować wysoki poziom bezpieczeństwa, komunikacja pomiędzy urządzeniem administratora i kontrolerem powinna odbywać się przy wykorzystaniu protokołu TLS.
+            Możliwym rozwiązaniem tego problemu byłaby implementacja trybu konfiguracji. Tryb ten powodowałby przejście kontrolera w tryb Access Point przy zachowaniu dwóch warunków: (1) nastąpiło uruchomienie, a nie wybudzenie z trybu głębokiego uśpienia oraz (2) na określonym wejściu pojawiło się napięcie. Przejście kontrolera w tryb Access Point umożliwiłoby udostępnienie prostego interfejsu webowego, za pomocą którego administrator systemu mógłby wprowadzić niezbędne do działania dane, takie jak nazwa sieci, hasło, a także adres IP i numer portu serwera autoryzacji. Aby zachować wysoki poziom bezpieczeństwa, komunikacja pomiędzy urządzeniem administratora i kontrolerem powinna odbywać się przy wykorzystaniu protokołu TLS.
 
         \subsection{Sygnalizacja stanu baterii}
+
             W obecnym stanie system nie implementuje mechanizmów informowania serwera o swoim stanie energetycznym.
             Sygnalizacja stanu baterii umożliwiłaby administratorowi systemu bieżące monitorowanie wszystkich zamków objętych systemem oraz szybką reakcję w przypadku, gdy baterie wymagałyby wymiany. Modyfikacja ta wymagałaby uzyskania dostępu do danych na temat naładowania baterii przez mikrokontroler oraz przesyłania ich okresowo do serwera, najlepiej w momentach, gdy jest on już wybudzony z powodu wykrycia ruchu w jego otoczeniu.
-            \textbf{TBD}
 
         \subsection{Obsługa kont użytkowników w podsystemie zarządzania}
-            \textbf{TBD}
+            Podsystem zarządzania nie implementuje mechanizmu dostępu do zasobów, co czyni system mniej bezpiecznym. W końcowym produkcie należałoby rozszerzyć go o możliwość tworzenia kont użytkowników i przypisywania im określonych uprawnień co do odczytu i zapisu danych.

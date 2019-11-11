@@ -9,11 +9,13 @@
 
 \include{abstract/abstract}
 
-\tableofcontents
-\listoffigures
-
+\renewcommand\appendixname{Dodatek}
+\renewcommand\appendixpagename{Dodatki}
+\renewcommand\appendixtocname{Dodatki}
 \renewcommand\lstlistlistingname{Spis kodów źródłowych}
 
+\tableofcontents
+\listoffigures
 \lstlistoflistings
 % \listoftables
 
@@ -28,10 +30,6 @@
 
 \bibliographystyle{ieeetr}
 \bibliography{bibliography}
-
-\renewcommand\appendixname{Dodatek}
-\renewcommand\appendixtocname{Dodatki}
-
 
 \begin{appendices}
 \include{appendices/appendix1}
