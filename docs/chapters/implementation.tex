@@ -10,19 +10,41 @@
     W sytuacjach awaryjnych, jakimi jest brak zasilania bądź brak połączenia z serwerem \textbf{wymyslic co}. Szczegółowy opis tych zagadnień znajduje się \textbf{gdziee?}.
 
     Implementacja prototypu obejmowała stworzenie pojedynczego układu zamka. Ze względu na prototypowy charakter pracy, nie przetestowano działania systemu z większą liczbą zamków. Nie ma jednak powodów by twierdzić, że system nie działałby poprawnie z większą liczbą zamków. Wystarczającym rozszerzeniem byłaby modyfikacja oprogramowania serwera umożliwiająca obsługę kilku klientów jednocześnie. \textbf{czy to pisac?}
+\textbf{dodac section o  konfiguracji srodowiska deweloperskiego}
 
 \section{Układ sterowania zamkiem}
 
     Zadaniem układu sterowania zamkiem jest wykrycie próby dostępu na podstawie sygnalizacji czujnika zbliżeniowego, odczyt klucza dostępu oraz realizacja bezpiecznej komunkacji z serwerem w celu uwierzytelnienia próby dostępu.
 
-    \textbf{Potrzebne subsection o tym czemu taki a nie inny sprzet}
+    \subsection{Wykorzystane rozwiązania sprzętowe}
+
+        \subsubsection{Mikrokontroler}
+
+            Architektura systemu zakłada realizację mastępujących funkcjonalności w ramach układu mikrokontrolera:
+            \begin{itemize}
+                \item Komunikacja bezprzewodowa z serwerem autoryzacji
+                \item Komunikacja z pozostałymi komponentami podsystemu sterowania zamkiem (czujnik ruchu, czytnik RFID)
+                \item Kontrola przepływu sterowania
+                \item Kontrola stanu zasilania komponentów podsystemu
+            \end{itemize}
+            Spełnienie powyższych złożeń wymaga zastosowania mikrokontrolera integrującego układ komunikacji bezprzewodowej zgodnej ze zbiorem standardów IEEE 802.11, obsługującego interfejs szeregowej komunikacji z peryferiami (SPI) jednocześnie umożliwiając komunikację za pośrednictwem programowalnych wejść/wyjść (GPIO). Pośród wielu rozwiązań  dostępnych na rynku, wybrany został mikrokontroler ESP3 ze względu na możliwość równoległego przetwarzania za pomocą dwóch fizycznych rdzeni, sprzętowe wsparcie dla algorytmów kryptograficzynch oraz możliwość zaawansowanej kontroli pracy podzespołów mikrokontrolera, szczególnie w zakresie zasilania.
+
+        \subsubsection{czytnik RFID}
+
+            Kryterium wyboru czytnika kart RFID była obsługa kart o częstotliwości nośnej 13,56 MHz, dostępność oprogramowania sterującego czytnikiem dla wybranego mikrokontrolera oraz obsługa interfejsu komunikacji szeregowej SPI w celu prostej integracji czytnika z mikrokontrolerem. Do tego zadania wybrany został układ MFRC522.
+
+        \subsubsection{czujnik ruchu}
+
+            Efektywne wykorzystanie energii w układzie zamka wymaga źródła impulsu wybudzającego o jak najniższym poborze mocy w stanie spoczynku. Wybranym rozwiązaniem jest czujnik PIR (\textit{ang. Passive Infra Red}, pasywny czujnik podczerwieni) model HC-SR501.
+
     \subsection{Oprogramowanie}
+
         Kod podzielony jest na komponenty o zadanych funkcjonalnościach:
         \begin{enumerate}
-            \item komponent główny (\textit{main}): odpowiedzialny za rozróżnienie rodzajów uruchomienia (pierwsze uruchomienie lub wybudzenie z uśpienia), wywołanie odpowiedniej procedury komponentu flow-controller oraz uśpienie układu po jej zakończeniu.
-            \item komponent RFID: odpowiedzialny za inicjalizację czytnika MFRC522, wykrywanie i odczyt karty oraz sygnalizację zdarzeń związanych z odczytem kluczy dostępu do pomieszczeń.
-            \item komponent WiFi: odpowiedzialny za realizację komumnikacji bezprzewodowej z serwerem. Obsługuje transmisje wychodzące i przychodzące wraz z opcjonalnym zestawieniem bezpiecznego kanału komunikacji z wykorzystaniem protokołu TLS.
-            \item komponent sterujący (\textit{flow-controller}): odpowiedzialny za kontrolę przepływu sterowania, aktywowanie poszczególnych komponentów w.
+            \item Komponent główny (\textit{main}): odpowiedzialny za rozróżnienie rodzajów uruchomienia (pierwsze uruchomienie lub wybudzenie z uśpienia), wywołanie odpowiedniej procedury komponentu flow-controller oraz uśpienie układu po jej zakończeniu.
+            \item Komponent RFID: odpowiedzialny za inicjalizację czytnika MFRC522, wykrywanie i odczyt karty oraz sygnalizację zdarzeń związanych z odczytem kluczy dostępu do pomieszczeń.
+            \item Komponent WiFi: odpowiedzialny za realizację komumnikacji bezprzewodowej z serwerem. Obsługuje transmisje wychodzące i przychodzące wraz z opcjonalnym zestawieniem bezpiecznego kanału komunikacji z wykorzystaniem protokołu TLS.
+            \item Komponent sterujący (\textit{flow-controller}): odpowiedzialny za kontrolę przepływu sterowania, aktywowanie poszczególnych komponentów \textbf{i co dalej?}.
         \end{enumerate}
         \textbf{cos o logach}
 
@@ -30,13 +52,17 @@
 
         \subsubsection{Pierwsze uruchomienie}
 
-            Przy pierwszym uruchomienu zamka, które następuje automatycznie po podłączeniu zasilania do układu, wykonywana jest procedura przejścia w stan głębokiego uśpienia (Deep-sleep mode) \textbf{przejście w tryb konfiguracji?}. W tym celu jako sposób wybudzenia konfigurowany jest tryb EXT0 (External Wakeup 0). Tryb ten wymusza aby po przejściu w stan uśpienia podtrzymane zostało zasilanie peryferiów RTC (\textit{ang. Real-Time Clock}, zegar czasu rzeczywistego)~\cite{esp32-api-ref}, co z kolei pozwala na konfigurację źródła wybudzającego przerwania zewnętrznego jako wybranego wejścia RTC GPIO (\textit{ang. General-Purpose Input/Output}, Wejście-wyjście ogólnego przeznaczenia). W projekcie w tym celu wykorzystany został pin nr 26. Ze względu na charakterystykę wykorzystanego źródła przerwania (pasywny czujnik zbliżeniowy), konieczne było zastosowanie trybu pulldown \textbf{dlaczego?} dla wspomnianego wyżej wejścia. Po konfiguracji źródła przerwania układ zostaje wprowadzony w stan uśpienia.
+            Przy pierwszym uruchomienu zamka, które następuje automatycznie po podłączeniu zasilania do układu, wykonywana jest procedura przejścia w stan głębokiego uśpienia (Deep-sleep mode) \textbf{przejście w tryb konfiguracji?}. W tym celu jako sposób wybudzenia konfigurowany jest tryb EXT0 (External Wakeup 0). Tryb ten wymusza aby po przejściu w stan uśpienia podtrzymane zostało zasilanie peryferiów RTC (\textit{ang. Real-Time Clock}, zegar czasu rzeczywistego)~\cite{esp32-api-ref}, co z kolei pozwala na konfigurację źródła wybudzającego przerwania zewnętrznego jako wybranego wejścia RTC GPIO (\textit{ang. General-Purpose Input/Output}, Wejście-wyjście ogólnego przeznaczenia). W projekcie w tym celu wykorzystany został pin nr 26. Ze względu na charakterystykę wykorzystanego źródła przerwania (pasywny czujnik zbliżeniowy), konieczne było zastosowanie trybu pulldown dla wspomnianego wyżej wejścia aby zapobiec występowaniu na nim stanu nieokreślonego. Po konfiguracji źródła przerwania układ zostaje wprowadzony w stan uśpienia.
 
         \subsubsection{Wybudzenie z głębokiego uśpienia}
 
-            Po wybudzeniu z uśpienia \textbf{w jakiej sytuacji} następuje inicjalizacja systemu obsługi zdarzeń. Wszystie zdarzenia w oprogramowaniu zamka realizowane są przez grupę zdarzeń, mechanizm zapewniany przez system operacyjny czasu rzeczywistego FreeRTOS.
+            Po wykryciu ruchu, czujnik PIR generuje stan wysoki na wejściu wybudzającym układu kontrolera co inicjalizuje procedurę wyjścia z głębokiego uśpienia. Po wybudzeniu następuje inicjalizacja systemu obsługi zdarzeń. Wszystie zdarzenia w oprogramowaniu zamka realizowane są przez grupę zdarzeń, mechanizm zapewniany przez system operacyjny czasu rzeczywistego FreeRTOS.
 
-            W celu realizacji komunikacji bezprzewodowej wykonywana jest procedura uruchomienia komponentu WiFi \textbf{konfiguracja WiFi pobierana z nvsflash}, co wiąże się z próbą połączenia z określonym z góry serwerem \textbf{sprecyzowac gdzie jest okreslony serwer} w wybranej sieci. W przypadku niepowodzenia kontroler zostaje uśpiony. \textbf{Tutaj dać pseudokod klienta wifi i uszczegółowić}
+            W celu realizacji komunikacji bezprzewodowej wykonywana jest procedura uruchomienia komponentu WiFi \textbf{konfiguracja WiFi pobierana z nvsflash}, co wiąże się z próbą połączenia z serwerem w wybranej sieci. Dane dostępu do sieci (SSID, hasło) jaki i adres serwera są osadzone w kodzie programu. W przypadku niepowodzenia kontroler zostaje uśpiony. \textbf{Tutaj dać pseudokod klienta wifi i uszczegółowić}
+            \lstinputlisting[language=Python]{chapters/pseudocodes/wifi_client_pseudocode.py}
+
+            \textbf{dodac label do pseudokodu}
+            \textbf{dodac tez pseudokod flow controllera}
             Ze względu na restrykcyjne wymagania dotyczące czasu trwania procesu zestawiania połączenia z serwerem, system stosuje przetwarzanie współbieżne z wykorzystaniem dwóch głównych wątków.
 
 \section{Serwer Autoryzacji}
@@ -44,8 +70,8 @@
 \section {Wykorzystane technologie}
 
     \subsection{ESP32}
-        ESP32-DevKitC jest produkowaną przez firmę Espressif platformą deweloperską bazującą na module ESP32-WROOM-32D. Sercem modułu jest układ z rodziny ESP32 (ESP32-D0WD) wyposażony w CPU (\textit{ang. Central Processing Unit}, centralna jednostka obliczeniowa) o dwóch rdzeniach, z których każdy może być kontrolowany niezależnie~\cite{esp32-wroom32-ds}. Moduł integruje Bluetooth, Bluetooth Low Energy oraz WiFi, a także szeroki zakres peryferiów: czujniki dotyku, czujniki pola magnetycznego, interfejs karty SD, Ethernet, SPI (ang. \textit{Serial Peripheral Interface}), UART (ang. \textit{Universal Asynchronous Receiver-Transmitter}), I\textsuperscript{2}S (ang. \textit{Inter-IC Sound}) i I\textsuperscript{2}C (ang. \textit{Inter-Integrated Circuit})~\cite{esp32-wroom32-ds}.
 
+        ESP32-DevKitC jest produkowaną przez firmę Espressif platformą deweloperską bazującą na module ESP32-WROOM-32D. Sercem modułu jest układ z rodziny ESP32 (ESP32-D0WD) wyposażony w CPU (\textit{ang. Central Processing Unit}, centralna jednostka obliczeniowa) o dwóch rdzeniach, z których każdy może być kontrolowany niezależnie~\cite{esp32-wroom32-ds}. Moduł integruje Bluetooth, Bluetooth Low Energy oraz WiFi, a także szeroki zakres peryferiów: czujniki dotyku, czujniki pola magnetycznego, interfejs karty SD, Ethernet, SPI (ang. \textit{Serial Peripheral Interface}), UART (ang. \textit{Universal Asynchronous Receiver-Transmitter}), I\textsuperscript{2}S (ang. \textit{Inter-IC Sound}) i I\textsuperscript{2}C (ang. \textit{Inter-Integrated Circuit})~\cite{esp32-wroom32-ds}. Dodatkowo umożliwia korzystanie z niskoenergetycznego koprocesora Ultra-Low-Power (ang. ULP co-processor), podczas gdy główne jednostki pozostają w trybie głębokiego uśpienia~\cite{esp32-tech-ref-man}.
 
         ESP32 oferuje efektywną i elastyczną technologię zarządzania energią. Dokument \textit{ESP32 Series Datasheet} wymienia pięć predefiniowanychstanów energetycznych~\cite{esp32-ds}:
         \begin{enumerate}
@@ -55,12 +81,10 @@
             \item Deep-sleep mode: Tylko pamięć RTC i peryferia RTC pozostają zasilone. Dane dotyczące połączeń WiFi i Bluetooth zostają przechowane w pamięci RTC. Opcjonalnie dostępny jest koprocesor ULP.
             \item Hibernation mode: Wewnętrzny rezonator kwarcowy o częstotliwośći 8~MHz wraz z koprocesorem ULP zostają wyłączone. Również pamięć RTC jest wyłączona. Wybodzenie możliwe jest tylko poprzez timer RTC lub predefiniowane wejścia RTC GPIO.
         \end{enumerate}
-        \textbf{tekst o ULP przeniesc przed enumerate}
-        Dodatkowo umożliwia korzystanie z niskoenergetycznego koprocesora Ultra-Low-Power (ang. ULP co-processor), podczas gdy główne jednostki pozostają w trybie głębokiego uśpienia~\cite{esp32-tech-ref-man}.
 
-    \subsection{Czytnik RFID}
+    \subsection{Czytnik MFRC522}
 
-        Do realizacji komunikacji w standardzie RFID High Frequency (13,56~MHz) wykorzystany został zintegrowany odbiornik/nadajnik MFRC522 produkowany przez firmę NXP Semiconductors, umożliwający bezprzewodową komunikację z kartami zgodnymi ze standardem ISO/IEC 14443 A/MIFARE. Układ wspiera komunikację poprzez interfejsy SPI, UART oraz I\textsuperscript{2}C~\cite{mfrc522-ds}. Rozwiązanie to zostało wybrane ze względu na jego powszechne zastosowanie w układach realizujących komunikację przez RFID jak i przez wsparcie interfejsów komunikacji obsługiwanych również przez zastosowany kontroler.\textbf{ostatnie zdanie przeniesc do sekcji implementacji}
+        Do realizacji komunikacji w standardzie RFID High Frequency (13,56~MHz) wykorzystany został zintegrowany odbiornik/nadajnik MFRC522 produkowany przez firmę NXP Semiconductors, umożliwający bezprzewodową komunikację z kartami zgodnymi ze standardem ISO/IEC 14443 A/MIFARE. Układ wspiera komunikację poprzez interfejsy SPI, UART oraz I\textsuperscript{2}C~\cite{mfrc522-ds}.
 
     \subsection{Czujnik Zbliżeniowy}
 
