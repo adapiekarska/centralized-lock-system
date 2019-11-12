@@ -41,7 +41,7 @@
 
             \subsubsection{Wybudzenie z głębokiego uśpienia}
 
-                Po wykryciu ruchu, czujnik PIR generuje stan wysoki na linii wybudzającej mikrokontrolera, co wywołuje procedurę wyjścia z głębokiego uśpienia. Po wybudzeniu następuje inicjalizacja systemu obsługi zdarzeń, wykorzystywany przez wszystkie wątki jako główne narzędzie sygnalizacji postępu i synchronizacji dostępu do danych. Po przygotowaniu mechanizmu sygnalizacji zdarzeń następuje współbieżna inicjalizacja komponentów RFID oraz WiFi.
+                Po wykryciu ruchu, czujnik PIR generuje stan wysoki na linii wybudzającej mikrokontrolera, co wywołuje procedurę wyjścia z głębokiego uśpienia. Po wybudzeniu następuje inicjalizacja systemu obsługi zdarzeń, wykorzystywany przez wszystkie wątki jako główne narzędzie sygnalizacji postępu i synchronizacji dostępu do danych. Po przygotowaniu mechanizmu sygnalizacji zdarzeń komponent sterujący inicjuje współbieżną inicjalizację komponentów RFID oraz WiFi.
 
                 Inicjalizacja komponentu WiFi może przebiec na dwa sposoby. Jeśli następuje po raz pierwszy od czasu podłączenia zasilania do układu, wymagane jest wykonanie konfiguracji sterownika WiFi dostarczanego przez ESP-IDF. W tym celu ustawiane są dane dostępu do sieci (SSID i hasło, osadzone w bezpośrednio w oprogramowaniu) a sterownik przestawiany jest w tryb station, pozwalający mikrokontrolerowi na nawiązanie połączenia z punktem dostępu sieci bezprzewodowej. Następnie dane konfiguracji zapisywane są w pamięci nieulotnej. Alternatywny scenariusz następuje przy każdej następnej inicjalizacji. Wykorzystuje on dane zapisane podczas poprzedniej inicjalizacji w celu odtworzenia konfiguracji sterownika WiFi.
 
@@ -51,9 +51,11 @@
 
                 \lstinputlisting[language=Python,label=snip:wifi_client,caption=Pseudokod komponentu WiFi]{chapters/pseudocodes/wifi_client_pseudocode.py}
 
-                \textbf{inicjalizacja komponentu rfid}
+                Obsługa komponentu rfid bazuje na zewnętrznej bibliotece~\cite{esp-idf-rc522}. Inicjalizacja rozpoczyna się od inicjalizacji interfejsu SPI na określonych z góry wyjściach mikrokontrolera. Następnie rozpoczyna się cykliczne odpytywanie czytnika rc522 za pomocą wspomnianego interfejsu~\cite{esp-idf-rc522}. W przypadku sygnalizacji wykrycia karty przez czytnik, pozyskiwany jest numer karty, odpytywanie zostaje zakończone a numer karty zostaje przekazany do komponentu sterującego. \textbf{TBD}
 
-                \textbf{sterowanie po przylozeniu karty}
+                \textbf{sterowanie po przylozeniu karty TBD}
+                Po stworzeniu wątków odpowiedzialnych za wykonanie kodu komponentów WiFi i RFID komponent sterujący rozpoczyna oczekiwanie na sygnalizację wykrycia karty przez komponent RFID. Gdy to nastąpi, odczytany zostaje pozyskay numer karty. W celu wymiany danych z serwerem, wykorzystywany interfejs udostępniany przez komponent WiFi w postaci funkcji do transmisji wychodzącej i przychodzącej \textbf{dodac pseudokod funkcji żądania transmisji, uszczegółowić}. Zależnie od informacji zwrotnej od serwera, następuje przyznanie dostępu, lub jego odmowa i ponowne przejście w stan uśpienia.
+
 
     \section{Podsystem autoryzacji}
         \textbf{TBD}
