@@ -1,29 +1,29 @@
-def wifi_client_start():
-    # WiFi Client should wait for connection to AP
+def start_transmission_request_handling():
+    # Klient WiFi powinien zaczekac na polaczenie z siecia
     wait_event(WIFI_CONNECTED)
 
     while (TRUE):
         status = wifi_socket_connect()
-        if (status != SUCCESS)
+        if (status != SUCCESS):
             break
-        # Communication loop
+        # Glowna petla obslugi zadan
         while (TRUE):
-            # Wait for pending operation
-            wait_event(WIFI_CLIENT_SEND_PENDING or WIFI_CLIENT_RECEIVE_PENDING)
-            if (event_pending(WIFI_CLIENT_SEND_PENDING)):
-                # Requested operation is SEND
+            # Czekaj na zadanie transmisji przychodzacej lub wychodzacej
+            wait_event(SEND_PENDING or RECEIVE_PENDING)
+            if (event_pending(SEND_PENDING)):
+                # Przyjeto zadanie obslugi transmisji wychodzacej
                 status = wifi_socket_send(data_to_send)
                 if (status != SUCCESS):
-                    # Notify transmission fail
-                    notify_event(WIFI_CLIENT_TRANSMISSION_FAIL)
+                    # Zasygnalizuj blad transmisji
+                    notify_event(TRANSMISSION_FAIL)
                     break
             else:
-                # Requested operation is RECEIVE
+                # Przyjeto zadanie obslugi transmisji przychodzacej
                 status, received_data = wifi_socket_receive_data()
                 if (status != SUCCESS):
-                    # Notify transmission fail
-                    notify_event(WIFI_CLIENT_TRANSMISSION_FAIL)
+                    # Zasygnalizuj blad transmisji
+                    notify_event(TRANSMISSION_FAIL)
                     break
-            # Notify transmission success
-            notify_event(WIFI_CLIENT_TRANSMISSION_SUCCESS)
+            # Zasygnalizuj sukces transmisji
+            notify_event(TRANSMISSION_SUCCESS)
         wifi_socket_shutdown()
