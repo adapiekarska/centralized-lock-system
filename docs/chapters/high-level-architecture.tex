@@ -1,7 +1,7 @@
 \chapter{Projekt rozwiązania}
 \label{chap:hl-arch}
 
-        Niniejszy rozdział opisuje koncepcję rozwiązania powstały w ramach pracy. Nakreśla wymagania funkcjonalne systemu oraz przedstawia jego schematyczną budowę. Prezentuje zakładany sposób działania w oderwaniu od aspektów implementacyjnych.
+        Niniejszy rozdział opisuje koncepcję rozwiązania powstałą w ramach pracy, przedstawia wymagania funkcjonalne systemu oraz jego schematyczną budowę, a także prezentuje zakładany sposób działania w oderwaniu od aspektów implementacyjnych.
 
         Ogólny zarys działania systemu przedstawiony jest na rysnku \ref{fig:door}.
 
@@ -59,7 +59,7 @@
                             \item Kontrola stanu zasilania komponentów podsystemu.
                         \end{itemize}
 
-                        Komponent sterujący zamkiem składa się z mikrokontrolera, czujnika ruchu oraz czytnika RFID. Mikrokontroler odpowiada za sterowanie peryferiami, zarządza ich zasilaniem, inicjuje i przeprowadza bezprzewodową komunikację z serwerem i steruje samym zamkiem na podstawie otrzymanych od serwera danych. Podsystem sterowania zamkiem zlokalizowany jest w całości w tym komponencie (patrz rysunek \ref{fig:hl-arch}). Architektura układu zamka została przedstawiona na rysunku \ref{fig:lock-arch}. 
+                        Komponent sterujący zamkiem składa się z mikrokontrolera, czujnika ruchu oraz czytnika RFID. Mikrokontroler odpowiada za sterowanie peryferiami, zarządza ich zasilaniem, inicjuje i przeprowadza bezprzewodową komunikację z serwerem i steruje samym zamkiem na podstawie otrzymanych od serwera danych. Podsystem sterowania zamkiem zlokalizowany jest w całości w tym komponencie (patrz rysunek \ref{fig:hl-arch}). Architektura układu zamka została przedstawiona na rysunku \ref{fig:lock-arch}.
 
                         \begin{figure}
                                 \centering
@@ -69,7 +69,7 @@
                         \end{figure}
 
                 \subsection{Serwer}
-                        W ramach komponentu serwera działają dwa podsystemy funkcjonalne: podsystem autoryzacji, odpowiedzialny za podjęcie decyzji o przyznaniu lub odmowie dostępu na podstawie danych odebranych od podsystemu sterowania zamkiem, oraz podsystem zarządzania, odpowiedzialny za umożliwienie wygodnej konfiguracji systemu, oraz zbieranie i prezentację danych. Oba te systemy korzystają ze wspólnej bazy danych.
+                        W ramach komponentu serwera działają dwa podsystemy funkcjonalne: podsystem autoryzacji, odpowiedzialny za podjęcie decyzji o przyznaniu lub odmowie dostępu, oraz podsystem zarządzania, odpowiedzialny za umożliwienie wygodnej konfiguracji systemu oraz zbieranie i prezentację danych. Oba te systemy korzystają ze wspólnej bazy danych.
 
                         \subsubsection{Podsystem autoryzacji}
                                 Zadaniem podsystemu autoryzacji jest podjęcie decyzji o przyznaniu bądź odmowie dostępu na podstawie otrzymanych danych. Podsystem komunikuje się z bazą danych w celu uzyskania informacji na temat autoryzowanych kart.
@@ -96,7 +96,7 @@
                                 \end{itemize}
 
                         \subsubsection{Baza danych}
-                                Częścią komponentu serwera jest baza danych. Nie jest jednak konieczne, aby pozostawała ona fizycznie na tej samej maszynie. W przypadku całkowitego rozdzielenia serwera danych od serwera autoryzacji skalowalność systemu znacząco wzrośnie.
+                                Częścią komponentu serwera jest baza danych. Nie jest jednak konieczne, aby pozostawała ona fizycznie na tej samej maszynie co podsystemy autoryzacji i zarządzania. W przypadku całkowitego rozdzielenia serwera danych od serwera autoryzacji skalowalność systemu znacząco wzrośnie.
 
                                 Baza danych przechowuje dane dotyczące poszczególnych kart i zamków zarejestrowanych w systemie, autoryzacji kart w zamkach oraz dokonanych w przeszłości prób dostępu, zarówno zakończonych sukcesem jak i porażką.
 
