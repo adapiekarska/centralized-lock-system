@@ -13,41 +13,24 @@
 
 		British Security Industry Association terminem ''czytniki'' (ang. \textit{readers}) nazywa urządzenia odpowiedzialne za kontrolę dostępu. Dla uproszczenia nomenklatura ta została zachowana w niniejszej sekcji. W innych częściach niniejszej pracy termin ''czytnik'' używany jest w znaczeniu urządzenia odpowiedzialnego wyłącznie za odczyt danych z nośnika.
 
-		Czytniki mogą pracować samodzielnie; wyposażone są wówczas w urządzenia wejścia/wyjścia niezbędne do zarządzania zamkiem oraz pamięć i moc obliczeniową niezbędne do autonomicznego podejmowania decyzji. Zazwyczaj wyposażone są w uniwersalny kod umożliwiający uzyskanie dostępu każdemu kto wejdzie w jego posiadanie.
+		W większości przypadków tylko wejście podlega kontroli. Aby możliwa była również kontrola wyjścia z chronionego terenu, potrzebny jest drugi czytnik umieszczony po drugiej stronie drzwi. Jeżeli obustronna kontrola nie jest wymagana, stosuje się zazwyczaj przycisk umożliwiający otworzenie zamka od środka.
+
+		Urządzenia wyjściowe (ang. \textit{egress devices}) umożliwiają użytkownikowi opusczenie strefy chronionej od wewnątrz. Jako urządzenia wyjściowe najczęściej używa się przełączników, czujników ruchu lub czytników. Według British Security Industry Association urządzenia wyjściowe można podzielić je na zwykłe oraz awaryjne (ang. \textit{emergency egress}), przy czym, ze względu na krytyczne znaczenie w wypadku awarii, działanie tych drugich nie powinno zależeć od komponentów systemu (kontrolera systemu, oprogramowania itp.). Jako urządzenie awaryjne często stosuje się tzw. \textit{break glass device}, którego uaktywnienie powoduje odcięcie zasilania w zamku, a tym samym wstrzymanie kontroli dostępu w danym punkcie. Dostęp uzyskany za pomocą tego urządzenia powinien wygenerować stosowne powiadomienie bądź alarm.
+
+		W przypadku, gdy system kontroli dostępu nie funkcjonuje odpowiednio (np. z powodu braku zasilania), stosuje się tzw. \textit{break glass device}.
+
+		W zależności od potrzeb, oprogramowanie w systemie może być samodzielnym programem zainstalowanym na komputerze osobistym bądź złożonym i bezpiecznym oprogramowaniem zainstalowanym na serwerze. Często opiera się na rozwiązaniach webowych lub mobilnych, umożliwiając dostęp z dowolnego urządzenia
+
+	\section{Przegląd istniejących rozwiązań}
+		British Security Industry Association przedstawia trzy podstawowe kategorie systemów kontroli dostępu ze względu na architekturę czytnika.\textbf{Gramatyke tu może troche poprawic}
+
+		Czytniki mogą pracować samodzielnie. Wyposażone są wówczas w urządzenia wejścia/wyjścia niezbędne do zarządzania zamkiem oraz pamięć i moc obliczeniową niezbędne do autonomicznego podejmowania decyzji. Zazwyczaj wyposażone są w uniwersalny kod umożliwiający uzyskanie dostępu każdemu kto wejdzie w jego posiadanie.
 
 		Czytniki mogą też pracować pod kontrolą innego urządzenia. Odczytane z nośnika dane poświadczające tożsamość przekazują do nadrzędnego urządzenia zwanego kontrolerem.
 
 		Istnieją również czytniki łączące funkcjonalność zarówno czytnika jak i kontrolera w jednym urządzeniu. Posiadają one lokalną kopię bazy danych, na podstawie której podejmowana jest decyzja o przyznaniu lub odmowie dostępu.
 
-		Tzw. czytniki offline (ang. \textit{offline readers}) różnią się od zwykłych czytników łączących funkcjonalności czytnika i kontrolera tym, iż nie przechwoują kopii bazy danych. W tym przypadku to nośnik danych(karta) zawiera informacje o tym, które zamki może otworzyć. Czytnik offline analizuje te dane i na ich podstawie podejmuje stosowną decyzję o podjęciu lub odmowie dostępu.
-
-		Czytniki online (ang. \textit{online readers}) także nie przechowują kopii bazy danych. Decyzja o przyznaniu lub odmowie dostępu jest w ich przypadku podejmowana przez podłączony komputer, który przesyła odpowiednią komendę po udanej autentykacji.
-
-		W rozwiązaniach sieciowych czytniki mogą być podłączone do kontrolera, który przechowuje informacje niezbędne do podjęcia decyzji o przyznaniu bądź odmowie dostępu.
-
-		Urządzenia wyjściowe (ang. \textit{egress devices}) umożliwiają użytkownikowi opusczenie strefy chronionej od wewnątrz. Jako urządzenia wyjściowe najczęściej używa się przełączników, czujników ruchu lub czytników. Według British Security Industry Association urządzenia wyjściowe można podzielić je na zwykłe oraz awaryjne (ang. \textit{emergency egress}), przy czym, ze względu na krytyczne znaczenie w wypadku awarii, działanie tych drugich nie powinno zależeć od komponentów systemu (kontrolera systemu, oprogramowania itp.). Jako urządzenie awaryjne często stosuje się tzw. \textit{break glass device}, którego uaktywnienie powoduje odcięcie zasilania w zamku, a tym samym wstrzymanie kontroli dostępu w danym punkcie. Dostęp uzyskany za pomocą tego urządzenia powinien wygenerować stosowne powiadomienie bądź alarm.
-
-		W zależności od potrzeb, oprogramowanie w systemie może być samodzielnym programem zainstalowanym na komputerze osobistym bądź złożonym i bezpiecznym oprogramowaniem zainstalowanym na serwerze. Często opiera się na rozwiązaniach webowych lub mobilnych, umożliwiając dostęp z dowolnego urządzenia.
-
-		British Security Industry Association w następujący sposób przedstawia sposób działania systemów kontroli dostępu:
-
-		W systemie on-line, w momencie gdy poświadczenie tożsamości zostaje przedstawione czytnikowi, informacja przesyłana jest do kontrolera. Kontroler porównuje otrzymane dane z listą autoryzowanych użytkowników w bazie danych. Jeżeli przedstawione dane znajdują się w bazie, kontroler wysyła sygnał otworzenia zamka. Sygnał wysyłany jest do czytnika w celu wizualnego lub dźwiękowego powiadomienia użytkownika o podjętej decyzji.
-
-		W systemie off-line, w momencie gdy poświadczenie tożsamości zostaje przedstawione czytnikowi, czytnik dokonuje sprawdzenia, czy dostęp powinien zostać przyznany. Jeżeli tak, czytnik zezwala na dostęp i aktualizuje przedstawiony nośnik danych poświadczających tożsamość. W momencie zaprezentowania tego samego nośnika w czytniku wyposażonym w kontroler dane na temat dostępów zostaną zanotowane w systemie, a sam nośnik może zostać zaktualizowany o zmiany w prawach dostępu, jeśli takie nastąpiły.
-
-		W większości przypadków tylko wejście podlega kontroli. Aby możliwa była również kontrola wyjścia z chronionego terenu, potrzebny jest drugi czytnik umieszczony po drugiej stronie drzwi. Jeżeli obustronna kontrola nie jest wymagana, stosuje się zazwyczaj przycisk umożliwiający otworzenie zamka od środka.
-
-		W przypadku, gdy system kontroli dostępu nie funkcjonuje odpowiednio (np. z powodu braku zasilania), stosuje się tzw. \textit{break glass device}.
-
-	\section{Bezpieczeństwo}
-		\textbf{Przegląd zagrożeń związanych z bezpieczeństwem - TBD}
-
-		Projektując system o tak krytycznym znaczeniu jak system kontroli dostępu, należy poświęcić znaczną uwagę zagadnieniom związanym z bezpieczeństwem. Bezpieczeństwo całego systemu nie może zostać osiągnięte, jeśli chociaż jeden z jego elementów nie zostanie odpowiednio zabezpieczony. Należy więc dołożyć wszelkich starań, aby zapewnić odpowiednie mechanizmy bezpieczeństwa we wszystkich warstwach systemu: sprzętowej oraz programowej oraz odpowiednią ochronę danych we wszystkich fazach działania systemu.
-
-	\section{Przegląd istniejących rozwiązań}
-		\textbf{Ten podrozdział wymaga dopracowania i rozszerzenia - TBD}
-
-		W dzisiejszych czasach rozwój technologii daje wiele możliwości w kwestii implementacji dostępu do pomieszczeń. Wyróżnić można wiele rodzajów kontroli dostępu, z czego każde ma, właściwe dla wykorzystanych metod, wady i zalety. Poniżej przedstawiona została zaproponowana w \cite{access-system-survey} klasyfikacja systemów kontroli dostępu:
+		W dzisiejszych czasach rozwój technologii daje wiele możliwości w kwestii implementacji tych systemów co prowadzi do dużej różnorodności rozwiązań z czego każde ma, właściwe dla wykorzystanych metod, wady i zalety. Poniżej przedstawiona została zaproponowana w \cite{access-system-survey} klasyfikacja systemów kontroli dostępu:
 		\begin{enumerate}[label=\Alph*.]
 			\item System zamków mechanicznych
 
@@ -78,6 +61,11 @@
 				W systemie tego typu przepływ danych następuje za pośrednictwem komunikacji bezprzewodowej. Użytkownik wykorzystuje urządzenie mobilne połączone z siecią do autoryzacji próby dostępu. Rozwiązanie zaproponowane w \cite{cryptographic-iot-access-system} zakłada, że w przeciwieństwie do wcześniej wymienionych rozwiązań, użytkownik nie komunikuje się bezpośrednio z zamkiem. Zamiast tego komunikacja następuje za pośrednictwem serwera znajdującego się w sieci lokalnej wraz z urządzeniem moblinym użytkownika. Użytkownik stosuje odpowiednie zapytanie do serwera, który dokonuje kontroli uprawnień i w przypadku pozytywnej ich weryfikacji, przekazuje je do układu zamka.
 
 		\end{enumerate}
+
+	\section{Bezpieczeństwo}
+		\textbf{Przegląd zagrożeń związanych z bezpieczeństwem - TBD}
+
+		Projektując system o tak krytycznym znaczeniu jak system kontroli dostępu, należy poświęcić znaczną uwagę zagadnieniom związanym z bezpieczeństwem. Bezpieczeństwo całego systemu nie może zostać osiągnięte, jeśli chociaż jeden z jego elementów nie zostanie odpowiednio zabezpieczony. Należy więc dołożyć wszelkich starań, aby zapewnić odpowiednie mechanizmy bezpieczeństwa we wszystkich warstwach systemu: sprzętowej oraz programowej oraz odpowiednią ochronę danych we wszystkich fazach działania systemu.
 
 
 		% W mniej wymagających systemach często stosuje się rozwiązania oparte na architekturze rozproszonej. W rozwiązaniach tego typu urządzenia kontrolujące zamki pracują w sposób autonomiczny. Oznacza to, iż cały proces uwierzytelniania dokonywany jest przez oprogramowanie mikroprocesora obsługującego zamek.
