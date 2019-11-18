@@ -1,4 +1,5 @@
 \chapter{Wstep i cel pracy}
+\label{chap:intro}
 
 	\section{Wstęp}
 
@@ -12,7 +13,7 @@
 
 		Celem niniejszej pracy jest projekt oraz implementacja sytemu dostępu do pomieszczeń z wykorzystaniem technologii takich jak Wi-Fi oraz RFID (ang. \textit{Radio-frequency identification}), w którym podmiotem odpowiedzialnym za autoryzację prób dostępu jest serwer, a komunikacja pomiędzy układem sterującym zamkiem a podsystemem autoryzacji jest realizowana bezprzewodowo. Może on znaleźć zastosowanie jako łatwy w instalacji i obsłudze, lekki i wydajny system dla małych i średnich obiektów.
 
-		Podstawowe założenia dotyczące opisywanego systemu są następujące:
+		Założenia dotyczące opisywanego systemu są następujące:
 
 		\begin{enumerate}
 		    \item Logika uwierzytelniania powinna być zaimplementowana na serwerze. Urządzenie klienckie (zamek) powinno pełnić jedynie rolę pośrednika w tym procesie.
@@ -29,10 +30,10 @@
 		    \item Baza danych.
 		\end{itemize}
 
-		Implementacja prototypu obejmowała stworzenie pojedynczego układu zamka. Ze względu na prototypowy charakter pracy, nie przetestowano działania systemu z większą liczbą zamków. Nie ma jednak powodów by twierdzić, że po minimalnych modyfikacjach system nie działałby poprawnie z większą liczbą zamków.
+		Implementacja prototypu obejmowała stworzenie pojedynczego układu zamka. Ze względu na prototypowy charakter pracy nie przetestowano działania systemu z większą liczbą zamków. Nie ma jednak powodów by twierdzić, że po minimalnych modyfikacjach system nie działałby poprawnie z większą liczbą zamków.
 
 		\textbf{Tutaj podział pracy i obowiązków - TBD}
 
 	\section{Struktura pracy}
 
-		Rozdział \ref{chap:problem-domain} pokrótce przedstawia dziedzinę problemu, przywołuje najważniejsze definicje związane z tematem oraz ogólny opis działania systemów kontroli dostępu. Opisuje też podstawowe zagrożenia bezpieczeństwa, z którymi spotkali się autorzy podczas pracy nad systemem, a także dokonuje przedstawienia i porównania kilku istniejących rozwiązań. Rozdział \ref{chap:hl-arch} prezentuje projekt rozwiązania. Rozdziały \ref{chap:controller} oraz \ref{chap:server} przedstawiają proces implementacji tego projektu wraz z prezentacją najciekawszych problemów implementacyjnych oraz wykorzystanych technologii odpowiednio po stronie układu zamka oraz serwera. \textbf{?} Ze względu na to, iż w ramach pracy zaimplementowany został prototyp rozwiązania, rozdział ten prezentuje również możliwe modyfikacje i rozszerzenia tego prototypu. \textbf{?} Pracę zamyka rozdział \ref{chap:results}, który opisuje rezultaty pracy nad projektem i dokonuje podsumowania.
+		Rozdział \ref{chap:intro} stanowi wstęp do pracy, określa jej cel i strukturę. Rozdział \ref{chap:problem-domain} przedstawia dziedzinę problemu, przywołuje najważniejsze definicje związane z tematem, dokonuje przedstawienia i porównania kilku istniejących rozwiązań, a także opisu podstawowych zagrożeń bezpieczeństwa, z którymi spotkali się autorzy podczas pracy nad systemem. Rozdział \ref{chap:hl-arch} prezentuje projekt rozwiązania. Rozdziały \ref{chap:controller} oraz \ref{chap:server} przedstawiają wynik oraz przebieg procesu implementacyjnego wraz z najciekawszymi problemami oraz przeglądem wykorzystanych technologii odpowiednio po stronie układu zamka oraz serwera. Pracę zamyka rozdział \ref{chap:results}, który opisuje rezultaty pracy nad projektem, przedstawia możliwe rozszerzenia prototypu oraz dokonuje podsumowania, włącznie z oceną użyteczności, bezpieczeństwa oraz spełnienia wymagań.
