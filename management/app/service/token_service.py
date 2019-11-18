@@ -1,12 +1,12 @@
-from model.card_lock import CardLock
+from model.token import Token
 
 
-class CardLockService:
+class TokenService:
     def __init__(self):
-        self.model = CardLock()
+        self.model = Token()
 
     def create(self, params):
-        self.model.create(params["card_id"], params["lock_id"])
+        self.model.create(params["id"])
 
     def get_all(self):
         return self.model.list_items()

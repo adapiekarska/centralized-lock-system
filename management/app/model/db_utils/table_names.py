@@ -1,3 +1,3 @@
-CARDS_TABLE = "cards"
+TOKENS_TABLE = "tokens"
 LOCKS_TABLE = "locks"
-CARDS_LOCKS_TABLE = "cards_locks"
+AUTH_MAPPINGS_TABLE = "auth_mappings"

@@ -1,6 +1,6 @@
 create_tables = {
-    "cards": """
-            CREATE TABLE IF NOT EXISTS CARDS (
+    "tokens": """
+            CREATE TABLE IF NOT EXISTS TOKENS (
                 ID integer PRIMARY KEY
             ); 
             """,
@@ -11,12 +11,12 @@ create_tables = {
             );
             """,
 
-    "cards_locks": """
-            CREATE TABLE IF NOT EXISTS CARDS_LOCKS (
+    "auth_mappings": """
+            CREATE TABLE IF NOT EXISTS AUTH_MAPPINGS (
                 ID integer PRIMARY KEY,
-                CARD_ID integer,
+                TOKEN_ID integer,
                 LOCK_ID integer,
-                FOREIGN KEY(CARD_ID) REFERENCES cards(id),
+                FOREIGN KEY(TOKEN_ID) REFERENCES tokens(id),
                 FOREIGN KEY(LOCK_ID) REFERENCES locks(id)
             );
             """

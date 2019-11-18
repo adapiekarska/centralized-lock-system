@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
-import {HttpClient} from '@angular/common/http';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { FormModalComponent } from './form-modal/form-modal.component';
 
 @Component({
   selector: 'app-root',
@@ -9,18 +10,21 @@ import {HttpClient} from '@angular/common/http';
 export class AppComponent {
   title = 'gui';
 
-  cardsData: JSON;
+  // INSTALL CORS PACKAGE
+  // INSTALL BOOTSTRAP npm install bootstrap
+  // npm i --save @ng-bootstrap/ng-bootstrap
 
-  // INSTALL CORS PACKAGE ???
-  constructor(private httpClient: HttpClient) {
-    console.log('bleble');
-    this.getAllCards();
-  }
+  constructor(
+    // private modalService: NgbModal
+  ) { }
 
-  getAllCards() {
-    this.httpClient.get('http://127.0.0.1:5000/cards').subscribe(data => {
-      this.cardsData = data as JSON;
-      console.log(this.cardsData);
-    });
-  }
+  // openFormModal() {
+  //   const modalRef = this.modalService.open(FormModalComponent);
+  //
+  //   modalRef.result.then((result) => {
+  //     console.log(result);
+  //   }).catch((error) => {
+  //     console.log(error);
+  //   });
+  // }
 }

@@ -1,0 +1,25 @@
+<div class="container-fluid text-center m-3">
+  <div class="row align-items-center justify-content-center">
+    <table class="table table-striped table-responsive-md btn-table m-3 w-50 text-center">
+      <tr>
+        <th>ID</th>
+        <th>Action</th>
+      </tr>
+
+      <tr *ngFor="let token of tokens ">
+        <td>
+          {{token.id}}
+        </td>
+
+        <td>
+          <button type="button" class="btn btn-indigo btn-outline-danger m-0" (click)="remove(token)">Delete</button>
+        </td>
+      </tr>
+    </table>
+  </div>
+  <div class="container text-center bg-primary">
+    <div class="btn-group m-3 float-right" role="group" aria-label="Basic example">
+      <button type="button" class="btn btn-primary btn-light px-5 btn-outline-primary">Add</button>
+    </div>
+  </div>
+</div>
