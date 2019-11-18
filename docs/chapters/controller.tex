@@ -1,9 +1,7 @@
-\chapter{Implementacja}
-\label{chap:implementation}
+\chapter{Komponent sterowania zamkiem}
+\label{chap:controller}
 
     Niniejszy rozdział zagłębia się w szczegóły implementacyjne projektu. Opisuje sposób konfiguracji środowiska deweloperskiego, przedstawia wybrane zagadnienia związane z implementacją oraz wykorzystane w projekcie technologie sprzętowe i programowe.
-
-    \section{Podsystem sterowania zamkiem}
 
         Spełnienie założeń dotyczących systemu wymienionych w rozdziale \ref{chap:hl-arch} wymagało zastosowania mikrokontrolera integrującego układ komunikacji bezprzewodowej zgodnej ze zbiorem standardów IEEE 802.11, obsługującego interfejs szeregowej komunikacji z peryferiami SPI (ang. \textit{Serial Peripheral Interface}) jednocześnie umożliwiając komunikację za pośrednictwem programowalnych wejść/wyjść GPIO (ang. \textit{General-Purpose Input/Output}). Pośród wielu rozwiązań dostępnych na rynku wybrany został mikrokontroler ESP32, ze względu na możliwość równoległego przetwarzania za pomocą dwóch fizycznych rdzeni, sprzętowe wsparcie dla algorytmów kryptograficzynch oraz możliwość zaawansowanej kontroli pracy podzespołów mikrokontrolera, szczególnie w zakresie zasilania.
 
@@ -13,12 +11,12 @@
 
         Efektywne wykorzystanie energii w układzie zamka wymaga źródła impulsu wybudzającego o jak najniższym poborze mocy w stanie spoczynku. Wybranym rozwiązaniem jest czujnik PIR (ang. \textit{Passive Infra Red}, pasywny czujnik podczerwieni), model HC-SR501.
 
-        \subsection{Konfiguracja środowiska}
+        \section{Konfiguracja środowiska}
             \textbf{TBD}
 
-        \subsection{Oprogramowanie mikrokontrolera}
+        \section{Oprogramowanie mikrokontrolera}
 
-            \subsubsection{Struktura kodu}
+            \subsection{Struktura kodu}
                 Kod źródłowy oprogramowania mikrokontrolera podzielony jest na komponenty o zadanych funkcjonalnościach:
                 \begin{enumerate}
                     \item Komponent główny (\textit{main}): odpowiedzialny za rozróżnienie rodzajów uruchomienia (pierwsze uruchomienie lub wybudzenie z uśpienia), wywołanie odpowiedniej procedury komponentu sterującego oraz uśpienie układu po jej zakończeniu.
@@ -27,10 +25,12 @@
                     \item Komponent sterujący (\textit{flow-controller}): odpowiedzialny za kontrolę przepływu sterowania, aktywowanie poszczególnych komponentów.
                 \end{enumerate}
 
-            \subsubsection{Współbieżność}
+            \subsection{Współbieżność}
                 Ze względu na restrykcyjne wymagania dotyczące czasu trwania procesu zestawiania połączenia z serwerem, wykorzystano przetwarzanie współbieżne na dwóch wątkach.
 
                 \textbf{Coś o podziale zadań między taskami - TBD}
+
+                \textbf{Diagram pokazujący jak taski między sobą się komunikują itd}
 
                 Powiadamianie o wszystkich zdarzeniach w oprogramowaniu mikrokontrolera realizowane jest przez mechanizm tzw. \textit{Event Group}. Jest on zapewniany przez system FreeRTOS. W przypadku wystąpienia zdarzenia zostaje ono zapisane we wspomnianym wyżej \textit{Event Group}, co jest równoznaczne z ustawieniem w stan wysoki bitu przypisanego danemu zdarzeniu. Kluczowy z perspektywy przepływu sterowania jest wykorzystany mechanizm oczekiwania na zdarzenia, który przez wywłaszczenie oczekującego wątku pozwala na efektywną implementację synchronizacji wątków.
 
@@ -38,11 +38,11 @@
 
             \textbf{TBD - Przenieść część poniższych informacji na Schematy blokowe}
 
-            \subsubsection{Pierwsze uruchomienie}
+            \subsection{Pierwsze uruchomienie}
 
                 Przy pierwszym uruchomienu zamka, które następuje automatycznie po podłączeniu zasilania do układu, wykonywana jest procedura przejścia w stan głębokiego uśpienia (Deep-sleep mode). W tym celu jako sposób wybudzenia konfigurowany jest tryb EXT0 (External Wakeup 0). Tryb ten wymusza aby po przejściu w stan uśpienia podtrzymane zostało zasilanie peryferiów RTC (ang. \textit{Real-Time Clock}, zegar czasu rzeczywistego)~\cite{esp32-api-ref-deep-sleep}, co z kolei pozwala na konfigurację źródła wybudzającego przerwania zewnętrznego jako wybranego wejścia RTC GPIO. W projekcie w tym celu wykorzystany został pin nr 26. Ze względu na charakterystykę wykorzystanego źródła przerwania (pasywny czujnik zbliżeniowy), konieczne było zastosowanie trybu pulldown dla wspomnianego wyżej wejścia aby zapobiec występowaniu na nim stanu nieokreślonego. Po konfiguracji źródła przerwania układ zostaje wprowadzony w stan uśpienia.
 
-            \subsubsection{Wybudzenie z głębokiego uśpienia}
+            \subsection{Wybudzenie z głębokiego uśpienia}
 
                 \textbf{Podzielić blok tekstu na części bardziej skupiające się na poszczególnych komponentach - TBD}
 
@@ -54,19 +54,13 @@
 
                 Na listingu \ref{snip:wifi_client} przedstawiono pseudokod pętli obsługi żądań w komponencie WiFi.
 
+                \textbf{Zmodyfikowac ten pseudokod, zeby byl bardziej czytelny i zrozumialy dla kogos nieznajacego wewnetrznej struktury i specyfiki kodu}
                 \lstinputlisting[language=Python,label=snip:wifi_client,caption=Pseudokod pętli obsługi żądań w komponencie WiFi]{chapters/pseudocodes/wifi_client_pseudocode.py}
 
                 Komponent RFID bazuje na zewnętrznej bibliotece~\cite{esp-idf-rc522}. Inicjalizacja rozpoczyna się od inicjalizacji interfejsu SPI na określonych z góry wyjściach mikrokontrolera. Następnie rozpoczyna się cykliczne odpytywanie czytnika rc522 za pomocą wspomnianego interfejsu~\cite{esp-idf-rc522}. W przypadku sygnalizacji wykrycia karty przez czytnik, pozyskiwany jest numer karty, odpytywanie zostaje zakończone a numer karty zostaje przekazany do komponentu sterującego. \textbf{TBD}
 
                 \textbf{sterowanie po przylozeniu karty TBD}
                 Po stworzeniu wątków odpowiedzialnych za wykonanie kodu komponentów WiFi i RFID komponent sterujący rozpoczyna oczekiwanie na sygnalizację wykrycia karty przez komponent RFID. Gdy to nastąpi, odczytany zostaje pozyskay numer karty. W celu wymiany danych z serwerem, wykorzystywany interfejs udostępniany przez komponent WiFi w postaci funkcji do transmisji wychodzącej i przychodzącej \textbf{dodac pseudokod funkcji żądania transmisji, uszczegółowić}. Zależnie od informacji zwrotnej od serwera, następuje przyznanie dostępu, lub jego odmowa i ponowne przejście w stan uśpienia.
-
-
-    \section{Podsystem autoryzacji}
-        \textbf{TBD}
-
-    \section{Podsystem zarządzania}
-        \textbf{TBD}
 
     \section {Wykorzystane technologie}
 
@@ -124,29 +118,3 @@
             \textbf{Szacunki długości życia na baterii - TBD}
             \textbf{Teoretyczne zużycie podawane w specyfikacji komponentów}
             \textbf{Pomiary poboru mocy w różnych fazach działania - TBD}
-
-    \section{Możliwe rozszerzenia}
-
-        W ramach niniejszej pracy stworzony został prototyp rozwiązania. Niektóre planowane funkcjonalności nie zostały zaimplementowane ze względu na ograniczenia czasowe i budżetowe. Pozostawiono jednak możliwość rozbudowy systemu. Poniżej przedstawiono kilka problemów, których system w obecnym stanie nie adresuje, wraz z możliwymi rozwiązaniami.
-
-        \subsection{Mechanizm wyjścia}
-
-            Opisywane rozwiązanie nie obejmuje implementacji mechanizmu opuszczenia strefy chronionej systemem kontroli dostępu. W zależności od potrzeb końcowego użytkownika, możliwe rozwiązanie to montaż dodatkowego czytnika po przeciwnej stronie drzwi i połączenie go z kontrolerem wejścia w przypadku gdy wymagana jest obustronna kontrola dostępu bądź zastosowanie przycisku którego naciśnięcie powoduje zwolnienie zamka w przypadku gdy wymagana jest tylko kontrola wejścia do chronionego obszaru.
-
-        \subsection{Obsługa większej liczby zamków}
-
-            W celu umożliwienia obsługi przez system liczby zamków przekraczającej 1, wystarczająca byłaby modyfikacja podsystemu autoryzacji w taki sposób, aby mógł on obsługiwać równoległe żądania od klientów.
-
-        \subsection{Wygodna konfiguracja parametrów sieci}
-
-            W obecnej implementacji dane dostępu do sieci (nazwa sieci oraz hasło) zostały zagnieżdżone w oprogramowaniu konrolera. Zmniejsza to elastyczność konfiguracji urządzenia, wymagając jego przeprogramowania za każdym razem gdy zmianie ulegnie nazwa lub klucz dostępu do sieci.
-
-            Możliwym rozwiązaniem tego problemu byłaby implementacja trybu konfiguracji. Tryb ten powodowałby przejście kontrolera w tryb Access Point przy zachowaniu dwóch warunków: (1) nastąpiło uruchomienie, a nie wybudzenie z trybu głębokiego uśpienia oraz (2) na określonym wejściu pojawiło się napięcie. Przejście kontrolera w tryb Access Point umożliwiłoby udostępnienie prostego interfejsu webowego, za pomocą którego administrator systemu mógłby wprowadzić niezbędne do działania dane, takie jak nazwa sieci, hasło, a także adres IP i numer portu serwera autoryzacji. Aby zachować wysoki poziom bezpieczeństwa, komunikacja pomiędzy urządzeniem administratora i kontrolerem powinna odbywać się przy wykorzystaniu protokołu TLS.
-
-        \subsection{Sygnalizacja stanu baterii}
-
-            W obecnym stanie system nie implementuje mechanizmów informowania serwera o swoim stanie energetycznym.
-            Sygnalizacja stanu baterii umożliwiłaby administratorowi systemu bieżące monitorowanie wszystkich zamków objętych systemem oraz szybką reakcję w przypadku, gdy baterie wymagałyby wymiany. Modyfikacja ta wymagałaby uzyskania dostępu do danych na temat naładowania baterii przez mikrokontroler oraz przesyłania ich okresowo do serwera, najlepiej w momentach, gdy jest on już wybudzony z powodu wykrycia ruchu w jego otoczeniu.
-
-        \subsection{Obsługa kont użytkowników w podsystemie zarządzania}
-            Podsystem zarządzania nie implementuje mechanizmu dostępu do zasobów, co czyni system mniej bezpiecznym. W końcowym produkcie należałoby rozszerzyć go o możliwość tworzenia kont użytkowników i przypisywania im określonych uprawnień co do odczytu i zapisu danych.

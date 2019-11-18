@@ -2,9 +2,9 @@
 
 	\section{Wstęp}
 
-		Zapewnienie bezpieczeństwa przestrzeni użytkowych i osób z nich korzystających stanowi kluczowy aspekt zarządzania obiektami zarówno publicznymi, jak i prywatnymi. Dzięki zastosowaniu odpowiedniej infrstruktury, bezpieczeństwo osób przebywających na terenie obiektu rośnie, a ryzyko kradzieży lub zniszczenia mienia przez niepowołane osoby spada. Podstawową metodą kontroli dostępu do pomieszczeń jest montaż urządzeń ryglujących z układem zapadkowym rozpoznającym fizyczny klucz. Ze względu na postępujący rozwój technologiczny, w obecnych czasach coraz częściej stosowane są systemy oparte na uwierzytelnianiu elektronicznym.
+		Zapewnienie bezpieczeństwa przestrzeni użytkowych i osób z nich korzystających stanowi kluczowy aspekt zarządzania obiektami zarówno publicznymi, jak i prywatnymi. Dzięki zastosowaniu odpowiedniej infrstruktury, bezpieczeństwo osób przebywających na terenie obiektu rośnie, a ryzyko kradzieży lub zniszczenia mienia przez niepowołane osoby spada. Podstawową metodą kontroli dostępu do pomieszczeń jest montaż urządzeń ryglujących z układem zapadkowym rozpoznającym fizyczny klucz. Jednak ze względu na postępujący rozwój technologiczny, w obecnych czasach coraz częściej stosowane są systemy oparte na uwierzytelnianiu elektronicznym.
 
-		Pod względem celu i ogólnych zasad działania elektroniczny system kontroli dostępu do pomieszczeń nie rózni się od swojego tradycyjnego odpowiednika. Głównym celem pozostaje autoryzacja prób dostępu użytkowników na podstawie kluczy w taki sposób, aby dostęp został przyznany tylko osobie posiadającej powiązany z danym punktem dostępu klucz.
+		Pod względem celu i ogólnych zasad działania elektroniczny system kontroli dostępu do pomieszczeń nie rózni się od swojego tradycyjnego odpowiednika. Głównym celem jest autoryzacja prób dostępu użytkowników na podstawie kluczy w taki sposób, aby dostęp został przyznany tylko osobie posiadającej powiązany z danym punktem dostępu klucz.
 
 		Przewagę systemów opartych na urządzeniach elektronicznych nad systemami czysto mechanicznymi stanowią cechy takie jak łatwość obsługi czy możliwość zdalnego zarządzania oraz zbierania danych i monitorowania prób dostępu w celu późniejszej analizy.
 
@@ -16,7 +16,7 @@
 
 		\begin{enumerate}
 		    \item Logika uwierzytelniania powinna być zaimplementowana na serwerze. Urządzenie klienckie (zamek) powinno pełnić jedynie rolę pośrednika w tym procesie.
-		    \item Komunikacja pomiędzy urządzeniami klienckimi (zamkami) a serwerem powinna odbywać się bezprzewodowo.
+		    \item Komunikacja pomiędzy urządzeniami klienckimi (układami zamka) a serwerem powinna odbywać się bezprzewodowo.
 		    \item System powinien być wydajny energetycznie i umożliwiać operację zamków na zasilaniu bateryjnym.
 		    \item System powinien implementować niezbędne mechanizmy bezpieczeństwa.
 		\end{enumerate}
@@ -35,4 +35,4 @@
 
 	\section{Struktura pracy}
 
-		Rozdział \ref{chap:problem-domain} pokrótce przedstawia dziedzinę problemu, przywołuje najważniejsze definicje związane z tematem oraz ogólny opis działania systemów kontroli dostępu. Opisuje też podstawowe zagrożenia bezpieczeństwa, z którymi spotkali się autorzy podczas pracy nad systemem, a także dokonuje przedstawienia i porównania kilku istniejących na rynku rozwiązań. Rozdział \ref{chap:hl-arch} prezentuje projekt rozwiązania. Rozdział \ref{chap:implementation} przedstawia proces implementacji tego projektu wraz z prezentacją najciekawszych problemów implementacyjnych oraz wykorzystanych technologii. Ze względu na to, iż w ramach pracy zaimplementowany został prototyp rozwiązania, rozdział ten prezentuje również możliwe modyfikacje i rozszerzenia tego prototypu. Pracę zamyka rozdział \ref{chap:results}, który opisuje rezultaty pracy nad projektem i dokonuje podsumowania.
+		Rozdział \ref{chap:problem-domain} pokrótce przedstawia dziedzinę problemu, przywołuje najważniejsze definicje związane z tematem oraz ogólny opis działania systemów kontroli dostępu. Opisuje też podstawowe zagrożenia bezpieczeństwa, z którymi spotkali się autorzy podczas pracy nad systemem, a także dokonuje przedstawienia i porównania kilku istniejących rozwiązań. Rozdział \ref{chap:hl-arch} prezentuje projekt rozwiązania. Rozdziały \ref{chap:controller} oraz \ref{chap:server} przedstawiają proces implementacji tego projektu wraz z prezentacją najciekawszych problemów implementacyjnych oraz wykorzystanych technologii odpowiednio po stronie układu zamka oraz serwera. \textbf{?} Ze względu na to, iż w ramach pracy zaimplementowany został prototyp rozwiązania, rozdział ten prezentuje również możliwe modyfikacje i rozszerzenia tego prototypu. \textbf{?} Pracę zamyka rozdział \ref{chap:results}, który opisuje rezultaty pracy nad projektem i dokonuje podsumowania.
