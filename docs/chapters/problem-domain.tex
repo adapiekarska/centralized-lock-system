@@ -44,11 +44,44 @@
 
 		Projektując system o tak krytycznym znaczeniu jak system kontroli dostępu, należy poświęcić znaczną uwagę zagadnieniom związanym z bezpieczeństwem. Bezpieczeństwo całego systemu nie może zostać osiągnięte, jeśli chociaż jeden z jego elementów nie zostanie odpowiednio zabezpieczony. Należy więc dołożyć wszelkich starań, aby zapewnić odpowiednie mechanizmy bezpieczeństwa we wszystkich warstwach systemu: sprzętowej oraz programowej oraz odpowiednią ochronę danych we wszystkich fazach działania systemu.
 
-	\section{Przegląd dostępnych rozwiązań}
+	\section{Przegląd istniejących rozwiązań}
 		\textbf{Ten podrozdział wymaga dopracowania i rozszerzenia - TBD}
 
-		Obecnie stosowane rozwiązania różnią się od siebie pod wieloma względami. W mniej wymagających systemach często stosuje się rozwiązania oparte na architekturze rozproszonej. W rozwiązaniach tego typu urządzenia kontrolujące zamki pracują w sposób autonomiczny. Oznacza to, iż cały proces uwierzytelniania dokonywany jest przez oprogramowanie mikroprocesora obsługującego zamek.
+		W dzisiejszych czasach rozwój technologii daje wiele możliwości w kwestii implementacji dostępu do pomieszczeń. Wyróżnić można wiele rodzajów kontroli dostępu, z czego każde ma, właściwe dla wykorzystanych metod, wady i zalety. Poniżej przedstawiona została zaproponowana w \cite{access-system-survey} klasyfikacja systemów kontroli dostępu:
+		\begin{enumerate}[label=\Alph*.]
+			\item System zamków mechanicznych
 
-		Na rynku dostępne są także rozwiązania sieciowe, bądź też takie, które umożliwiają konfigurację urządzeń w tryb zarówno autonomiczny, jak i sieciowy. Rozwiązania sieciowe charakteryzują się znacznym stopniem skomplikowania, zarówno pod względem architektonicznym (ilość i rodzaj potrzebnych komponentów sprzętowych)~\cite{racs5}, jak i konfiguracyjnym (trudność instalacji, konieczność modyfikacji istniejącej infrastruktury). Mogą oferować oddzielenie funkcjonalności czytnika dostępu od kontrolera, umożliwiając obsługę do kilkunastu czytników za pomocą jednego urządzenia kontrolującego~\cite{racs5}. Mimo możliwości dołączenia do kontrolera zamków bezprzewodowych, działanie całego systemu wciąż pozostaje w pewnym stopniu uzależnione od komunikacji przewodowej.
+				Zamek oparty na układzie mechanicznym otwieranym przez fizyczny klucz \textbf{moze dodackiedy powstał pierwszy zamek}. Jest to cały czas najczęściej stosowana metoda ochrony przestrzeni mieszkalnych, mimo to, że złamanie takiego zabezpieczenia wymaga jedynie odpowiednich umiejętności manualnych i wykorzystanych narzędzi.
 
-		Ze względu na ilość komponentów sprzętowych, istniejące rozwiązania bywają drogie.
+			\item System z uwierzytelnieniem przez PIN
+
+				Mikrokontroler z klawiaturą numeryczną gdzie dostęp jest przydzielany na podstawie wprowadzonego kodu. Rozwiązuje to problem konieczności posiadania kosztownego w produkcji unikalnego, fizycznego klucza, który z natury narażony jest na kradzież lub zagubienie~\cite{keypad-access-system}. Wadą tego rozwiazania jest ograniczona możliwość zmiany kodu dostępu i podatność na jego ekstrakcję z pamięci programowalnej.
+
+			\item System z uwierzytelnieniem przez RFID
+
+				Rolę nośnika klucza pełni tag RFID, w którego pamięci owy klucz pozostaje zapisany. W przypadku dostatecznego zbliżenia nośnika do anteny, umieszcznej drzwiach lub w ich bezpośrednim sąsiedztwie, następuje odczyt i weryfikacja klucza. Sytemy tego typu poza metodą autoryzacji dają również możliwość monitorowania w czasie rzeczywistym ruchu użytkowników systemu lub też wyposażenia objętego kontrolą przez umieszczenie w nim tagów RFID jak zostało to  w \cite{rfid-access-system-for-university}. Ze względu na wykorzystanie nieszyfrowanej transmisji bezprzewodowej, przesyłany klucz jest łatwy do przechwycenia
+
+			\item System z uwierzytelnieniem przez dane biometryczne
+
+				Opierając uwierzytelnienie o konwersję określonych unikalnych cech fizycznych użytkownika do postaci numerycznej można całkowicie wyeliminować konieczność istnienia fizycznych kluczy i haseł. Nie ma w ten sposób możliwości zgubienia, kradzieży lub zapomnienia klucza co potencjalnie zwiększa bezpieczeństwo, jednak rozwiązanie to nie pozostaje bez wad. Wśród przezentowanych w \cite{biometric-system-vulnerabilities} zagrożeń wyróżnić można brak tajności danych biometrycznych przez co możliwa jest duplikacja określonej cechy. Sama cecha jest też podatna na uszkodzenia mechaniczne a po utracie nie można jej zastąpić.
+
+			\item System z uwierzytelnieniem przez OTP (ang. \textit{One Time Password}, hasło jednorazowe)
+
+				Uwierzytenienie w systemie tego rodzaju wymaga wprowadzenia jednorazowego hasła, które generowane jest przez serwer a następnie wysyłane do użytkownika przez wiadomość tekstową oraz zapisywane w systemie. Użytkownik następnie przy próbie dostępu wpisuje otrzymane hasło, które zostaje porównane z wartością zapisaną w systemie a następnie usunięte. Główną zaletą tego rozwiązania jest znacząco zmniejszona podatność na ataki powtórzeniowe gdzie atakujący przechwytuje dane wykorzystane do autoryzacji i używa ich ponownie w celu uzyskania dostępu. Problemem jest wymaganie dostępności użytkownikownika w sieci GSM w celu przekazania hasła.
+
+			\item System oparty na kryptograficznym bezpieczeństwie danych
+
+				Bezpieczeństwo tego rozwiązania bazuje na kluczu dostępu, który jest znany wyłącznie przez użytkownika systemu. W pamięci układu zamka zapisywana jest odpowiednia sekwencja, która dopiero po transformacji kryptograficznej staje się hasłem dostępu (w tej postaci jest ono przekazywane użytkownikowi). W ten sposób hasło znane jest tylko użytkownikowi co zapewnia, że nawet osoby odpowiedzialne za utrzymanie systemu nie uzyskają dostępu przez pozyskanie hasła. Słabą stroną metody jest oparcie bezpieczeństwa systemu na kluczu kryptograficznym który musi być przechowywany w bezpieczny sposób.
+
+			\item System oparty o komunikację bezprzewodową
+				\textbf{TODO: review documentation considering author names}
+				W systemie tego typu przepływ danych następuje za pośrednictwem komunikacji bezprzewodowej. Użytkownik wykorzystuje urządzenie mobilne połączone z siecią do autoryzacji próby dostępu. Rozwiązanie zaproponowane w \cite{cryptographic-iot-access-system} zakłada, że w przeciwieństwie do wcześniej wymienionych rozwiązań, użytkownik nie komunikuje się bezpośrednio z zamkiem. Zamiast tego komunikacja następuje za pośrednictwem serwera znajdującego się w sieci lokalnej wraz z urządzeniem moblinym użytkownika. Użytkownik stosuje odpowiednie zapytanie do serwera, który dokonuje kontroli uprawnień i w przypadku pozytywnej ich weryfikacji, przekazuje je do układu zamka.
+
+		\end{enumerate}
+
+
+		% W mniej wymagających systemach często stosuje się rozwiązania oparte na architekturze rozproszonej. W rozwiązaniach tego typu urządzenia kontrolujące zamki pracują w sposób autonomiczny. Oznacza to, iż cały proces uwierzytelniania dokonywany jest przez oprogramowanie mikroprocesora obsługującego zamek.
+
+		% Na rynku dostępne są także rozwiązania sieciowe, bądź też takie, które umożliwiają konfigurację urządzeń w tryb zarówno autonomiczny, jak i sieciowy. Rozwiązania sieciowe charakteryzują się znacznym stopniem skomplikowania, zarówno pod względem architektonicznym (ilość i rodzaj potrzebnych komponentów sprzętowych)~\cite{racs5}, jak i konfiguracyjnym (trudność instalacji, konieczność modyfikacji istniejącej infrastruktury). Mogą oferować oddzielenie funkcjonalności czytnika dostępu od kontrolera, umożliwiając obsługę do kilkunastu czytników za pomocą jednego urządzenia kontrolującego~\cite{racs5}. Mimo możliwości dołączenia do kontrolera zamków bezprzewodowych, działanie całego systemu wciąż pozostaje w pewnym stopniu uzależnione od komunikacji przewodowej.
+
+		% Ze względu na ilość komponentów sprzętowych, istniejące rozwiązania bywają drogie.
