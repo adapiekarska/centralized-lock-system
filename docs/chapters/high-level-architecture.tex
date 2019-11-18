@@ -40,15 +40,14 @@
                     \hline \cellcolor[gray]{0.8} Źródło       & Placeholder    \\
                     \hline
                 \end{tabular}
-                \label{tbl:usr2}
-                \vspace{10mm}           
+                \label{tbl:usr2}       
             \end{subtable}                
             \label{tbl:users}
         \end{table}
 
-    \section{Wymagania funkcjonalne}
+    \section{Wymagania}
 
-        W tabeli \ref{tbl:fnrq} przedstawiono wymagania funkcjonalne systemu.
+         W tabeli \ref{tbl:fnrq} przedstawiono wymagania funkcjonalne systemu. W tabeli \ref{tbl:xxrq} przedstawiono wymagania pozafunkcjonalne systemu.
 
         \begin{table}[h!]
             \caption{Wymagania funkcjonalne}
@@ -76,7 +75,14 @@
                 \label{tbl:fnrq2}
                 \vspace{10mm}           
             \end{subtable}
-        \quad%   
+        \label{tbl:fnrq}
+        \end{table}
+    
+        \pagebreak  
+
+        \begin{table}[h!]
+            \ContinuedFloat
+            \caption{Wymagania funkcjonalne, c.d.}
             \begin{subtable}[c]{\textwidth}
                 \centering
                  \begin{tabular}{|p{2cm}|p{12cm}|}
@@ -112,14 +118,6 @@
                 \label{tbl:fnrq5}
                 \vspace{10mm}           
             \end{subtable}
-        \label{tbl:fnrq}
-        \end{table}
-
-        \pagebreak
-
-        \begin{table}
-        \ContinuedFloat
-        \caption{Wymagania funkcjonalne, c.d.}
             \begin{subtable}[c]{\textwidth}
                 \centering
                  \begin{tabular}{|p{2cm}|p{12cm}|}
@@ -164,43 +162,34 @@
                     \hline \cellcolor[gray]{0.8} Źródło       & Placeholder    \\
                     \hline
                 \end{tabular}
-                \label{tbl:fnrq9}
-                \vspace{10mm}           
+                \label{tbl:fnrq9}         
             \end{subtable}
             \label{tbl:fnrq_2}
         \end{table}
 
-        \section{Wymagania pozafunkcjonalne}
-
-            W tabeli \ref{tbl:xxrq} przedstawiono wymagania pozafunkcjonalne systemu.
-
-            \begin{table}
+        \begin{table}
             \caption{Wymagania pozafunkcjonalne}
             \centering
             \begin{subtable}[c]{\textwidth}
                 \centering
                 \begin{tabular}{|p{2cm}|p{12cm}|}
-                    \hline XXRQ\_1      & \textbf{Długość czasu pracy na baterii równa minimum 1 rok}  \\
-                    \hline \cellcolor[gray]{0.8} Opis         & Placeholder  \\
+                    \hline XXRQ\_1      & \textbf{Długość czasu pracy układu zamka na baterii równa minimum 1 rok}  \\
+                    \hline \cellcolor[gray]{0.8} Opis         & Długość czasu pracy układu zamka na baterii powinna wynosić minimum 1 rok \\
                     \hline \cellcolor[gray]{0.8} Źródło       & Placeholder    \\
                     \hline
                 \end{tabular}
-                \label{tbl:xxrq1}
-                \vspace{10mm}           
+                \label{tbl:xxrq1}   
+                \vspace{10mm}         
             \end{subtable}
             \label{tbl:xxrq}
         \end{table}
 
         \section{Komponenty systemu}
 
-            System podzielony został na podsystemy realizujące określone funkcjonalności i istniejące w ramach fizycznych komponentów sprzętowych.
-
-            \subsection{Podsystemy}
-
-                W tabeli \ref{tbl:subsystems} przedstawiono podsystemy wraz z lokalizacją oraz przynależnymi im komponentami programowymi.
+            System podzielony został na podsystemy (tabela \ref{tbl:subsystems}) realizujące określone funkcjonalności za pomocą komponentów programowych (tabela \ref{tbl:sw_comp}) i istniejące w ramach fizycznych komponentów sprzętowych (tabela \ref{tbl:hw_comp}).
 
                 \begin{table}
-                    \caption{Komponenty programowe}
+                    \caption{Podsystemy}
                     \centering
                     \begin{subtable}[c]{\textwidth}
                         \centering
@@ -240,15 +229,10 @@
                             \hline \cellcolor[gray]{0.8} Źródło       & Placeholder    \\
                             \hline
                         \end{tabular}
-                        \label{tbl:ssys3}
-                        \vspace{10mm}           
+                        \label{tbl:ssys3}      
                     \end{subtable}                 
                     \label{tbl:subsystems}
                 \end{table}
-
-            \subsection{Komponenty sprzętowe}
-
-                W tabeli \ref{tbl:hw_comp} przedstawiono komponenty sprzętowe systemu.
 
                 \begin{table}
                     \caption{Komponenty sprzętowe}
@@ -288,15 +272,10 @@
                             \hline \cellcolor[gray]{0.8} Źródło       & Placeholder    \\
                             \hline
                         \end{tabular}
-                        \label{tbl:hcmp2}
-                        \vspace{10mm}           
+                        \label{tbl:hcmp2}     
                     \end{subtable}                
                     \label{tbl:hw_comp}
                 \end{table}
-
-            \subsection{Komponenty programowe}
-
-                W tabeli \ref{tbl:sw_comp} przedstawiono komponenty programowe systemu.
 
                 \begin{table}
                     \caption{Komponenty programowe}
@@ -350,43 +329,40 @@
                             \hline \cellcolor[gray]{0.8} Źródło       & Placeholder    \\
                             \hline
                         \end{tabular}
-                        \label{tbl:scmp4}
-                        \vspace{10mm}           
+                        \label{tbl:scmp4}   
+                        \vspace{10mm}       
                     \end{subtable} 
                 \end{table}
 
+        \pagebreak
+
         \section{Projekt architektury}
 
-            Niniejszy punkt prezentuje budowę systemu.
+            Na architekturę systemu składają się komponenty sprzętowe oraz podsystemy (rysunek \ref{fig:hl-arch}). Rysunek \ref{fig:lock-arch} przedstawia szczegółową budowę układu zamka. Podsystem zarządzający zbudowany jest z dwóch współpracujących ze sobą aplikacji (rysunek \ref{fig:mngmt_subsystem}). \textbf{TBD - budowa podsystemu autoryzacyjnego} 
 
-            Na rysunku \ref{fig:hl-arch} przedstawiono architekturę systemu z podziałem na komponenty sprzętowe oraz podsystemy.
-
-            \begin{figure}[]
+            \begin{figure}[h!]
                 \includegraphics[width=\linewidth]{chapters/images/hl-arch3.png}
                 \caption{Architektura systemu}
                 \label{fig:hl-arch}
             \end{figure}
 
-            Na rysunku \ref{fig:lock-arch} przedstawiono szczegółową budowę układu zamka.
+            \vspace{10mm} 
 
-            \begin{figure}
+            \begin{figure}[h!]
                 \centering
                 \includegraphics[width=0.7\textwidth]{chapters/images/lock.png}
                 \caption{Budowa układu zamka}
                 \label{fig:lock-arch}
             \end{figure}
 
-            \textbf{TBD - budowa podsystemu autoryzacyjnego}
-
-            Na rysunku \ref{fig:mngmt_subsystem} przedstawiono szczegółową budowę podsystemu zarządzającego. 
-
-            \begin{figure}
+            \begin{figure}[h!]
                 \centering
                 \includegraphics[width=0.7\textwidth]{chapters/images/mngmt_subsystem.png}
-                \caption{Budowa podsystemu zarządzania}
+                \caption{Budowa podsystemu zarządzającego}
                 \label{fig:mngmt_subsystem}
             \end{figure}
 
+        \pagebreak
 
         \section{Sposób działania}
             Działanie systemu opiera się na współpracy układu zamka z serwerem w celu zapewnienia poprawnej autoryzacji identyfikatorów w zamkach. Funkcjonalność autoryzacji realizowana jest wyłącznie po stronie serwera. Układ zamka, będący urządzeniem klienckim, jest jedynie pośrednikiem przekazującym dane od użytkownika do serwera.
@@ -400,7 +376,7 @@
                     Jeżeli połączenie z serwerem nie może zostać nawiązane w czasie \(t + 5~sek.\), gdzie \(t\) jest zmiennym czasem upływającym od momentu podjęcia próby nawiązania połączenia z serwerem do momentu zakończenia odczytu danych z identyfikatora, mikrokontroler sygnalizuje użytkownikowi błąd połączenia, po czym wprowadza się w stan uśpienia.
             \end{enumerate}
 
-            Jeżeli żadna z wymienionych wyżej niekorzystnych sytuacji nie wystąpi i dane zostaną pomyślnie przesłane do serwera, serwer podejmuje decyzję o przyznaniu bądź odmowie dostępu. Dokonuje tego po wysłaniu stosownego zapytania do bazy danych, a następnie wysyła potwierdzenie lub odmowę do mikrokontrolera. Mikrokontroler w sposób wizualny sygnalizuje decyzję użytkownikowi, a jeżeli była ona pomyślna, dodatkowo wysyła sygnał otwierający zamek. Niezależnie od decyzji serwera, wpis o próbie dostępu zostaje zapisany w bazie danych, skąd może być pobrany przez podsystem zarządzający w celu prezentacji danych administratorowi systemu.
+            Jeżeli żadna z wymienionych wyżej niekorzystnych sytuacji nie wystąpi i dane zostaną pomyślnie przesłane do serwera, serwer podejmuje decyzję o przyznaniu bądź odmowie dostępu. Dokonuje tego po wysłaniu zapytania do bazy danych, a następnie wysyła potwierdzenie lub odmowę do mikrokontrolera. Mikrokontroler w sposób wizualny sygnalizuje decyzję użytkownikowi, a jeżeli była ona pomyślna, dodatkowo wysyła sygnał otwierający zamek. Niezależnie od decyzji serwera, wpis o próbie dostępu zostaje zapisany w bazie danych, skąd może być pobrany przez podsystem zarządzający w celu prezentacji danych administratorowi systemu.
 
             Opisane wyżej mechanizmy zostały szerzej ukazane na diagramach sekwencji. Diagramy \ref{fig:sequence1}-\ref{fig:sequence3} dotyczą podsystemu sterowania zamkiem oraz podsystemu autoryzacji, natomiast diagram \ref{fig:sequence4} dotyczy podsystemu zarządzającego. Diagram \ref{fig:sequence1} przedstawia proces autoryzacji identyfikatora użytkownika w przypadku najbardziej pomyślnego scenariusza. Diagram \ref{fig:sequence2} ukazuje przepływ sterowania pomiędzy elementami systemu w sytuacji, gdy użytkownik zostanie wykryty, ale identyfikator nie zostanie przyłożony do czytnika w zadanym przedziale czasu. Diagram \ref{fig:sequence3} przedstawia przepływ sterowania pomiędzy elementami systemu w sytuacji, gdy niemożliwe jest nawiązanie połączenia z serwerem. Diagram \ref{fig:sequence4} ukazuje przepływ sterowania pomiędzy warstwami podsystemu zarządzający w sytuacji żądania dostępu do historii prób dostępu przez administratora systemu.
 
