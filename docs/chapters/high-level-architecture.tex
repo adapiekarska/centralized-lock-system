@@ -1,14 +1,14 @@
 \chapter{Projekt rozwiązania}
 \label{chap:hl-arch}
 
-    Niniejszy rozdział przedstawia koncepcję systemu. Definiuje użytkowników oraz wymagania, opisuje i przedstawia jego budowę, a także zakładany sposób działania w kilku najbardziej prawdopodobnych sytuacjach.
+    Niniejszy rozdział przedstawia koncepcję systemu. Definiuje użytkowników oraz wymagania funkcjonalne i pozafunkcjonalne. Przedstawia budowę systemu, opisuje kolejno tworzące system komponenty sprzętowe oraz podsystemy, a także relacje, które między nimi zachodzą. Ponadto, prezentuje zakładany sposób działania systemu w kilku najbardziej prawdopodobnych sytuacjach.
 
     \section{Idea}
         Idea systemu przedstawiona została na rysnku \ref{fig:door}.
 
-        \begin{figure}[h]
+        \begin{figure}[h!]
             \begin{center}
-                \includegraphics[width=.9\linewidth]{chapters/images/door2.png}
+                \includegraphics[width=.7\linewidth]{chapters/images/door2.png}
                 \caption{Idea systemu}
                 \label{fig:door}
             \end{center}
@@ -17,15 +17,15 @@
     \section{Użytkownicy}
         Na potrzeby projektu rozwiązania zidentyfikowano dwóch użytkowników. Ich specyfikacja przedstawiona została w tabeli \ref{tbl:users}.
 
-        \begin{table}
+        \begin{table}[h!]
             \caption{Użytkownicy systemu}
             \centering
             \begin{subtable}[c]{\textwidth}
                 \centering
-                \begin{tabular}{|p{2cm}|p{10cm}|}
-                    \hline USER\_1      & Użytkownik \\
-                    \hline Opis         & Osoba posiadająca identyfikator, której celem jest uzyskanie dostępu do chronionego zamkiem pomieszczenia  \\
-                    \hline Źródło       & Placeholder    \\
+                \begin{tabular}{|p{2cm}|p{12cm}|}
+                    \hline USER\_1      & \textbf{Użytkownik} \\
+                    \hline \cellcolor[gray]{0.8} Opis         & Osoba posiadająca identyfikator RFID, której celem jest uzyskanie dostępu do chronionego zamkiem pomieszczenia  \\
+                    \hline \cellcolor[gray]{0.8} Źródło       & Placeholder    \\
                     \hline
                 \end{tabular}
                 \label{tbl:usr1}
@@ -34,10 +34,10 @@
         \quad%
             \begin{subtable}[c]{\textwidth}
                 \centering
-                \begin{tabular}{|p{2cm}|p{10cm}|}
-                    \hline USER\_2      & Administrator \\
-                    \hline Opis         & Osoba posiadająca uprawnienia administracyjne w systemie, mająca dostęp do oprogramowania zarządzającego \\
-                    \hline Źródło       & Placeholder    \\
+                \begin{tabular}{|p{2cm}|p{12cm}|}
+                    \hline USER\_2      & \textbf{Administrator} \\
+                    \hline \cellcolor[gray]{0.8} Opis         & Osoba posiadająca uprawnienia administracyjne w systemie, mająca dostęp do oprogramowania zarządzającego systemem \\
+                    \hline \cellcolor[gray]{0.8} Źródło       & Placeholder    \\
                     \hline
                 \end{tabular}
                 \label{tbl:usr2}
@@ -55,10 +55,10 @@
             \centering
             \begin{subtable}[c]{\textwidth}
                 \centering
-                \begin{tabular}{|p{2cm}|p{10cm}|}
-                    \hline FNRQ\_1      & Kontrola dostępu do pomieszczeń  \\
-                    \hline Opis         & Dopuszczanie do pomieszczeń użytkowników posiadających odpowiedni identyfikator i niedopuszczanie użytkowników nieposiadających odpowiedniego identyfikatora  \\
-                    \hline Źródło       & Placeholder    \\
+                \begin{tabular}{|p{2cm}|p{12cm}|}
+                    \hline FNRQ\_1      & \textbf{Kontrola dostępu do pomieszczeń}  \\
+                    \hline \cellcolor[gray]{0.8} Opis         & Dopuszczanie do pomieszczeń użytkowników posiadających odpowiedni identyfikator i niedopuszczanie użytkowników nieposiadających odpowiedniego identyfikatora  \\
+                    \hline \cellcolor[gray]{0.8} Źródło       & Placeholder    \\
                     \hline
                 \end{tabular}
                 \label{tbl:fnrq1}
@@ -67,10 +67,10 @@
         \quad%  
             \begin{subtable}[c]{\textwidth}
                 \centering
-                 \begin{tabular}{|p{2cm}|p{10cm}|}
-                    \hline FNRQ\_2      & Przeglądanie historii prób dostępu do pomieszczeń  \\
-                    \hline Opis         & Dostęp do listy dokonanych w przeszłości prób dostępu zakończonych zarówno sukcesem, jak i porażką \\
-                    \hline Źródło       & Placeholder    \\
+                 \begin{tabular}{|p{2cm}|p{12cm}|}
+                    \hline FNRQ\_2      & \textbf{Przeglądanie historii prób dostępu do pomieszczeń}  \\
+                    \hline \cellcolor[gray]{0.8} Opis         & Dostęp do listy dokonanych w przeszłości prób dostępu zakończonych zarówno sukcesem, jak i porażką \\
+                    \hline \cellcolor[gray]{0.8} Źródło       & Placeholder    \\
                     \hline
                 \end{tabular}
                 \label{tbl:fnrq2}
@@ -79,10 +79,10 @@
         \quad%   
             \begin{subtable}[c]{\textwidth}
                 \centering
-                 \begin{tabular}{|p{2cm}|p{10cm}|}
-                    \hline FNRQ\_3      & Dodawanie identyfikatorów  \\
-                    \hline Opis         & Dodawanie identyfikatorów wraz z przyznaniem dostępu do wybranej grupy zamków \\
-                    \hline Źródło       & Placeholder    \\
+                 \begin{tabular}{|p{2cm}|p{12cm}|}
+                    \hline FNRQ\_3      & \textbf{Dodawanie identyfikatorów}  \\
+                    \hline \cellcolor[gray]{0.8} Opis         & Dodawanie identyfikatorów wraz z przyznaniem dostępu do wybranej grupy zamków \\
+                    \hline \cellcolor[gray]{0.8} Źródło       & Placeholder    \\
                     \hline
                 \end{tabular}
                 \label{tbl:fnrq3}
@@ -91,10 +91,10 @@
         \quad%  
             \begin{subtable}[c]{\textwidth}
                 \centering
-                 \begin{tabular}{|p{2cm}|p{10cm}|}
-                    \hline FNRQ\_4      & Przeglądanie identyfikatorów powiązanych z danym zamkiem  \\
-                    \hline Opis         & Dostęp do listy powiązań między identyfikatorami a zamkami \\
-                    \hline Źródło       & Placeholder    \\
+                 \begin{tabular}{|p{2cm}|p{12cm}|}
+                    \hline FNRQ\_4      & \textbf{Przeglądanie identyfikatorów powiązanych z danym zamkiem} \\
+                    \hline \cellcolor[gray]{0.8} Opis         & Dostęp do listy powiązań między identyfikatorami a zamkami \\
+                    \hline \cellcolor[gray]{0.8} Źródło       & Placeholder    \\
                     \hline
                 \end{tabular}
                 \label{tbl:fnrq4}
@@ -103,10 +103,10 @@
         \quad%
             \begin{subtable}[c]{\textwidth}
                 \centering
-                 \begin{tabular}{|p{2cm}|p{10cm}|}
-                    \hline FNRQ\_5      & Blokowanie dostępu do pomieszczeń dla wybranego identyfikatora  \\
-                    \hline Opis         & Manualny wybór opcji czasowego usunięcia powiązania wybranego identyfikatora z wybraną grupą zamków \\
-                    \hline Źródło       & Placeholder    \\
+                 \begin{tabular}{|p{2cm}|p{12cm}|}
+                    \hline FNRQ\_5      & \textbf{Blokowanie dostępu do pomieszczeń dla wybranego identyfikatora}  \\
+                    \hline \cellcolor[gray]{0.8} Opis         & Manualny wybór opcji czasowego usunięcia powiązania wybranego identyfikatora z wybraną grupą zamków \\
+                    \hline \cellcolor[gray]{0.8} Źródło       & Placeholder    \\
                     \hline
                 \end{tabular}
                 \label{tbl:fnrq5}
@@ -122,10 +122,10 @@
         \caption{Wymagania funkcjonalne, c.d.}
             \begin{subtable}[c]{\textwidth}
                 \centering
-                 \begin{tabular}{|p{2cm}|p{10cm}|}
-                    \hline FNRQ\_6      & Dostęp do grupy pomieszczeń za pomocą jednego identyfikatora  \\
-                    \hline Opis         & Ustawienie powiązań identyfikatorów i zamków w taki sposób, aby możliwy był dostęp do grupy zamków za pomocą jednego identyfikatora \\
-                    \hline Źródło       & Placeholder    \\
+                 \begin{tabular}{|p{2cm}|p{12cm}|}
+                    \hline FNRQ\_6      & \textbf{Dostęp do grupy pomieszczeń za pomocą jednego identyfikatora}  \\
+                    \hline \cellcolor[gray]{0.8} Opis         & Ustawienie powiązań identyfikatorów i zamków w taki sposób, aby możliwy był dostęp do grupy zamków za pomocą jednego identyfikatora \\
+                    \hline \cellcolor[gray]{0.8} Źródło       & Placeholder    \\
                     \hline
                 \end{tabular}
                 \label{tbl:fnrq6}
@@ -134,10 +134,10 @@
         \quad%
             \begin{subtable}[c]{\textwidth}
                 \centering
-                 \begin{tabular}{|p{2cm}|p{10cm}|}
-                    \hline FNRQ\_7      & Dostęp do pomieszczenia za pomocą grupy identyfikatorów  \\
-                    \hline Opis         & Ustawienie powiązań identyfikatorów i zamków w taki sposób, aby możliwy był dostęp do jednego zamka za pomocą grupy identyfikatorów \\
-                    \hline Źródło       & Placeholder    \\
+                 \begin{tabular}{|p{2cm}|p{12cm}|}
+                    \hline FNRQ\_7      & \textbf{Dostęp do pomieszczenia za pomocą grupy identyfikatorów}  \\
+                    \hline \cellcolor[gray]{0.8} Opis         & Ustawienie powiązań identyfikatorów i zamków w taki sposób, aby możliwy był dostęp do jednego zamka za pomocą grupy identyfikatorów \\
+                    \hline \cellcolor[gray]{0.8} Źródło       & Placeholder    \\
                     \hline
                 \end{tabular}
                 \label{tbl:fnrq7}
@@ -146,10 +146,10 @@
         \quad%
             \begin{subtable}[c]{\textwidth}
                 \centering
-                 \begin{tabular}{|p{2cm}|p{10cm}|}
-                    \hline FNRQ\_8      & Sygnalizacja przyznania lub odmowy dostępu  \\
-                    \hline Opis         & Powiadamianie użytkownika o podjętej przez system decyzji \\
-                    \hline Źródło       & Placeholder    \\
+                 \begin{tabular}{|p{2cm}|p{12cm}|}
+                    \hline FNRQ\_8      & \textbf{Sygnalizacja przyznania lub odmowy dostępu}  \\
+                    \hline \cellcolor[gray]{0.8} Opis         & Powiadamianie użytkownika o podjętej przez system decyzji \\
+                    \hline \cellcolor[gray]{0.8} Źródło       & Placeholder    \\
                     \hline
                 \end{tabular}
                 \label{tbl:fnrq8}
@@ -158,10 +158,10 @@
         \quad%
             \begin{subtable}[c]{\textwidth}
                 \centering
-                 \begin{tabular}{|p{2cm}|p{10cm}|}
-                    \hline FNRQ\_9      & Sygnalizacja stanu naładowania baterii w układzie zamka  \\
-                    \hline Opis         & Okresowe powiadamianie administratora systemu o bieżącym stanie naładowania baterii \\
-                    \hline Źródło       & Placeholder    \\
+                 \begin{tabular}{|p{2cm}|p{12cm}|}
+                    \hline FNRQ\_9      & \textbf{Sygnalizacja stanu naładowania baterii w układzie zamka} \\
+                    \hline \cellcolor[gray]{0.8} Opis         & Okresowe powiadamianie administratora systemu o bieżącym stanie naładowania baterii \\
+                    \hline \cellcolor[gray]{0.8} Źródło       & Placeholder    \\
                     \hline
                 \end{tabular}
                 \label{tbl:fnrq9}
@@ -179,10 +179,10 @@
             \centering
             \begin{subtable}[c]{\textwidth}
                 \centering
-                \begin{tabular}{|p{2cm}|p{10cm}|}
-                    \hline XXRQ\_1      & Długość czasu pracy na baterii równa minimum 1 rok  \\
-                    \hline Opis         & Placeholder  \\
-                    \hline Źródło       & Placeholder    \\
+                \begin{tabular}{|p{2cm}|p{12cm}|}
+                    \hline XXRQ\_1      & \textbf{Długość czasu pracy na baterii równa minimum 1 rok}  \\
+                    \hline \cellcolor[gray]{0.8} Opis         & Placeholder  \\
+                    \hline \cellcolor[gray]{0.8} Źródło       & Placeholder    \\
                     \hline
                 \end{tabular}
                 \label{tbl:xxrq1}
@@ -190,6 +190,202 @@
             \end{subtable}
             \label{tbl:xxrq}
         \end{table}
+
+        \section{Komponenty systemu}
+
+            System podzielony został na podsystemy realizujące określone funkcjonalności i istniejące w ramach fizycznych komponentów sprzętowych.
+
+            \subsection{Podsystemy}
+
+                W tabeli \ref{tbl:subsystems} przedstawiono podsystemy wraz z lokalizacją oraz przynależnymi im komponentami programowymi.
+
+                \begin{table}
+                    \caption{Komponenty programowe}
+                    \centering
+                    \begin{subtable}[c]{\textwidth}
+                        \centering
+                        \begin{tabular}{|p{2cm}|p{12cm}|}
+                            \hline SSYS\_1      & \textbf{Podsystem sterowania zamkiem} \\
+                            \hline \cellcolor[gray]{0.8} Opis         & Odpowiedzialny za odczyt danych identyfikatora użytkownika oraz przekazanie ich do podsystemu autoryzacji, zarządzanie zasilaniem elementów układu zamka oraz zarządzanie samym zamkiem.  \\
+                            \hline \cellcolor[gray]{0.8} Lokalizacja  & HCMP\_1 Układ zamka    \\
+                            \hline \cellcolor[gray]{0.8} Komponenty   & SCMP\_1 Oprogramowanie mikrokontrolera w układzie zamka    \\
+                            \hline \cellcolor[gray]{0.8} Źródło       & Placeholder    \\
+                            \hline
+                        \end{tabular}
+                        \label{tbl:scmp1}
+                        \vspace{10mm}           
+                    \end{subtable}
+                \quad%
+                    \begin{subtable}[c]{\textwidth}
+                        \centering
+                        \begin{tabular}{|p{2cm}|p{12cm}|}
+                            \hline SSYS\_2      & \textbf{Podsystem autoryzacji} \\
+                            \hline \cellcolor[gray]{0.8} Opis         & Odpowiedzialny za podjęcie decyzji o przyznaniu bądź odmowie dostępu na podstawie otrzymanych od podsystemu sterowania zamkiem danych. Komunikuje się z podsystemem sterowania zamkiem oraz bazą danych. \\
+                            \hline \cellcolor[gray]{0.8} Lokalizacja  & HCMP\_2 Serwer    \\
+                            \hline \cellcolor[gray]{0.8} Komponenty   & SCMP\_2 Oprogramowanie autoryzujące \\
+                            \hline \cellcolor[gray]{0.8} Źródło       & Placeholder    \\
+                            \hline
+                        \end{tabular}
+                        \label{tbl:ssys2}
+                        \vspace{10mm}           
+                    \end{subtable}
+                \quad%
+                    \begin{subtable}[c]{\textwidth}
+                        \centering
+                        \begin{tabular}{|p{2cm}|p{12cm}|}
+                            \hline SSYS\_3      & \textbf{Podsystem zarządzający} \\
+                            \hline \cellcolor[gray]{0.8} Opis         & Odpowiedzialny za umożliwienie administratorowi systemu wglądu do danych takich jak historia prób dostępu, zbiór identyfikatorów, zamków, oraz powiązań między nimi, a także stan poszczególnych zamków. Dzięki niemu możliwa jest konfiguracja rozpoznawanych przez system identyfikatorów i zamków oraz manualne przyznawanie dostępu poszczególnym identyfikatorom. \\
+                            \hline \cellcolor[gray]{0.8} Lokalizacja  & HCMP\_2 Serwer    \\
+                            \hline \cellcolor[gray]{0.8} Komponenty   & SCMP\_3 Oprogramowanie zarządzające, SCMP\_4 Baza danych \\
+                            \hline \cellcolor[gray]{0.8} Źródło       & Placeholder    \\
+                            \hline
+                        \end{tabular}
+                        \label{tbl:ssys3}
+                        \vspace{10mm}           
+                    \end{subtable}                 
+                    \label{tbl:subsystems}
+                \end{table}
+
+            \subsection{Komponenty sprzętowe}
+
+                W tabeli \ref{tbl:hw_comp} przedstawiono komponenty sprzętowe systemu.
+
+                \begin{table}
+                    \caption{Komponenty sprzętowe}
+                    \centering
+                    \begin{subtable}[c]{\textwidth}
+                        \centering
+                        \begin{tabular}{|p{2cm}|p{12cm}|}
+                            \hline HCMP\_1      & \textbf{Układ zamka} \\
+                            \hline \cellcolor[gray]{0.8} Opis         & Złożony z następujących subkomponentów:
+                                                    \begin{itemize}
+                                                        \item Mikrokontroler
+
+                                                            Odpowiada za sterowanie peryferiami, zarządzaniem ich zasilaniem, inicjację i przeprowadzenie bezprzewodowej komunikacji z serwerem i sterowanie samym zamkiem.
+
+                                                        \item Czujnik ruchu
+
+                                                            Jego jedynym zadaniem jest wykrycie zbliżającego się do zamka użytkownika.
+
+                                                        \item Czytnik RFID
+
+                                                            Stanowi interfejs pomiędzy użytkownikiem a systemem.
+                                                    \end{itemize}  \\
+                            \hline \cellcolor[gray]{0.8} Powiązania   & SCMP\_1 Oprogramowanie mikrokontrolera w układzie zamka    \\
+                            \hline \cellcolor[gray]{0.8} Źródło       & Placeholder    \\
+                            \hline
+                        \end{tabular}
+                        \label{tbl:hcmp1}
+                        \vspace{10mm}           
+                    \end{subtable}
+                \quad%
+                    \begin{subtable}[c]{\textwidth}
+                        \centering
+                        \begin{tabular}{|p{2cm}|p{12cm}|}
+                            \hline HCMP\_2      & \textbf{Serwer} \\
+                            \hline \cellcolor[gray]{0.8} Opis         & Placeholder \\
+                            \hline \cellcolor[gray]{0.8} Powiązania   & SCMP\_2 Oprogramowanie autoryzujące, SCMP\_3 Oprogramowanie zarządzające, SCMP\_4 Baza danych   \\
+                            \hline \cellcolor[gray]{0.8} Źródło       & Placeholder    \\
+                            \hline
+                        \end{tabular}
+                        \label{tbl:hcmp2}
+                        \vspace{10mm}           
+                    \end{subtable}                
+                    \label{tbl:hw_comp}
+                \end{table}
+
+            \subsection{Komponenty programowe}
+
+                W tabeli \ref{tbl:sw_comp} przedstawiono komponenty programowe systemu.
+
+                \begin{table}
+                    \caption{Komponenty programowe}
+                    \centering
+                    \begin{subtable}[c]{\textwidth}
+                        \centering
+                        \begin{tabular}{|p{2cm}|p{12cm}|}
+                            \hline SCMP\_1      & \textbf{Oprogramowanie mikrokontrolera w układzie zamka} \\
+                            \hline \cellcolor[gray]{0.8} Opis         & Odpowiedzialne za zarządzanie peryferiami układu, komunikację z serwerem oraz kontrolę zamka.  \\
+                            \hline \cellcolor[gray]{0.8} Powiązania   & HCMP\_1 Układ zamka    \\
+                            \hline \cellcolor[gray]{0.8} Źródło       & Placeholder    \\
+                            \hline
+                        \end{tabular}
+                        \label{tbl:scmp1}
+                        \vspace{10mm}           
+                    \end{subtable}
+                \quad%
+                    \begin{subtable}[c]{\textwidth}
+                        \centering
+                        \begin{tabular}{|p{2cm}|p{12cm}|}
+                            \hline SCMP\_2      & \textbf{Oprogramowanie autoryzujące} \\
+                            \hline \cellcolor[gray]{0.8} Opis         & Zawiera logikę autoryzacyjną. Odbiera dane od układu zamka, komunikuje się z bazą danych w celu podjęcia decyzji o autoryzacji. \\
+                            \hline \cellcolor[gray]{0.8} Powiązania   & HCMP\_2 Serwer    \\
+                            \hline \cellcolor[gray]{0.8} Źródło       & Placeholder    \\
+                            \hline
+                        \end{tabular}
+                        \label{tbl:scmp2}
+                        \vspace{10mm}           
+                    \end{subtable}
+                \quad%
+                    \begin{subtable}[c]{\textwidth}
+                        \centering
+                        \begin{tabular}{|p{2cm}|p{12cm}|}
+                            \hline SCMP\_3      & \textbf{Oprogramowanie zarządzające} \\
+                            \hline \cellcolor[gray]{0.8} Opis         & Umożliwia zarządzanie istniejącymi identyfikatorami i zamkami oraz dodawanie nowych, przeglądanie historii prób dostępu. \\
+                            \hline \cellcolor[gray]{0.8} Powiązania   & HCMP\_2 Serwer    \\
+                            \hline \cellcolor[gray]{0.8} Źródło       & Placeholder    \\
+                            \hline
+                        \end{tabular}
+                        \label{tbl:scmp3}
+                        \vspace{10mm}           
+                    \end{subtable}                 
+                    \label{tbl:sw_comp}
+                \quad%
+                    \begin{subtable}[c]{\textwidth}
+                        \centering
+                        \begin{tabular}{|p{2cm}|p{12cm}|}
+                            \hline SCMP\_4      & \textbf{Baza danych} \\
+                            \hline \cellcolor[gray]{0.8} Opis         & Przechowuje dane dotyczące poszczególnych identyfikatorów i zamków zarejestrowanych w systemie, powiązań pomiędzy nimi oraz dokonanych w przeszłości prób dostępu zakończonych zarówno sukcesem jak i porażką. \\
+                            \hline \cellcolor[gray]{0.8} Powiązania   & HCMP\_2 Serwer    \\
+                            \hline \cellcolor[gray]{0.8} Źródło       & Placeholder    \\
+                            \hline
+                        \end{tabular}
+                        \label{tbl:scmp4}
+                        \vspace{10mm}           
+                    \end{subtable} 
+                \end{table}
+
+        \section{Projekt architektury}
+
+            Niniejszy punkt prezentuje budowę systemu.
+
+            Na rysunku \ref{fig:hl-arch} przedstawiono architekturę systemu z podziałem na komponenty sprzętowe oraz podsystemy.
+
+            \begin{figure}[]
+                \includegraphics[width=\linewidth]{chapters/images/hl-arch3.png}
+                \caption{Architektura systemu}
+                \label{fig:hl-arch}
+            \end{figure}
+
+            Na rysunku \ref{fig:lock-arch} przedstawiono szczegółową budowę układu zamka.
+
+            \begin{figure}
+                \centering
+                \includegraphics[width=0.7\textwidth]{chapters/images/lock.png}
+                \caption{Budowa układu zamka}
+                \label{fig:lock-arch}
+            \end{figure}
+
+            \textbf{TBD - budowa podsystemu autoryzacyjnego}
+
+            Na rysunku \ref{fig:mngmt_subsystem} przedstawiono szczegółową budowę podsystemu zarządzającego. 
+
+            \begin{figure}
+                \centering
+                \includegraphics[width=0.7\textwidth]{chapters/images/mngmt_subsystem.png}
+                \caption{Budowa podsystemu zarządzania}
+                \label{fig:mngmt_subsystem}
+            \end{figure}
 
 
         \section{Sposób działania}
@@ -204,9 +400,9 @@
                     Jeżeli połączenie z serwerem nie może zostać nawiązane w czasie \(t + 5~sek.\), gdzie \(t\) jest zmiennym czasem upływającym od momentu podjęcia próby nawiązania połączenia z serwerem do momentu zakończenia odczytu danych z identyfikatora, mikrokontroler sygnalizuje użytkownikowi błąd połączenia, po czym wprowadza się w stan uśpienia.
             \end{enumerate}
 
-            Jeżeli żadna z wymienionych wyżej niekorzystnych sytuacji nie wystąpi i dane zostaną pomyślnie przesłane do serwera, serwer podejmuje decyzję o przyznaniu bądź odmowie dostępu. Dokonuje tego po wysłaniu stosownego zapytania do bazy danych, a następnie wysyła potwierdzenie lub odmowę do mikrokontrolera. Mikrokontroler w sposób wizualny sygnalizuje decyzję użytkownikowi, a jeżeli była ona pomyślna, dodatkowo wysyła sygnał otwierający zamek. Niezależnie od decyzji serwera, wpis o próbie dostępu zostaje zapisany w bazie danych, skąd może być pobrany przez podsystem zarządzania w celu prezentacji danych administratorowi systemu.
+            Jeżeli żadna z wymienionych wyżej niekorzystnych sytuacji nie wystąpi i dane zostaną pomyślnie przesłane do serwera, serwer podejmuje decyzję o przyznaniu bądź odmowie dostępu. Dokonuje tego po wysłaniu stosownego zapytania do bazy danych, a następnie wysyła potwierdzenie lub odmowę do mikrokontrolera. Mikrokontroler w sposób wizualny sygnalizuje decyzję użytkownikowi, a jeżeli była ona pomyślna, dodatkowo wysyła sygnał otwierający zamek. Niezależnie od decyzji serwera, wpis o próbie dostępu zostaje zapisany w bazie danych, skąd może być pobrany przez podsystem zarządzający w celu prezentacji danych administratorowi systemu.
 
-            Opisane wyżej mechanizmy zostały szerzej ukazane na diagramach sekwencji. Diagramy \ref{fig:sequence1}-\ref{fig:sequence3} dotyczą podsystemu sterowania zamkiem oraz podsystemu autoryzacji, natomiast diagram \ref{fig:sequence4} dotyczy podsystemu zarządzania. Diagram \ref{fig:sequence1} przedstawia proces autoryzacji identyfikatora użytkownika w przypadku najbardziej pomyślnego scenariusza. Diagram \ref{fig:sequence2} ukazuje przepływ sterowania pomiędzy elementami systemu w sytuacji, gdy użytkownik zostanie wykryty, ale identyfikator nie zostanie przyłożony do czytnika w zadanym przedziale czasu. Diagram \ref{fig:sequence3} przedstawia przepływ sterowania pomiędzy elementami systemu w sytuacji, gdy niemożliwe jest nawiązanie połączenia z serwerem. Diagram \ref{fig:sequence4} ukazuje przepływ sterowania pomiędzy warstwami podsystemu zarządzania w sytuacji żądania dostępu do historii prób dostępu przez administratora systemu.
+            Opisane wyżej mechanizmy zostały szerzej ukazane na diagramach sekwencji. Diagramy \ref{fig:sequence1}-\ref{fig:sequence3} dotyczą podsystemu sterowania zamkiem oraz podsystemu autoryzacji, natomiast diagram \ref{fig:sequence4} dotyczy podsystemu zarządzającego. Diagram \ref{fig:sequence1} przedstawia proces autoryzacji identyfikatora użytkownika w przypadku najbardziej pomyślnego scenariusza. Diagram \ref{fig:sequence2} ukazuje przepływ sterowania pomiędzy elementami systemu w sytuacji, gdy użytkownik zostanie wykryty, ale identyfikator nie zostanie przyłożony do czytnika w zadanym przedziale czasu. Diagram \ref{fig:sequence3} przedstawia przepływ sterowania pomiędzy elementami systemu w sytuacji, gdy niemożliwe jest nawiązanie połączenia z serwerem. Diagram \ref{fig:sequence4} ukazuje przepływ sterowania pomiędzy warstwami podsystemu zarządzający w sytuacji żądania dostępu do historii prób dostępu przez administratora systemu.
 
             Należy zwrócić uwagę na możliwość wystąpienia również innych sytuacji niekorzystnych, takich jak błąd połączenia z bazą danych lub \textbf{co jeszcze?}. Ich obsługa jest pomijalna z punktu widzenia współpracy komponentów systemu, dlatego nie została uwzględniona na diagramach.
 
@@ -237,89 +433,88 @@
 
             \textbf{dodać scenariusz dodawania nowego identyfikatora}
 
-        \section{Architektura systemu}
+                % System tworzą następujące komponenty sprzętowe:
 
-            \subsection{Podsystemy}
+                % \begin{enumerate}
 
-                System podzielony został na podsystemy realizujące określone funkcjonalności i istniejące w ramach komponentów sprzętowych. Poniżej wylistowano wyodrębnione podsystemy wraz z ich najważniejszymi funkcjami. 
+                %     \item Komponent sterujący zamkiem, inaczej nazywany układem zamka
 
-                \begin{enumerate}
+                %         Jedynym podsystemem zlokalizowanym w obrębie tego komponentu jest podsystem sterowania zamkiem.
 
-                    \item Podsystem sterowania zamkiem
+                %         Komponent sterujący zamkiem składa się z następujących subkomponentów:
 
-                        Jest odpowiedzialny za odczyt danych identyfikatora użytkownika oraz przekazanie ich do podsystemu autoryzacji, zarządzanie zasilaniem elementów układu zamka oraz zarządzanie samym zamkiem.
+                %         \begin{itemize}
+                %             \item Mikrokontroler
 
-                    \item Podsystem autoryzacji
+                %                 Odpowiada za sterowanie peryferiami, zarządzaniem ich zasilaniem, inicjację i przeprowadzenie bezprzewodowej komunikacji z serwerem i sterowanie samym zamkiem.
 
-                        Jego zadaniem jest podjęcie decyzji o przyznaniu bądź odmowie dostępu na podstawie otrzymanych od podsystemu sterowania zamkiem danych. Komunikuje się z podsystemem sterowania zamkiem oraz bazą danych.
+                %             \item Czujnik ruchu
 
-                    \item Podsystem zarządzania
+                %                 Jego jedynym zadaniem jest wykrycie zbliżającego się do zamka użytkownika.
 
-                        Jego zadaniem jest umożliwienie administratorowi systemu wglądu do danych takich jak historia prób dostępu, zbiór identyfikatorów, zamków, oraz powiązań między nimi, a także stan poszczególnych zamków. Dzięki niemu możliwa jest konfiguracja rozpoznawanych przez system identyfikatorów i zamków oraz manualne przyznawanie dostępu poszczególnym identyfikatorom.
+                %             \item Czytnik RFID
 
-                    \item Baza danych
+                %                 Stanowi interfejs pomiędzy użytkownikiem a systemem.
 
-                        Ze względu na to, że stanowi część zarówno podsystemu autoryzacji, jak i podsystemu zarządzania, traktowana jest jako osobny element systemu niepodlegający żadnemu innemu podsystemowi. Baza danych przechowuje dane dotyczące poszczególnych identyfikatorów i zamków zarejestrowanych w systemie, powiązań pomiędzy nimi oraz dokonanych w przeszłości prób dostępu zakończonych zarówno sukcesem jak i porażką. Schemat bazy danych przedstawiony został na rysunku \ref{fig:schema}.
+                %         \end{itemize}
 
-                        \begin{figure}
-                            \centering
-                            \includegraphics[width=.8\linewidth]{chapters/images/schema.png}
-                            \caption{Schemat bazy danych}
-                            \label{fig:schema}
-                        \end{figure}
+                %         Diagram \textbf{jak się nazywa taki diagram?} komponentu sterującego zamkiem został przedstawiony na rysunku \ref{fig:lock-arch}.
 
-                \end{enumerate}
+                %         \begin{figure}
+                %             \centering
+                %             \includegraphics[width=0.7\textwidth]{chapters/images/lock.png}
+                %             \caption{Diagram komponentu sterującego zamkiem}
+                %             \label{fig:lock-arch}
+                %         \end{figure}
 
-            \subsection{Komponenty sprzętowe}
+                %     \item Komponent serwera
 
-                Podsystemy sterowania zamkiem, autoryzacji i zarządzania oraz baza danych istnieją w ramach dwóch komponentów sprzętowych. Komponenty te to:
-                \begin{enumerate}
-                    \item Komponent sterujący zamkiem, inaczej nazywany układem zamka - w jego obrębie zlokalizowany jest podsystem sterowania zamkiem,
-                    \item Komponent serwera - w jego obrębie zlokalizowane są podsystemy autoryzacji, zarządzania oraz baza danych.
-                \end{enumerate}
+                %         W jego obrębie zlokalizowane są podsystemy autoryzacji i zarządzania oraz baza danych.
 
-                Komponenty sprzętowe zostały krótko omówione w kolejnych punktach. Sprzętowa architektura systemu z podziałem na komponenty oraz przynależne im podsystemy przedstawiona została na rysunku \ref{fig:hl-arch}.
+                % \end{enumerate}
 
-                \begin{figure}[]
-                    \includegraphics[width=\linewidth]{chapters/images/hl-arch3.png}
-                    \caption{Architektura systemu}
-                    \label{fig:hl-arch}
-                \end{figure}
+            % \subsection{Podsystemy}
 
-                \begin{enumerate}
+                % Poniżej wylistowano wyodrębnione podsystemy wraz z ich najważniejszymi funkcjami. 
 
-                    \item Komponent sterujący zamkiem
-                    
-                        Jedynym podsystemem zlokalizowanym w obrębie tego komponentu jest podsystem sterowania zamkiem (patrz rysunek \ref{fig:hl-arch}).
-                        Komponent sterujący zamkiem tworzony jest przez następujące bloki funkcjonalne:
+                % \begin{enumerate}
 
-                        \begin{itemize}
-                            \item Mikrokontroler
+                %     \item Podsystem sterowania zamkiem
 
-                                Odpowiada za sterowanie peryferiami, zarządzaniem ich zasilaniem, inicjację i przeprowadzenie bezprzewodowej komunikacji z serwerem i sterowanie samym zamkiem.
+                %         Jest odpowiedzialny za odczyt danych identyfikatora użytkownika oraz przekazanie ich do podsystemu autoryzacji, zarządzanie zasilaniem elementów układu zamka oraz zarządzanie samym zamkiem.
 
-                            \item Czujnik ruchu
+                %     \item Podsystem autoryzacji
 
-                                Jego jedynym zadaniem jest wykrycie zbliżającego się użytkownika.
+                %         Jego zadaniem jest podjęcie decyzji o przyznaniu bądź odmowie dostępu na podstawie otrzymanych od podsystemu sterowania zamkiem danych. Komunikuje się z podsystemem sterowania zamkiem oraz bazą danych.
 
-                            \item Czytnik RFID
+                %     \item Podsystem zarządzania
 
-                                Stanowi interfejs pomiędzy użytkownikiem a systemem.
+                %         Jego zadaniem jest umożliwienie administratorowi systemu wglądu do danych takich jak historia prób dostępu, zbiór identyfikatorów, zamków, oraz powiązań między nimi, a także stan poszczególnych zamków. Dzięki niemu możliwa jest konfiguracja rozpoznawanych przez system identyfikatorów i zamków oraz manualne przyznawanie dostępu poszczególnym identyfikatorom.
 
-                        \end{itemize}
+                %         Podsystem zarządzania składa się z dwóch komponentów programowych: aplikacji GUI oraz aplikacji API. Rysunek \ref{fig:mngmt_subsystem} przedstawia jego budowę.
 
-                        Diagram \textbf{jak się nazywa taki diagram?} komponentu sterującego zamkiem został przedstawiony na rysunku \ref{fig:lock-arch}.
+                %         \begin{figure}
+                %             \centering
+                %             \includegraphics[width=0.7\textwidth]{chapters/images/mngmt_subsystem.png}
+                %             \caption{Budowa podsystemu zarządzania}
+                %             \label{fig:mngmt_subsystem}
+                %         \end{figure}
 
-                        \begin{figure}
-                            \centering
-                            \includegraphics[width=0.7\textwidth]{chapters/images/lock.png}
-                            \caption{Diagram komponentu sterującego zamkiem}
-                            \label{fig:lock-arch}
-                        \end{figure}
+                %     \item Baza danych
 
-                    \item Komponent serwera
+                %         Ze względu na to, że stanowi część zarówno podsystemu autoryzacji, jak i podsystemu zarządzania, traktowana jest jako osobny element systemu niepodlegający żadnemu innemu podsystemowi. Baza danych przechowuje dane dotyczące poszczególnych identyfikatorów i zamków zarejestrowanych w systemie, powiązań pomiędzy nimi oraz dokonanych w przeszłości prób dostępu zakończonych zarówno sukcesem jak i porażką. Schemat bazy danych przedstawiony został na rysunku \ref{fig:schema}.
 
-                \end{enumerate}
+                %         \begin{figure}
+                %             \centering
+                %             \includegraphics[width=.8\linewidth]{chapters/images/schema.png}
+                %             \caption{Schemat bazy danych}
+                %             \label{fig:schema}
+                %         \end{figure}
+
+                % \end{enumerate}
+
+        \textbf{TBD - oddzielić jakoś diagramy sprzętowe od funkcjonalnych}
+
 
                     
 
