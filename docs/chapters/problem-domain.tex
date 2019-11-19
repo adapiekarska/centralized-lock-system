@@ -5,9 +5,9 @@
 
 	\section{Kontrola dostępu}
 
-		Kontrola dostępu to środki mające na celu zapewnienie, że do zasobów systemu przetwarzania danych mogą mieć dostęp tylko uprawnione jednostki w uprawniony sposób~\cite{pkn2002}.
+		Kontrola dostępu definiowana jest w \cite{pkn2002} jako środki mające na celu zapewnienie, że do zasobów systemu przetwarzania danych mogą mieć dostęp tylko uprawnione jednostki w uprawniony sposób.
 
-		British Security Industry Association wyodrębnia kilka komponentów składających się na system kontroli dostępu~\cite{bsia2016}. Poniżej przedstawiono wybrane komponenty, które mają zastosowanie lub są powiązane z opisywanem systemem.
+		British Security Industry Association wyodrębnia kilka komponentów składających się na system kontroli dostępu~\cite{bsia2016}. Poniżej przedstawiono najważniejsze z nich.
 
 		Poświadczenie tożsamości (ang. \textit{credentials}) to fizyczny lub materialny obiekt, element wiedzy lub cecha biometryczna umożliwiająca uzyskanie dostępu do kontrolowanej strefy. Najczęściej jako poświadczenie tożsamości stosuje się kody, np. PIN (ang. \textit{Personal Identification Number}, osobisty numer identyfikacyjny), tokeny (karty, urządzenia mobilne itp.) oraz dane biometryczne.
 
@@ -22,45 +22,41 @@
 		W zależności od potrzeb, oprogramowanie w systemie może być samodzielnym programem zainstalowanym na komputerze osobistym bądź złożonym i bezpiecznym oprogramowaniem zainstalowanym na serwerze. Często opiera się na rozwiązaniach webowych lub mobilnych, umożliwiając dostęp z dowolnego urządzenia
 
 	\section{Przegląd istniejących rozwiązań}
-		British Security Industry Association przedstawia trzy podstawowe kategorie systemów kontroli dostępu ze względu na architekturę czytnika.\textbf{Gramatyke tu może troche poprawic}
-
-		Czytniki mogą pracować samodzielnie. Wyposażone są wówczas w urządzenia wejścia/wyjścia niezbędne do zarządzania zamkiem oraz pamięć i moc obliczeniową niezbędne do autonomicznego podejmowania decyzji. Zazwyczaj wyposażone są w uniwersalny kod umożliwiający uzyskanie dostępu każdemu kto wejdzie w jego posiadanie.
-
-		Czytniki mogą też pracować pod kontrolą innego urządzenia. Odczytane z nośnika dane poświadczające tożsamość przekazują do nadrzędnego urządzenia zwanego kontrolerem.
-
-		Istnieją również czytniki łączące funkcjonalność zarówno czytnika jak i kontrolera w jednym urządzeniu. Posiadają one lokalną kopię bazy danych, na podstawie której podejmowana jest decyzja o przyznaniu lub odmowie dostępu.
-
-		W dzisiejszych czasach rozwój technologii daje wiele możliwości w kwestii implementacji tych systemów co prowadzi do dużej różnorodności rozwiązań z czego każde ma, właściwe dla wykorzystanych metod, wady i zalety. Poniżej przedstawiona została zaproponowana w \cite{access-system-survey} klasyfikacja systemów kontroli dostępu:
+		
+		Obecny w dzisiejszych czasach postęp technologiczny zapewnia wiele możliwości w kwestii implementacji systemów kontroli dostępu. Prowadzi to do różnorodności rozwiązań, z których każde posiada właściwe dla wykorzystanych metod wady i zalety. Poniżej przedstawiona została zaproponowana w \cite{access-system-survey} klasyfikacja systemów kontroli dostępu:
+		\textbf{Tu można by wspomnieć ze względu na jakie kryterium jest ten podział, jeżeli jest takie kryterium}
 		\begin{enumerate}[label=\Alph*.]
 			\item System zamków mechanicznych
 
-				Zamek oparty na układzie mechanicznym otwieranym przez fizyczny klucz \textbf{moze dodackiedy powstał pierwszy zamek}. Jest to cały czas najczęściej stosowana metoda ochrony przestrzeni mieszkalnych, mimo to, że złamanie takiego zabezpieczenia wymaga jedynie odpowiednich umiejętności manualnych i wykorzystanych narzędzi.
+				W tego typu systemie zamek zawiera układ mechaniczny otwierany przez fizyczny klucz. Jest to wciąż najczęściej stosowana metoda ochrony przestrzeni mieszkalnych, mimo że złamanie takiego zabezpieczenia wymaga jedynie odpowiednich umiejętności manualnych i wykorzystanych narzędzi.
 
 			\item System z uwierzytelnieniem przez PIN
 
-				Mikrokontroler z klawiaturą numeryczną gdzie dostęp jest przydzielany na podstawie wprowadzonego kodu. Rozwiązuje to problem konieczności posiadania kosztownego w produkcji unikalnego, fizycznego klucza, który z natury narażony jest na kradzież lub zagubienie~\cite{keypad-access-system}. Wadą tego rozwiazania jest ograniczona możliwość zmiany kodu dostępu i podatność na jego ekstrakcję z pamięci programowalnej.
+				Dostęp do chronionych pomieszczeń w tego rodzaju systemie przydzielany jest na podstawie kodu wprowadzanego za pomocą klawiatury numerycznej podłączonej do mikrokontrolera. Rozwiązanie to cechuje się brakiem konieczności posiadania kosztownego w produkcji unikalnego, fizycznego klucza, który z natury narażony jest na kradzież lub zagubienie~\cite{keypad-access-system}. Wadą tego rozwiazania jest ograniczona możliwość zmiany kodu dostępu i podatność na jego wydobycie z pamięci programowalnej.
 
 			\item System z uwierzytelnieniem przez RFID
 
-				Rolę nośnika klucza pełni tag RFID, w którego pamięci owy klucz pozostaje zapisany. W przypadku dostatecznego zbliżenia nośnika do anteny, umieszcznej drzwiach lub w ich bezpośrednim sąsiedztwie, następuje odczyt i weryfikacja klucza. Sytemy tego typu poza metodą autoryzacji dają również możliwość monitorowania w czasie rzeczywistym ruchu użytkowników systemu lub też wyposażenia objętego kontrolą przez umieszczenie w nim tagów RFID jak zostało to  w \cite{rfid-access-system-for-university}. Ze względu na wykorzystanie nieszyfrowanej transmisji bezprzewodowej, przesyłany klucz jest łatwy do przechwycenia
+				Rolę nośnika klucza w tego typu rozwiązaniu pełni identyfikator RFID. W przypadku dostatecznego zbliżenia nośnika do anteny umieszczonej w drzwiach lub ich bezpośrednim sąsiedztwie, następuje odczyt i weryfikacja klucza. Sytemy tego typu umożliwiają śledzenie ruchu użytkowników systemu w czasie rzeczywistym oraz monitorowanie wyposażenia objętego kontrolą dostępu przez umieszczenie w nim identyfikatorów RFID, jak zostało to opisane w \cite{rfid-access-system-for-university}. Ze względu na wykorzystanie nieszyfrowanej transmisji bezprzewodowej, przesyłany klucz jest łatwy do przechwycenia.
 
 			\item System z uwierzytelnieniem przez dane biometryczne
 
-				Opierając uwierzytelnienie o konwersję określonych unikalnych cech fizycznych użytkownika do postaci numerycznej można całkowicie wyeliminować konieczność istnienia fizycznych kluczy i haseł. Nie ma w ten sposób możliwości zgubienia, kradzieży lub zapomnienia klucza co potencjalnie zwiększa bezpieczeństwo, jednak rozwiązanie to nie pozostaje bez wad. Wśród przezentowanych w \cite{biometric-system-vulnerabilities} zagrożeń wyróżnić można brak tajności danych biometrycznych przez co możliwa jest duplikacja określonej cechy. Sama cecha jest też podatna na uszkodzenia mechaniczne a po utracie nie można jej zastąpić.
+				Opierając uwierzytelnienie o konwersję unikalnych cech fizycznych użytkownika do postaci numerycznej można całkowicie wyeliminować konieczność istnienia fizycznych kluczy i haseł. Zaletą takiego systemu jest brak możliwości zgubienia lub kradzieży klucza czy zapomnienia hasła. Potencjalnie, cecha ta podnosi poziom bezpieczeństwa obiektu objętego tego typu kontrolą dostępu, jednak rozwiązanie posiada też wady. Wśród przezentowanych w \cite{biometric-system-vulnerabilities} zagrożeń wyróżnić można szczególnie brak tajności danych biometrycznych, co sprawia, że możliwa jest duplikacja danej cechy. Sama cecha biometryczna jest podatna na uszkodzenia mechaniczne, a po utracie nie można jej zastąpić.
 
 			\item System z uwierzytelnieniem przez OTP (ang. \textit{One Time Password}, hasło jednorazowe)
 
-				Uwierzytenienie w systemie tego rodzaju wymaga wprowadzenia jednorazowego hasła, które generowane jest przez serwer a następnie wysyłane do użytkownika przez wiadomość tekstową oraz zapisywane w systemie. Użytkownik następnie przy próbie dostępu wpisuje otrzymane hasło, które zostaje porównane z wartością zapisaną w systemie a następnie usunięte. Główną zaletą tego rozwiązania jest znacząco zmniejszona podatność na ataki powtórzeniowe gdzie atakujący przechwytuje dane wykorzystane do autoryzacji i używa ich ponownie w celu uzyskania dostępu. Problemem jest wymaganie dostępności użytkownikownika w sieci GSM w celu przekazania hasła.
+				Uwierzytenienie w systemie tego rodzaju wymaga wprowadzenia jednorazowego hasła, które generowane jest przez serwer, a następnie zapisywane w systemie i wysyłane do użytkownika w wiadomości tekstowej. Przy próbie dostępu, użytkownik podaje otrzymane hasło, które zostaje porównane z hasłem zapisanym w systemie. Po dokonaniu porównania jest ono usuwane. Główną zaletą tego rozwiązania jest znacząco zmniejszona podatność na ataki powtórzeniowe, w których atakujący przechwytuje dane wykorzystane do autoryzacji i używa ich ponownie w celu uzyskania dostępu. Problemem jest konieczność dostępności użytkownikownika w sieci GSM w celu przekazania hasła za pomocą wiadomości SMS.
 
 			\item System oparty na kryptograficznym bezpieczeństwie danych
 
-				Bezpieczeństwo tego rozwiązania bazuje na kluczu dostępu, który jest znany wyłącznie przez użytkownika systemu. W pamięci układu zamka zapisywana jest odpowiednia sekwencja, która dopiero po transformacji kryptograficznej staje się hasłem dostępu (w tej postaci jest ono przekazywane użytkownikowi). W ten sposób hasło znane jest tylko użytkownikowi co zapewnia, że nawet osoby odpowiedzialne za utrzymanie systemu nie uzyskają dostępu przez pozyskanie hasła. Słabą stroną metody jest oparcie bezpieczeństwa systemu na kluczu kryptograficznym który musi być przechowywany w bezpieczny sposób.
+				Bezpieczeństwo tego rozwiązania bazuje na kluczu dostępu znanym wyłącznie przez użytkownika systemu. W pamięci układu zamka zapisywana jest odpowiednia sekwencja, która po transformacji kryptograficznej staje się hasłem dostępu (w tej postaci jest ono przekazywane użytkownikowi). W ten sposób hasło znane jest tylko użytkownikowi co zapewnia, że nawet osoby odpowiedzialne za utrzymanie systemu nie uzyskają dostępu przez pozyskanie hasła. Słabą stroną metody jest oparcie bezpieczeństwa na kluczu kryptograficznym który musi być przechowywany w bezpieczny sposób. \textbf{Nie rozumiem o co tu chodzi.}
 
 			\item System oparty o komunikację bezprzewodową
 				\textbf{TODO: review documentation considering author names}
-				W systemie tego typu przepływ danych następuje za pośrednictwem komunikacji bezprzewodowej. Użytkownik wykorzystuje urządzenie mobilne połączone z siecią do autoryzacji próby dostępu. Rozwiązanie zaproponowane w \cite{cryptographic-iot-access-system} zakłada, że w przeciwieństwie do wcześniej wymienionych rozwiązań, użytkownik nie komunikuje się bezpośrednio z zamkiem. Zamiast tego komunikacja następuje za pośrednictwem serwera znajdującego się w sieci lokalnej wraz z urządzeniem moblinym użytkownika. Użytkownik stosuje odpowiednie zapytanie do serwera, który dokonuje kontroli uprawnień i w przypadku pozytywnej ich weryfikacji, przekazuje je do układu zamka.
+				W systemie tego typu przepływ danych odbywa się za pośrednictwem sieci bezprzewodowej. W celu autoryzacji wykorzystywane jest urządzenie mobilne połączone z siecią. W przeciwieństwie do pozostałych wymienionych rozwiązań, rozwiązanie zaproponowane w \cite{cryptographic-iot-access-system} nie zakłada bezpośredniej komunikacji użytkownika z zamkiem. Urządzenie mobilne użytkownika generuje zapytanie do serwera, który dokonuje kontroli uprawnień i w przypadku pozytywnej ich weryfikacji, przekazuje decyzję o sukcesie do układu zamka.
 
 		\end{enumerate}
+
+		\textbf{Tu może jakieś podsumowanie tych różnych rodzajów jeszcze jakby się dało}
 
 	\section{Bezpieczeństwo}
 		\textbf{Przegląd zagrożeń związanych z bezpieczeństwem - TBD}
