@@ -208,7 +208,7 @@
                         \centering
                         \begin{tabular}{|p{2cm}|p{12cm}|}
                             \hline SSYS\_3      & \textbf{Podsystem zarządzający} \\
-                            \hline \cellcolor[gray]{0.8} Opis         & Odpowiedzialny za umożliwienie administratorowi systemu wglądu do danych takich jak historia prób dostępu, zbiór identyfikatorów, zamków, oraz powiązań między nimi, a także stan poszczególnych zamków. Dzięki niemu możliwa jest konfiguracja rozpoznawanych przez system identyfikatorów i zamków oraz manualne przyznawanie dostępu poszczególnym identyfikatorom. \\
+                            \hline \cellcolor[gray]{0.8} Opis         & Odpowiedzialny za umożliwienie administratorowi systemu wglądu do danych takich jak historia prób dostępu, zbiór identyfikatorów, zamków, oraz powiązań między nimi, a także stan poszczególnych zamków. Dzięki niemu możliwa jest konfiguracja rozpoznawanych przez system identyfikatorów i zamków oraz manualne przyznawanie dostępu poszczególnym identyfikatorom. Nazywany też podsystemem zarządzania. \\
                             \hline \cellcolor[gray]{0.8} Lokalizacja  & HCMP\_2 Serwer    \\
                             \hline \cellcolor[gray]{0.8} Komponenty   & SCMP\_3 Oprogramowanie zarządzające, SCMP\_4 Baza danych \\
                             \hline
@@ -250,7 +250,7 @@
                         \centering
                         \begin{tabular}{|p{2cm}|p{12cm}|}
                             \hline HCMP\_2      & \textbf{Serwer} \\
-                            \hline \cellcolor[gray]{0.8} Opis         & Placeholder \\
+                            \hline \cellcolor[gray]{0.8} Opis         & Komponent na którym zlokalizowane są podsystemy autoryzacji, zarządzania oraz baza danych.  \\
                             \hline \cellcolor[gray]{0.8} Powiązania   & SCMP\_2 Oprogramowanie autoryzujące, SCMP\_3 Oprogramowanie zarządzające, SCMP\_4 Baza danych   \\
                             \hline
                         \end{tabular}
@@ -297,7 +297,6 @@
                         \label{tbl:scmp3}
                         \vspace{10mm}           
                     \end{subtable}                 
-                    \label{tbl:sw_comp}
                 \quad%
                     \begin{subtable}[c]{\textwidth}
                         \centering
@@ -310,6 +309,7 @@
                         \label{tbl:scmp4}   
                         \vspace{10mm}       
                     \end{subtable} 
+                    \label{tbl:sw_comp}
                 \end{table}
 
         \pagebreak
@@ -356,13 +356,15 @@
 
             Jeżeli żadna z wymienionych wyżej niekorzystnych sytuacji nie wystąpi i dane zostaną pomyślnie przesłane do serwera, serwer podejmuje decyzję o przyznaniu bądź odmowie dostępu. Dokonuje tego po wysłaniu zapytania do bazy danych, a następnie wysyła potwierdzenie lub odmowę do mikrokontrolera. Mikrokontroler w sposób wizualny sygnalizuje decyzję użytkownikowi, a jeżeli była ona pomyślna, dodatkowo wysyła sygnał otwierający zamek. Niezależnie od decyzji serwera, wpis o próbie dostępu zostaje zapisany w bazie danych, skąd może być pobrany przez podsystem zarządzający w celu prezentacji danych administratorowi systemu.
 
-            Opisane wyżej mechanizmy zostały szerzej ukazane na diagramach sekwencji. Diagramy \ref{fig:sequence1}-\ref{fig:sequence3} dotyczą podsystemu sterowania zamkiem oraz podsystemu autoryzacji, natomiast diagram \ref{fig:sequence4} dotyczy podsystemu zarządzającego. Diagram \ref{fig:sequence1} przedstawia proces autoryzacji identyfikatora użytkownika w przypadku najbardziej pomyślnego scenariusza. Diagram \ref{fig:sequence2} ukazuje przepływ sterowania pomiędzy elementami systemu w sytuacji, gdy użytkownik zostanie wykryty, ale identyfikator nie zostanie przyłożony do czytnika w zadanym przedziale czasu. Diagram \ref{fig:sequence3} przedstawia przepływ sterowania pomiędzy elementami systemu w sytuacji, gdy niemożliwe jest nawiązanie połączenia z serwerem. Diagram \ref{fig:sequence4} ukazuje przepływ sterowania pomiędzy warstwami podsystemu zarządzający w sytuacji żądania dostępu do historii prób dostępu przez administratora systemu.
+            Opisane wyżej mechanizmy zostały szerzej ukazane na diagramach sekwencji. Diagramy \ref{fig:sequence1}-\ref{fig:sequence3} dotyczą podsystemu sterowania zamkiem oraz podsystemu autoryzacji, natomiast diagramy \ref{fig:sequence4}-\ref{fig:sequence5} dotyczą podsystemu zarządzającego.
+
+            Przedstawione sytuacje to kolejno: proces autoryzacji identyfikatora użytkownika w przypadku najbardziej pomyślnego scenariusza (\ref{fig:sequence1}), przepływ sterowania pomiędzy elementami systemu w sytuacji, gdy użytkownik zostanie wykryty, ale identyfikator nie zostanie przyłożony do czytnika w zadanym przedziale czasu (\ref{fig:sequence2}), przepływ sterowania pomiędzy elementami systemu w sytuacji, gdy niemożliwe jest nawiązanie połączenia z serwerem (\ref{fig:sequence3}), przepływ sterowania pomiędzy warstwami podsystemu zarządzającego w sytuacji żądania dostępu do historii prób dostępu przez administratora systemu (\ref{fig:sequence4}) oraz przepływ sterowania pomiędzy warstwami podsystemu zarządzajacego w sytuacji dodania nowego identyfikatora przez administratora systemu (\ref{fig:sequence5}).
 
             Należy zwrócić uwagę na możliwość wystąpienia również innych sytuacji niekorzystnych, takich jak błąd połączenia z bazą danych lub \textbf{co jeszcze?}. Ich obsługa jest pomijalna z punktu widzenia współpracy komponentów systemu, dlatego nie została uwzględniona na diagramach.
 
             \begin{figure}[]
                 \includegraphics[width=\linewidth]{chapters/images/sequence1.png}
-                \caption{Przepływ sterowania w procesie autoryzacji identyfikatora, pomyślny scenariusz}
+                \caption{Przepływ sterowania w procesie autoryzacji identyfikatora}
                 \label{fig:sequence1}
             \end{figure}
 
@@ -385,7 +387,12 @@
                 \label{fig:sequence4}
             \end{figure}
 
-            \textbf{dodać scenariusz dodawania nowego identyfikatora}
+            \begin{figure}[]
+                \centering
+                \includegraphics[width=.7\linewidth]{chapters/images/sequence5.png}
+                \caption{Przepływ sterowania w procesie dodawania do systemu nowego identyfikatora}
+                \label{fig:sequence5}
+            \end{figure}
 
 
                     
