@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { TokenAddComponent } from './token-add.component';
+import { ModalShowComponent } from './modal-show.component';
 
-describe('TokenAddComponent', () => {
-  let component: TokenAddComponent;
-  let fixture: ComponentFixture<TokenAddComponent>;
+describe('LockAddModalComponent', () => {
+  let component: ModalShowComponent;
+  let fixture: ComponentFixture<ModalShowComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ TokenAddComponent ]
+      declarations: [ ModalShowComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(TokenAddComponent);
+    fixture = TestBed.createComponent(ModalShowComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

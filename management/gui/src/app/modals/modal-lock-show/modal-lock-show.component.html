@@ -1,0 +1,26 @@
+<app-modal-show title="Edit Token">
+  <div>
+    <form>
+      <div class="form-group">
+        <label for="exampleFormControlInput1">Lock ID</label>
+        <output name="id" id="exampleFormControlInput1">{{lock.id}}</output>
+      </div>
+      <div class="form-group">
+        <label for="tokens">Tokens</label>
+        <ul class="list-group" id="tokens">
+          <li class="list-group-item" *ngFor="let token of lock.tokens">
+            <span class="badge">{{token.id}}</span>
+          </li>
+        </ul>
+<!--        <select class="custom-select" [(ngModel)]="token.locks" id="tokens" name="locks" multiple>-->
+<!--          <option *ngFor="let lock of availableLocks" [ngValue]="lock">-->
+<!--            {{lock.id}}-->
+<!--          </option>-->
+<!--        </select>-->
+      </div>
+    </form>
+    <div id="m-footer" class="modal-footer">
+      <button type="button" class="btn btn-outline-dark" (click)="submitForm()">Submit</button>
+    </div>
+  </div>
+</app-modal-show>

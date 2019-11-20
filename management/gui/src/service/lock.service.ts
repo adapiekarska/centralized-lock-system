@@ -15,16 +15,24 @@ export class LockService {
   constructor(private http: HttpClient) {
   }
 
+  getLock(id: number): Observable<Lock> {
+    return this.http.get<Lock>(this.FULL_URL.concat(`/${id}`));
+  }
+
   getAllLocks(): Observable<any[]> {
     return this.http.get<any[]>(this.FULL_URL);
   }
 
   removeLock(lock: Lock): Observable<any[]> {
-    return this.http.delete<any[]>(this.FULL_URL.concat(`${lock.id}`));
+    return this.http.delete<any[]>(this.FULL_URL.concat(`/${lock.id}`));
   }
 
-  createLock(token: Token): Observable<any[]> {
-    return this.http.post<any[]>(this.FULL_URL, token);
+  createLock(lock: Lock): Observable<any[]> {
+    return this.http.post<any[]>(this.FULL_URL, lock);
+  }
+
+  getAllAvailableTokens(): Observable<any[]> {
+    return this.http.get<any[]>(this.API_URL.concat('tokens'));
   }
 
 }

@@ -8,8 +8,8 @@ class AuthMappingService:
     def create(self, params):
         self.model.create(params["token_id"], params["lock_id"])
 
-    def get_all(self):
-        return self.model.list_items()
+    def get_all(self, where=""):
+        return self.model.list_items(where)
 
     def delete(self, _id):
         self.model.delete(_id)

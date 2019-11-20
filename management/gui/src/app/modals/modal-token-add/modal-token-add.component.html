@@ -1,0 +1,21 @@
+<app-modal-show title="Add Token">
+  <div>
+    <form>
+      <div class="form-group">
+        <label for="exampleFormControlInput1">Token ID</label>
+        <input [(ngModel)]="token.id" name="id" type="number" class="form-control" id="exampleFormControlInput1" placeholder="Enter Token ID here...">
+      </div>
+      <div class="form-group">
+        <label for="locks">Select any number of locks</label>
+        <select class="custom-select" [(ngModel)]="token.locks" id="locks" name="locks" multiple>
+          <option *ngFor="let lock of availableLocks" [ngValue]="lock">
+            {{lock.id}}
+          </option>
+        </select>
+      </div>
+    </form>
+    <div id="m-footer" class="modal-footer">
+      <button type="button" class="btn btn-outline-dark" (click)="submitForm()">Submit</button>
+    </div>
+  </div>
+</app-modal-show>

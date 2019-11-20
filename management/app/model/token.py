@@ -21,7 +21,7 @@ class Token:
             return conn.execute(self.QUERY_DELETE, {"id": id})
 
     def get_by_id(self, id):
-        where = f"AND id={id}"
+        where = f"id={id}"
         return self.list_items(where)
 
     # def update(self, id, update_dict):
@@ -36,7 +36,11 @@ class Token:
     def list_items(self, where=""):
         conn = create_connection('acs.db')
         with conn:
-            query = self.QUERY_GET + where
+            query = ""
+            if where != "":
+                query = self.QUERY_GET + " where " + where
+            else:
+                query = self.QUERY_GET
             results = conn.execute(query).fetchall()
 
             rows_dicts = [{"id": row[0]} for row in results]

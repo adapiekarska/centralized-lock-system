@@ -20,6 +20,7 @@ def welcome():
 # easily
 # Install CORS packages -`pip install -U flask-cors`
 
+
 if __name__ == "__main__":
     Schema()
     app.run(debug=True)

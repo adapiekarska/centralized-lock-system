@@ -12,6 +12,7 @@
         </td>
 
         <td>
+          <button type="button" class="btn btn-secondary btn-light px-5 btn-outline-secondary" (click)="openShow(token.id)">Show</button>
           <button type="button" class="btn btn-indigo btn-outline-danger m-0" (click)="remove(token)">Delete</button>
         </td>
       </tr>
@@ -19,7 +20,7 @@
   </div>
   <div class="container text-center bg-primary">
     <div class="btn-group m-3 float-right" role="group" aria-label="Basic example">
-      <button type="button" class="btn btn-primary btn-light px-5 btn-outline-primary">Add</button>
+      <button type="button" class="btn btn-primary btn-light px-5 btn-outline-primary" (click)="openAdd()">Add</button>
     </div>
   </div>
 </div>

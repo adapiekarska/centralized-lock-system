@@ -19,10 +19,14 @@ export class TokenService {
   }
 
   removeToken(token: Token): Observable<any[]> {
-    return this.http.delete<any[]>(this.FULL_URL.concat(`${token.id}`));
+    return this.http.delete<any[]>(this.FULL_URL.concat(`/${token.id}`));
   }
 
   createToken(token: Token): Observable<any[]> {
     return this.http.post<any[]>(this.FULL_URL, token);
+  }
+
+  getAllAvailableLocks(): Observable<any[]> {
+    return this.http.get<any[]>(this.API_URL.concat('locks'));
   }
 }
