@@ -14,6 +14,7 @@
 #include "tasks/task_rfid.h"
 #include "rfid.h"
 #include "wifi_client.h"
+#include "gpio.h"
 
 void deep_sleep_wakeup_flow()
 {
@@ -25,6 +26,10 @@ void deep_sleep_wakeup_flow()
     // The default event loop is a special type of loop used for system events (WiFi events, for example).
     esp_err_t status = esp_event_loop_create_default();
     ESP_ERROR_CHECK(status);
+
+    gpio_initialize();
+    // Power-on the RFID chip
+    gpio_set(GPIO_RC522_POWER);
 
     // Initialize controller status
     controller_status_create();
