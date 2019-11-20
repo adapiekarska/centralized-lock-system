@@ -175,7 +175,7 @@
 
         \textbf{TBD - dodać wymaganie dotyczące czasu odpowiedzi zamka}
 
-        \section{Komponenty systemu}
+        \section{Komponenty}
 
             System podzielony został na podsystemy (tabela \ref{tbl:subsystems}) realizujące określone funkcjonalności za pomocą komponentów programowych (tabela \ref{tbl:sw_comp}) i istniejące w ramach fizycznych komponentów sprzętowych (tabela \ref{tbl:hw_comp}).
 
@@ -355,7 +355,7 @@
                 \item
                     Jeżeli identyfikator nie zostanie przyłożony w przeciągu 10~sek. od momentu wybudzenia czytnika, mikrokontroler ponownie wprowadza czytnik oraz samego siebie w stan uśpienia.
                 \item
-                    Jeżeli połączenie z serwerem nie może zostać nawiązane w czasie \(t + 5~sek.\), gdzie \(t\) jest zmiennym czasem upływającym od momentu podjęcia próby nawiązania połączenia z serwerem do momentu zakończenia odczytu danych z identyfikatora, mikrokontroler sygnalizuje użytkownikowi błąd połączenia, po czym wprowadza się w stan uśpienia.
+                    Jeżeli połączenie z serwerem nie może zostać nawiązane w czasie \textit{t + 5~sek.}, gdzie \textit{t} jest zmiennym czasem upływającym od momentu podjęcia próby nawiązania połączenia z serwerem do momentu zakończenia odczytu danych z identyfikatora, mikrokontroler sygnalizuje użytkownikowi błąd połączenia, po czym wprowadza się w stan uśpienia.
             \end{enumerate}
 
             Jeżeli żadna z wymienionych wyżej niekorzystnych sytuacji nie wystąpi i dane zostaną pomyślnie przesłane do serwera, serwer podejmuje decyzję o przyznaniu bądź odmowie dostępu. Dokonuje tego po wysłaniu zapytania do bazy danych, a następnie wysyła potwierdzenie lub odmowę do mikrokontrolera. Mikrokontroler w sposób wizualny sygnalizuje decyzję użytkownikowi, a jeżeli była ona pomyślna, dodatkowo wysyła sygnał otwierający zamek. Niezależnie od decyzji serwera, wpis o próbie dostępu zostaje zapisany w bazie danych, skąd może być pobrany przez podsystem zarządzający w celu prezentacji danych administratorowi systemu.
