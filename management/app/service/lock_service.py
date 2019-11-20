@@ -11,5 +11,5 @@ class LockService:
     def get_all(self):
         return self.model.list_items()
 
-    def delete(self, params):
-        self.model.delete(params["id"])
+    def delete(self, _id):
+        self.model.delete(_id)

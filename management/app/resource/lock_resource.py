@@ -16,6 +16,6 @@ def get_locks():
     return jsonify(lockService.get_all())
 
 
-@lock_resource.route("/api/locks", methods=["DELETE"])
-def delete_lock():
-    return jsonify(lockService.delete(request.get_json()))
+@lock_resource.route("/api/locks/<_id>", methods=["DELETE"])
+def delete_lock(_id):
+    return jsonify(lockService.delete(_id))

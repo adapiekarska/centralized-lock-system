@@ -16,6 +16,6 @@ def get_tokens():
     return jsonify(tokenService.get_all())
 
 
-@token_resource.route("/api/tokens", methods=["DELETE"])
-def delete_token():
-    return jsonify(tokenService.delete(request.get_json()))
+@token_resource.route("/api/tokens/<_id>", methods=["DELETE"])
+def delete_token(_id):
+    return jsonify(tokenService.delete(_id))

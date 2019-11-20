@@ -16,6 +16,6 @@ def get_tokens():
     return jsonify(tokenLockService.get_all())
 
 
-@auth_mapping_resource.route("/api/auth_mappings", methods=["DELETE"])
-def delete_token():
-    return jsonify(tokenLockService.delete(request.get_json()))
+@auth_mapping_resource.route("/api/auth_mappings/<_id>", methods=["DELETE"])
+def delete_token(_id):
+    return jsonify(tokenLockService.delete(_id))
