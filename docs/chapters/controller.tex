@@ -22,8 +22,8 @@
             Czujnik ruchu posiada krytyczne znaczenie w układzie zamka. Jako jedyny z podzespołów musi być zasilany przez cały czas pracy układu. Ze względu na wymaganie wykorzystania zasilania bateryjnego w układzie istotną cechą jest jak najniższy pobór mocy w stanie spoczynku. Wybranym rozwiązaniem jest czujnik PIR (ang. \textit{Passive Infrared}, pasywny czujnik podczerwieni), model HC-SR501. Wykrycie obiektu sygnalizowane jest stanem wysokim na cyfrowym wyjściu. Czujnik HC-SR501 wyposażony jest w dwa potencjometry umożliwiające regulację czasu trwania stanu wysokiego po wykryciu obiektu oraz czułości czujnika. Układ posiada także zworkę, za pomocą której można wybrać jeden z dwóch możliwych trybów:
 
             \begin{itemize}
-                \item Tryb \textit{repeatable} - po wykryciu obiektu stan wysoki utrzymywany jest przez określony przez potencjometr czas,
-                \item Tryb \textit{non-repeatable} - stan wysoki po wykryciu obiektu utrzymywany jest przez cały czas występowania ruchu. Po zatrzymaniu ruchu stan wysoki utrzymywany jest przez określony przez potencjometr czas.
+                \item Tryb \textit{retriggering} - po wykryciu obiektu stan wysoki utrzymywany jest przez określony przez potencjometr czas,
+                \item Tryb \textit{non-retriggering} - stan wysoki po wykryciu obiektu utrzymywany jest przez cały czas występowania ruchu. Po zatrzymaniu ruchu stan wysoki utrzymywany jest przez określony przez potencjometr czas.
             \end{itemize}
 
             Dzięki temu możliwe jest dobranie parametrów czujnika w taki sposób, aby użytkownik był wykrywany w odpowiednim momencie, co przekłada się na bardziej optymalne działanie układu.
@@ -55,24 +55,48 @@
 
         \subsection{Komponenty}
 
-            ESP-IDF umożliwia podział aplikacji na komponenty oraz ich łatwą konfigurację w procesie kompilacji za pomocą tekstowego menu. Jak wyjaśnia \cite{esp-idf-build-system}, komponenty to modularne i samodzielne fragmenty kodu kompilowane do bibliotek statycznych i linkowane do aplikacji. Niektóre z nich są dostarczane przez platformę ESP-IDF. Istnieje też możliwość tworzenia własnych komponentów.
+            ESP-IDF umożliwia podział aplikacji na komponenty oraz ich łatwą konfigurację w procesie kompilacji za pomocą tekstowego menu (tzw. \textit{menuconfig}. Jak wyjaśnia \cite{esp-idf-build-system}, komponenty to modularne i samodzielne fragmenty kodu kompilowane do bibliotek statycznych i linkowane do aplikacji. Niektóre z nich są dostarczane przez platformę ESP-IDF. Istnieje też możliwość tworzenia własnych komponentów.
 
             Kod źródłowy oprogramowania mikrokontrolera został podzielony na następujące komponenty:
 
             \begin{enumerate}
-                \item Komponent główny (\textit{main}),
-                \item Komponent RFID,
-                \item Komponent WiFi,
-                \item Komponent sterujący (\textit{flow-controller}).
+                \item Komponent główny (\textit{main})
+
+                    Odpowiedzialny za inicjalizację niezbędnych modułów i przejście w tryb głębokiego uśpienia w przypadku standardowego uruchomienia mikrokontrolera. W przypadku zdarzenia wybudzenia z głębokiego uśpienia odpowiedzialny dodatkowo za wywołanie kodu należącego do komponentu sterującego. Składa się z pojedynczego pliku źródłowego \textit{main.c}.
+
+                \item Komponent RFID
+
+                    Odpowiedzialny za komunikację z czytnikiem RFID. Składa się z zewnętrznej biblioteki obsługującej czytnik MFRC522 (patrz \ref{sub:rfid_lib}), pliku ze zbiorem funkcji umożliwiających jej łatwą obsługę oraz pliku z funkcjami związanymi z zadaniem \textit{rfid} (patrz \ref{sub:tasks}).
+
+                \item Komponent WiFi
+
+                    Odpowiedzialny za nawiązanie połączenia z siecią bezprzewodową i serwerem oraz przeprowadzenie procesu wymiany informacji w celu autoryzacji identyfikatora. Składa się z biblioteki obsługującej komunikację za pomocą \textit{socket'ów}, biblioteki obsługującej komunikację wspierającą TLS, bazującej na bibliotece \textit{mbed TLS}, kilku plików z funkcjami pomocniczymi oraz pliku z funkcjami związanymi z zadaniem \textit{wifi}. To, czy komunikacja z serwerem odbywać się będzie z wykorzystaniem TLS, definiowane jest przez opcję TLS\_ENABLED zawartą w opcjach \textit{menuconfig} komponentu WiFi.
+
+                \item Komponent GPIO
+
+                    Odpowiedzialny za obsługę komunikacji za pomocą GPIO w celu kontroli zasilania czytnika MFRC522. Składa się z pojedynczego pliku zawierającego proste funkcje umożliwiające ustawianie żądanych stanów na wyjściach.
+
+                \item Komponent sterujący (\textit{flow-controller})
+
+                    Odpowiedzialny za wykonanie i nadzór nad przepływem sterowania od momentu wybudzenia z głębokiego uśpienia aż do zakończenia procesu komunikacji z serwerem. Składa się z pliku zawierającego funkcję obsługującą cały proces oraz pliku definiującego mechanizm synchronizacji zadań (patrz \ref{sub:tasks}).
+
             \end{enumerate}
+
+            Szczegółowy opis struktury kodu umieszczono w dodatku \ref{app:app1}.
 
             \textbf{Napisac ktore rzeczy sa konfigurowalne przez menuconfig}
 
         \subsection{Współbieżność}
+        \label{sub:tasks}
 
             Jak opisuje \cite{esp-idf-freertos-smp-changes}, oryginalny system FreeRTOS został zaprojektowany z myślą o przetwarzaniu za pomocą jednego rdzenia. ESP32 posiada jednak dwa rdzenie o wspólnej pamięci, co pozwala na przemienne wykonywanie zadań na obu rdzeniach. Koncepcja zadań (ang. \textit{tasks}) istniejąca w oryginalnym FreeRTOS w ESP-IDF została zmodyfikowana na potrzeby wsparcia mikrokontrolera o dwóch rdzeniach oraz SMP (ang. \textit{symmetric multiprocessing}, symetryczne przetwarzanie wieloprocesorowe). Każde z zadań ma określony priorytet, na podstawie którego algorytm planowania ustala kolejność wykonywania. Dzieje się to indywidualnie dla każdego rdzenia, lecz lista zadań gotowych do wykonania jest pomiędzy nimi współdzielona.
 
-            Aby maksymalnie wykorzystać możliwości platformy ESP-IDF w kwestii współbieżności jednocześnie unikając nadmiernego skompilowania kodu, zdecydowano się na wykorzystanie w ramach aplikacji dwóch zadań. Należy nadmienić, że mikrokontroler przez większą część czasu wykonuje operacje, których zrównoleglenie nie przyniosłoby korzyści. Jedyną sytuacją, w której warto zastosować przetwarzanie współbieżne jest nawiązywanie połączenia z serwerem oraz odczyt danych z czytnika RFID. Obie czynności mogą okazać się czasochłonne. W aplikacji jednowątkowej, odczyt danych z czytnika RFID musiałby zakończyć się przed rozpoczęciem nawiązywania połączenia, lub odwrotnie. Jeśli zastosujemy zapewniany przez ESP-IDF mechanizm zadań, możemy wykonywać obie operacje jednocześnie.
+            Aby maksymalnie wykorzystać możliwości platformy ESP-IDF w kwestii współbieżności jednocześnie unikając nadmiernego skompilowania kodu, zdecydowano się na wykorzystanie w ramach aplikacji dwóch zadań. Należy nadmienić, że mikrokontroler przez większą część czasu wykonuje operacje, których zrównoleglenie nie przyniosłoby korzyści. Jedyną sytuacją, w której warto zastosować przetwarzanie współbieżne jest nawiązywanie połączenia z serwerem oraz odczyt danych z czytnika RFID. Obie czynności mogą okazać się czasochłonne. W aplikacji jednowątkowej, odczyt danych z czytnika RFID musiałby zakończyć się przed rozpoczęciem nawiązywania połączenia, lub odwrotnie. Jeśli zastosujemy zapewniany przez ESP-IDF mechanizm zadań, możemy wykonywać obie operacje jednocześnie. Zdefiniowano zatem następujące zadania:
+
+            \begin{enumerate}
+                \item Zadanie \textit{wifi},
+                \item Zadanie \textit{rfid}.
+            \end{enumerate}
 
             Do synchronizacji zadań wykorzystany został mechanizm tzw. \textit{event group} (grupy zdarzeń) dostarczany przez system FreeRTOS. Zakłada on wykorzystanie przez współpracujące zadania współdzielonej grupy zdarzeń, składającej się z zestawu flag, oraz udostępnia funkcje do operowania na niej. Możliwe operacje to ustawianie w stan wysoki lub niski danej flagi oraz oczekiwanie na stan wysoki flagi. Korzystny z perspektywy synchronizacji wątków jest fakt, że oczekiwanie na dane zdarzenie blokuje aktualnie wykonywane zadanie, umożliwiając oddanie sterowania innym oczekującym zadaniom.
 
@@ -83,19 +107,24 @@
             ESP32 oferuje efektywną i elastyczną technologię zarządzania energią. Dokument ~\cite{esp32-ds} wymienia pięć dostępnych stanów energetycznych:
 
             \begin{enumerate}
-                \item \textit{Active mode}
+                \item Tryb aktywny (\textit{Active mode})
+
                     Aktywne CPU wraz z układem radiowym.
 
-                \item \textit{Modem-sleep mode}
+                \item Tryb z uśpionym modemem (\textit{Modem-sleep mode})
+
                     Aktywne CPU, układ radiowy wyłączony.
                 
-                \item \textit{Light-sleep mode}
+                \item Tryb lekkiego uśpienia (\textit{Light-sleep mode})
+
                     Uśpione CPU. Pamięć i peryferia RTC (ang. \textit{Real-Time Clock}, zegar czasu rzeczywistego) wraz z koprocesorem ULP (ang. \textit{Ultra Low Power co-processor}) są aktywne. Jakiekolwiek zdarzenia wybudzające doprowadzą do wybudzenia układu.
 
-                \item \textit{Deep-sleep mode}
+                \item Tryb głębokiego uśpienia (\textit{Deep-sleep mode})
+
                     Tylko pamięć i peryferia RTC pozostają zasilone. Dane dotyczące połączeń WiFi i Bluetooth zostają przechowane w pamięci RTC. Opcjonalnie dostępny jest koprocesor ULP.
 
-                \item \textit{Hibernation mode}
+                \item Tryb hibernacji (\textit{Hibernation mode})
+
                     Wewnętrzny rezonator kwarcowy wraz z koprocesorem ULP zostają wyłączone. Również pamięć RTC jest wyłączona. Wybudzenie możliwe jest tylko poprzez timer RTC lub wejścia RTC GPIO.
 
             \end{enumerate}
@@ -105,14 +134,13 @@
             Z punktu widzenia wymagań dotyczących poboru energii niezwykle przydatnym trybem jest tryb głębokiego uśpienia (ang. \textit{deep-sleep mode}). Dzięki jego wykorzystaniu możliwe jest przebywanie mikrokontrolera w trybie niskiego zużycia energii przez większą część czasu. Ze względu na cyfrowy charakter wyjścia czujnika ruchu, jako sposób wybudzenia mikrokontrolera skonfigurowano tryb EXT0 (ang. \textit{External Wakeup 0}, wybudzenie zewnętrzne) umożliwiający wykorzystanie modułu RTC IO (ang. \textit{Real-Time Clock Input Output}) w celu zainicjowania wybudzenia. Inne możliwe źródła wybudzenia to m.in. zegar RTC (ang. \textit{timer}) czy przerwanie wbudowanego czujnika dotykowego (ang. \textit{touch pad}). Konfiguracja trybu wybudzania odbywa się programowo.
 
         \subsection{Biblioteka do zarządzania czytnikiem RFID}
+        \label{sub:rfid_lib}
 
             Do zarządzania czytnikiem MFRC522 wykorzystano zewnętrzną bibliotekę\footnote{Alija Bobija, \textit{C library for interfacing ESP32 with MFRC522 RFID card reader}, \url{https://github.com/abobija/esp-idf-rc522} (rewizja 557af67)}.
 
-             % Inicjalizacja rozpoczyna się od inicjalizacji interfejsu SPI na określonych z góry wyjściach mikrokontrolera. Następnie rozpoczyna się cykliczne odpytywanie czytnika rc522 za pomocą wspomnianego interfejsu~\cite{esp-idf-rc522}. W przypadku sygnalizacji wykrycia karty przez czytnik, pozyskiwany jest numer karty, odpytywanie zostaje zakończone a numer karty zostaje przekazany do komponentu sterującego.
-
         \subsection{Przepływ sterowania}
 
-            Przepływ sterowania w oprogramowaniu mikrokontrolera ukazują rysunki \ref{fig:flowchart1} i \ref{fig:flowchart4}. Na rysunkach \ref{fig:flowchart2} i \ref{fig:flowchart3} przedstawiono przepływ sterowania w zadaniach \textit{wifi} i \textit{rfid}. 
+            Przepływ sterowania w oprogramowaniu mikrokontrolera ukazują rysunki \ref{fig:flowchart1} i \ref{fig:flowchart4}. Na rysunkach \ref{fig:flowchart2} i \ref{fig:flowchart3} przedstawiono przepływ sterowania w zadaniach \textit{wifi} i \textit{rfid}.
 
             \begin{figure}[]
                 \centering
