@@ -166,14 +166,24 @@
                     \hline \cellcolor[gray]{0.8} Opis         & Długość czasu pracy układu zamka na baterii powinna wynosić minimum 1 rok \\
                     \hline
                 \end{tabular}
-                \label{tbl:xxrq1}    
+                \label{tbl:xxrq1}
+                \vspace{10mm}       
             \end{subtable}
+        \quad%
+            \begin{subtable}[c]{\textwidth}
+                \centering
+                \begin{tabular}{|p{2cm}|p{12cm}|}
+                    \hline XXRQ\_2      & \textbf{Czas odpowiedzi układu zamka nie dłuższy niż 3 sekundy}  \\
+                    \hline \cellcolor[gray]{0.8} Opis         & Czas odpowiedzi układu zamka od momentu przyłożenia identyfikatora do momentu wysłania sygnału otwierającego zamek przez układ sterowania zamkiem powinien być nie dłuższy niż 3 sekundy. \\
+                    \hline
+                \end{tabular}
+                \label{tbl:xxrq2}    
+            \end{subtable}
+
             \label{tbl:xxrq}
         \end{table}
 
         \textbf{TBD - dodać jakieś wymaganie dotyczące bezpieczeństwa}
-
-        \textbf{TBD - dodać wymaganie dotyczące czasu odpowiedzi zamka}
 
         \section{Komponenty}
 
@@ -339,7 +349,7 @@
 
             \begin{figure}[h!]
                 \centering
-                \includegraphics[width=0.7\textwidth]{chapters/images/mngmt_subsystem.png}
+                \includegraphics[width=\textwidth]{chapters/images/mngmt_subsystem.png}
                 \caption{Budowa podsystemu zarządzającego}
                 \label{fig:mngmt_subsystem}
             \end{figure}
