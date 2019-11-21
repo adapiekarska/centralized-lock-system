@@ -1,16 +1,20 @@
 \chapter{Serwer}
 \label{chap:server}
 
-    Niniejszy rozdział przedstawia zagadnienia związane z procesem implementacji części serwerowej systemu. 
+    Niniejszy rozdział przedstawia zagadnienia związane z procesem implementacji części serwerowej systemu. Uzasadnia wybór wykorzystanych technologii sprzętowych.
 
     \section{Podsystem autoryzacji}
+
+    	Do implementacji części autoryzacyjnej serwera wybrano język Python. Istotnym faktem była możliwość łatwego przeprowadzania operacji na bazie danych.
+
+    	Podsystem autoryzacji składa się z pojedynczego skryptu.
 
 
     \section{Podsystem zarządzania}
 
     	Założeniem tej części procesu implementacyjnego nie było stworzenie skomplikowanej aplikacji umożliwiającej zaawansowaną konfigurację systemu, lecz w pełni funkcjonalnego prototypu na potrzeby demonstracyjne.
 
-    	Podsystem został podzielony na dwie współpracujące ze sobą aplikacje. Warstwową budowę podsystemu zarządzania przedstawia rysunek \ref{fig:mngmt_subs_layers}.
+    	Podsystem został podzielony na dwie współpracujące ze sobą aplikacje. Aplikacje te to:
 
     	\begin{itemize}
     		\item Aplikacja GUI
@@ -22,6 +26,8 @@
     			Udostępnia zasoby dla aplikacji GUI. Odpowiada za odbieranie od niej żądań HTTP, przetwarzanie ich i zwracanie stosownych odpowiedzi. Zawiera większą część logiki biznesowej oraz logikę zarządzania i dostępu do danych.
     	\end{itemize}
 
+    	Warstwową budowę podsystemu zarządzania przedstawia rysunek \ref{fig:mngmt_subs_layers}.
+
         \begin{figure}[]
             \centering
             \includegraphics[width=\textwidth]{chapters/images/mngmt_subsystem_layers.png}
@@ -31,8 +37,14 @@
 
        	Istotnym czynnikiem motywującym wybór technologii aplikacji podsystemu zarządzania była prostota oraz łatwość implementacji oraz rozwoju funkcjonalnej i estetycznej aplikacji demonstracyjnej zarówno po stronie przeglądarki jak i serwera. Ważną cechą była także łatwość integracji rozwiązania z bazą danych. 
 
-		Do implementacji aplikacji API wybrano język Python z framework'iem Flask. Ważną cechą języka Python jest wbudowane wsparcie dla bazy danych SQLite. SQLite jest biblioteką napisaną w języku C zawierającą implementację niewielkiego silnika bazy danych SQL. Biblioteka języka Python obsługująca silnik umożliwia operowanie na bazach danych umieszczanych bezpośrednio na dysku, co czyni ją rozwiązaniem przydatnym w procesie prototypowania. Framework Flask jest prostą platformą do tworzenia aplikacji internetowych. Dodatkowo zawiera on deweloperski serwer WWW, co znacznie upraszcza proces wytwarzania i testowania aplikacji.
+		Do implementacji aplikacji API wybrano język Python z framework'iem Flask. Ważną cechą języka Python jest wbudowane wsparcie dla bazy danych SQLite. Framework Flask jest prostą platformą do tworzenia aplikacji internetowych. Dodatkowo zawiera on deweloperski serwer WWW, co znacznie upraszcza proces wytwarzania i testowania aplikacji.
 
-		Do implementacji aplikacji GUI zdecydowano się na framework Angular CLI.
+		Do implementacji aplikacji GUI zdecydowano się na framework Angular. Angular jest otwartą platformą do tworzenia tzw. SPA (ang. \textit{Single Page Applications}, aplikacje internetowe, w których nawigowanie polega na dynamicznym ładowaniu poszczególnych elementów strony zamiast pobierania całych stron z serwera). Angular napisany jest w języku TypeScript, który jest otwartoźródłowym i typowanym nadzbiorem języka JavaScript. Angular CLI jest narzędziem wspierającym pracę z framework'iem poprzez udostępnienie zestawu prostych komend ułatwiających wykonywanie operacji związanych z procesem rozwijania aplikacji, takich jak tworzenie projektu, generowanie kodu źródłowego czy testowanie z użyciem wbudowanego serwera.
 
 		Wymienione technologie są wystarczające na potrzeby aplikacji prototypowych, jednak w przypadku chęci rozwijania systemu dla środowisk produkcyjnych konieczne mogłoby okazać się przemyślenie zestawu technologii w celu optymalizacji wydajności oraz zwiększenia bezpieczeństwa systemu.
+
+    \section{Baza danych}
+
+    	Istotnym kryterium przydatności systemu zarządzania bazą danych była lekkość i łatwość obsługi z poziomu aplikacji internetowej napisanej w języku Python. Z tego względu zdecydowano się na system SQLite. Jest to system zarządzania bazą danych oraz biblioteka języka C implementująca taki system, obsługująca język SQL (ang. \textit{Structured Query Language}). Posiada API do wielu języków, w tym Pythona. Zawartość bazy danych przechowywana jest w pojedynczym pliku na dysku. Wszystkie powyższe cechy czynią SQLite rozwiązaniem przydatnym w szeroko pojętym procesie prototypowania.
+
+    	Baza danych systemu tworzona jest przez aplikację API po jej uruchomieniu. Krok ten jest pomijany, jeżeli baza danych już istnieje.
