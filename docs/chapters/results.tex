@@ -21,7 +21,7 @@
                     \cellcolor[gray]{0.8} Wynik                 & \multicolumn{2}{p{12cm}|}{Pozytywny - układ zamka informuje o pomyślnej decyzji.}                                                                                  \\ \hline
                     \end{tabular}%
                 \label{tbl:test1}
-                \vspace{10mm}           
+                \vspace{10mm}
             \end{subtable}
         \quad%
             \begin{subtable}[c]{\textwidth}
@@ -137,6 +137,26 @@
             \end{subtable}
             \label{tbl:tests}
         \end{table}
+
+    \section{Wydajność energetyczna}
+
+    Założono, że w wyniku prób dostępu lub przypadkowych wzbudzeń czujnika zbliżeniowego, układ zamka zostaje wybudzony około 120 razy w ciągu doby, z czego za każdym razem pozostaje w stanie operacyjnym od 7 do maksymalnie 16 sekund. Oznacza to że układ przez ponad 98\% czasu pozostaje w stanie uśpienia, co świadczy o tym, że pobór prądu w tym stanie będzie miał dominujący wpływ na ogólną efektywność energetyczną. Na podstawie wykonanych pomiarów, można oszacować dobowy pobór prądu na około 107mAh. Stosując 9  ogniw galwanicznych o napięciu wyjściowym 1.5V i pojemności 1100mAh, połączonych zgodnie ze schematem przedstawionym na obrazie \ref{fig:battery_layout}, można zapewnić stałe źródło zasilania o napięciu 4.5V i pojemności 3300mAh. W takiej konfiguracji, żywotność układu wynosi w przybliżeniu 30 dni.
+
+    Powodem tak niskiej żywotności jest wysoki pobór prądu w stanie spoczynku. Odpowiedzialny za tą nieefektywność jest element układu zasilania wykorzystanej płytki prototypowej: regulator napięcia LD1117. Jego standardowy prąd spoczynkowy wynosi około 5mA~\cite{AMS1117-ds}. Zastępując go regulatorem AP2112K o prądzie spoczynkowym w granicach 50μA~\cite{AP2112K-ds}, można zredukować pobór prądu w stanie uśpienia z 4mA do około 150μA, tym samym zwiększając żywotność.
+
+    \begin{figure}[]
+        \centering
+        \includegraphics[width=0.5\textwidth]{chapters/images/battery_layout.png}
+        \caption{Schemat połączenia baterii}
+        \label{fig:battery_layout}
+    \end{figure}
+
+
+	\textbf{Wydajność energetyczna - TBD}
+
+	\textbf{Responsywność - TBD}
+
+	\textbf{Bezpieczeństwo - TBD}
 
 	\section{Możliwe rozszerzenia}
 
