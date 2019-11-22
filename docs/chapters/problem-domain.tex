@@ -44,15 +44,16 @@
 
 			\item System oparty na kryptograficznym bezpieczeństwie danych
 
-				Bezpieczeństwo tego rozwiązania bazuje na kluczu dostępu znanym wyłącznie przez użytkownika systemu. W pamięci układu zamka zapisywana jest odpowiednia sekwencja, która po transformacji kryptograficznej staje się hasłem dostępu (w tej postaci jest ono przekazywane użytkownikowi). W ten sposób hasło znane jest tylko użytkownikowi co zapewnia, że nawet osoby odpowiedzialne za utrzymanie systemu nie uzyskają dostępu przez pozyskanie hasła. Słabą stroną metody jest oparcie bezpieczeństwa na kluczu kryptograficznym który musi być przechowywany w bezpieczny sposób. \textbf{Nie rozumiem o co tu chodzi.}
+				Bezpieczeństwo tego rozwiązania bazuje na zachowaniu poufności danych. Kontrola dostępu polega na porównaniu hasła zaprezentowanego przez użytkownika z hasłem zapisanym w pamięci urządzenia w zaszyfrowanej postaci. Hasło jest ustanawiane przez użytkownika w procesie nadawania uprawnień dostępu. Zmniejsza to ryzyko naruszenia poufności hasła i zapewnia, że nawet administrator systemu nie ma możliwości uzyskania dostępu do poufnych danych uzytkowników. Słabą stroną metody jest konieczność oparcia bezpieczeństwa na bezpieczeństwie klucza wykorzystanego w procesie szyfrowania.
 
 			\item System oparty o komunikację bezprzewodową
 
 				W systemie tego typu przepływ danych odbywa się za pośrednictwem sieci bezprzewodowej. W celu autoryzacji wykorzystywane jest urządzenie mobilne połączone z siecią. W przeciwieństwie do pozostałych wymienionych rozwiązań, rozwiązanie zaproponowane w \cite{cryptographic-iot-access-system} nie zakłada bezpośredniej komunikacji użytkownika z zamkiem. Urządzenie mobilne użytkownika generuje zapytanie do serwera, który dokonuje kontroli uprawnień i w przypadku pozytywnej ich weryfikacji, przekazuje decyzję o sukcesie do układu zamka.
 
+
 		\end{enumerate}
 
-		\textbf{Tu może jakieś podsumowanie tych różnych rodzajów jeszcze jakby się dało}
+		Każde z zaprezentowanych rozwiązań ma zarówno zalety jak i wady, które mogą wynikać z założeń, ograniczeń technologicznych lub charakterystyki środowiska wdrożenia. Rzeczywiste systemy zazwyczaj można zaklasyfikować do więcej niż jednej kategorii, ponieważ projektowanie skutecznych rozwiązań wymaga łączenia różnych metod w celu maksymalizacji korzyści płynących z ich zastosowania. Rzeczywiste scenariusze rzadko dają się objąć ścisłą klasyfikacją i wymagają adaptacji wzorców w celu uzyskania najlepszych rezultatów.
 
 	\section{Bezpieczeństwo}
 
