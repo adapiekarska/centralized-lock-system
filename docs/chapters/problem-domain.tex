@@ -16,13 +16,11 @@
 
 		W większości przypadków tylko wejście podlega kontroli. Aby możliwa była również kontrola wyjścia z chronionego terenu, potrzebny jest drugi czytnik umieszczony po drugiej stronie drzwi. Jeżeli obustronna kontrola nie jest wymagana, stosuje się zazwyczaj przycisk umożliwiający otworzenie zamka od środka.
 
-		Urządzenia wyjściowe (ang. \textit{egress devices}) umożliwiają użytkownikowi opusczenie strefy chronionej od wewnątrz. Jako urządzenia wyjściowe najczęściej używa się przełączników, czujników ruchu lub czytników. Według British Security Industry Association urządzenia wyjściowe można podzielić je na zwykłe oraz awaryjne (ang. \textit{emergency egress}), przy czym, ze względu na krytyczne znaczenie w wypadku awarii, działanie tych drugich nie powinno zależeć od komponentów systemu (kontrolera systemu, oprogramowania itp.). Jako urządzenie awaryjne często stosuje się tzw. \textit{break glass device}, którego uaktywnienie powoduje odcięcie zasilania w zamku, a tym samym wstrzymanie kontroli dostępu w danym punkcie. Dostęp uzyskany za pomocą tego urządzenia powinien wygenerować stosowne powiadomienie bądź alarm.
-
-		W przypadku, gdy system kontroli dostępu nie funkcjonuje odpowiednio (np. z powodu braku zasilania), stosuje się tzw. \textit{break glass device}.
+		Urządzenia wyjściowe (ang. \textit{egress devices}) umożliwiają użytkownikowi opusczenie strefy chronionej od wewnątrz. Jako urządzenia wyjściowe najczęściej używa się przełączników, czujników ruchu lub czytników. Według British Security Industry Association urządzenia wyjściowe można podzielić je na zwykłe oraz awaryjne (ang. \textit{emergency egress}), przy czym, ze względu na krytyczne znaczenie w wypadku awarii, działanie tych drugich nie powinno zależeć od komponentów systemu. Jako urządzenie awaryjne często stosuje się tzw. \textit{break glass device}, którego uaktywnienie powoduje odcięcie zasilania w zamku, a tym samym wstrzymanie kontroli dostępu w danym punkcie. Dostęp uzyskany za pomocą tego urządzenia powinien wygenerować stosowne powiadomienie bądź alarm.
 
 	\section{Przegląd istniejących rozwiązań}
 
-		Obecny w dzisiejszych czasach postęp technologiczny zapewnia wiele możliwości w kwestii implementacji systemów kontroli dostępu. Prowadzi to do różnorodności rozwiązań, z których każde posiada właściwe dla wykorzystanych metod wady i zalety. Poniżej przedstawiona została zaproponowana w \cite{access-system-survey} klasyfikacja systemów kontroli dostępu ze względu na metodę uwierzytelniania:
+		Rozwinięta technologia dostarcza wiele możliwości w kwestii implementacji systemów kontroli dostępu. Nie wszyscy zarządcy obiektów decydują się jednak na wykorzystanie nowoczesnych systemów. Prowadzi to do znacznej różnorodności rozwiązań, z których każde posiada zalety i wady właściwe dla wykorzystanych metod. Poniżej przedstawiona została zaproponowana w \cite{access-system-survey} klasyfikacja systemów kontroli dostępu ze względu na metodę uwierzytelniania:
 		\begin{enumerate}[label=\Alph*.]
 			\item System zamków mechanicznych
 
@@ -42,13 +40,14 @@
 
 			\item System z uwierzytelnieniem przez OTP (ang. \textit{One Time Password}, hasło jednorazowe)
 
-				Uwierzytenienie w systemie tego rodzaju wymaga od użytkownika wprowadzenia jednorazowego hasła. Hasło to jest generowane przez serwer i zapamiętywane w systemie, a do użytkownika wysyłane w wiadomości tekstowej. Podczas dokonywania próby dostępu użytkownik podaje otrzymane hasło, które zostaje porównane z hasłem zapamiętanym w systemie. Po dokonaniu porównania jest ono usuwane z systemu. Główną zaletą tego rozwiązania jest znacząco zmniejszona podatność na ataki powtórzeniowe, w których atakujący przechwytuje dane wykorzystane do autoryzacji i używa ich ponownie w celu uzyskania dostępu. Problemem jest jednak konieczność dostępności użytkownikownika w sieci GSM w celu przekazania hasła za pomocą wiadomości SMS.
+				Uwierzytenienie w systemie tego rodzaju wymaga od użytkownika wprowadzenia jednorazowego hasła. Hasło to jest generowane przez serwer i zapamiętywane w systemie, a do użytkownika wysyłane w wiadomości tekstowej. Podczas dokonywania próby dostępu użytkownik podaje otrzymane hasło, które zostaje porównane z hasłem zapamiętanym w systemie. Po dokonaniu porównania hasło jest usuwane z systemu. Główną zaletą tego rozwiązania jest zmniejszona podatność na ataki powtórzeniowe, w których atakujący przechwytuje dane wykorzystane do autoryzacji i używa ich ponownie w celu uzyskania dostępu. Problemem jest jednak konieczność przebywania użytkownikownika w zasięgu sieci GSM w celu przekazania hasła za pomocą wiadomości SMS.
 
 			\item System oparty na kryptograficznym bezpieczeństwie danych
 
 				Bezpieczeństwo tego rozwiązania bazuje na kluczu dostępu znanym wyłącznie przez użytkownika systemu. W pamięci układu zamka zapisywana jest odpowiednia sekwencja, która po transformacji kryptograficznej staje się hasłem dostępu (w tej postaci jest ono przekazywane użytkownikowi). W ten sposób hasło znane jest tylko użytkownikowi co zapewnia, że nawet osoby odpowiedzialne za utrzymanie systemu nie uzyskają dostępu przez pozyskanie hasła. Słabą stroną metody jest oparcie bezpieczeństwa na kluczu kryptograficznym który musi być przechowywany w bezpieczny sposób. \textbf{Nie rozumiem o co tu chodzi.}
 
 			\item System oparty o komunikację bezprzewodową
+
 				W systemie tego typu przepływ danych odbywa się za pośrednictwem sieci bezprzewodowej. W celu autoryzacji wykorzystywane jest urządzenie mobilne połączone z siecią. W przeciwieństwie do pozostałych wymienionych rozwiązań, rozwiązanie zaproponowane w \cite{cryptographic-iot-access-system} nie zakłada bezpośredniej komunikacji użytkownika z zamkiem. Urządzenie mobilne użytkownika generuje zapytanie do serwera, który dokonuje kontroli uprawnień i w przypadku pozytywnej ich weryfikacji, przekazuje decyzję o sukcesie do układu zamka.
 
 		\end{enumerate}
@@ -57,21 +56,21 @@
 
 	\section{Bezpieczeństwo}
 
-		W obliczu ograniczeń czasowych i budżetowych wielu producentów systemów elektronicznych nie podejmuje wysiłku potrzebnego w celu zapewnienienia odpowiedniego poziomu bezpieczeństwa, co może mieć poważne konsekwencje i narażać użytkowników systemu na straty.
+		W obliczu ograniczeń czasowych i budżetowych wielu producentów systemów elektronicznych nie podejmuje kroków w kierunku zapewnienienia odpowiedniego poziomu bezpieczeństwa, co może mieć poważne konsekwencje i narażać użytkowników systemu na straty.
 
 		Bezpieczeństwo jest jednym z głównych wyznaczników jakości systemu kontroli dostępu. Dlatego należy poświęcić odpowiednią uwagę zagadnieniom związanym z potencjalymi zagrożeniami i możliwymi słabymi punktami architektury. Rozproszone systemy elektroniczne są sczególnym wyzwaniem z punktu widzenia bezpieczeństwa. Poniżej przedstawiono wybrane punkty zaproponowanej w \cite{iot-vulnerabilities} klasyfikacji potencjalnych zagrożeń w systemach IoT (ang. \textit{Internet of Things}, Internet Rzeczy):
 		
 		\begin{enumerate}[label=\Alph*.]
 			\item Bezpieczeństwo fizyczne
 
-				Urządzenia systemu częto umieszczane są w miejscach nieposiadających odpowiedniej fizycznej ochrony. Stwarza to możliwość zakłócenia pracy urządzenia lub wydobycia wrażliwych danych włącznie z kodem i kluczami kryptograficznymi. Jak przedstawia \cite{iot-hardware-attack}, producenci często skupiają się na zagrożeniach sieciowych bez uwzględnienia możliwości ataku sprzętowego. Brak poświęcenia uwagi bezpieczeństwa sprzętowego umożliwił autorom wspomnianej pracy zmianę konfiguracji procesu uruchomienia przez port szeregowy i w efekcie zdobycie uprawnień administratora w systemie operacyjnym działającym na urządzeniu.
+				Urządzenia stanowiące część systemu często umieszczane są w miejscach nieposiadających odpowiedniej fizycznej ochrony. Stwarza to ryzyko zakłócenia pracy urządzenia i wydobycia wrażliwych danych, włącznie z oprogramowaniem i kluczami kryptograficznymi. Jak przedstawia \cite{iot-hardware-attack}, producenci często skupiają się na zagrożeniach związanych z sieciami, nie uwzględniając możliwości ataku o charakterze sprzętowym. Brak poświęcenia uwagi bezpieczeństwu sprzętowemu umożliwił autorom wspomnianej pracy zmianę konfiguracji procesu uruchomienia przez port szeregowy i w efekcie zdobycie uprawnień administratora w systemie operacyjnym działającym na urządzeniu będącym przedmiotem ataku.
 
 			\item Dostępność
 
-				Węzły systemu dysponujące ograniczonym zasobem energii podatne są na tzw. atak wyczerpania zasobów (ang. \textit{resource depletion attack}). Jak sugeruje nazwa, celem tego ataku jest skończony zasób, o krytycznym z punktu widzenia funkcjonowania danego urządzenia znaczeniu. W przypadku opisywanego ataku zasobem jest źródło zasilania w postaci baterii o ograniczonej pojemności. W przeciwieństwie do standardowych ataków DoS (ang. \textit{Denial of Service}), ataki wyczerpania zasobów są rozłożone w czasie i dążą do osiągnięcia długotrwałego efektu odmowy usługi~\cite{iot-rd-attack}.
+				Węzły systemu dysponujące ograniczonymi zasobami energii podatne są na tzw. atak wyczerpania zasobów (ang. \textit{resource depletion attack}). Jak sugeruje nazwa, celem tego ataku jest skończony zasób o krytycznym z punktu widzenia funkcjonowania danego urządzenia znaczeniu. W przypadku opisywanego ataku zasobem tym jest źródło zasilania w postaci baterii o ograniczonej pojemności. W przeciwieństwie do standardowych ataków DoS (ang. \textit{Denial of Service}), ataki wyczerpania zasobów są rozłożone w czasie i dążą do osiągnięcia długotrwałego efektu odmowy usługi~\cite{iot-rd-attack}.
 
 			\item Poufność danych
 
-				W systemach krytycznych wykorzystujących komunikację bezprzewodową bezpieczeństwo danych jest punktem wyjścia dla rozważań o bezpieczeństwie całego systemu. Szyfrowanie jest efektywnym sposobem ochrony danych przed nieautoryzowanym odczytem. Ma ono jednak swoje ograniczenia. Algorytmy kryptograficzne są wymagające obliczeniowo. Ma to duże znaczenie w przypadku platform sprzętowych o ograniczonych możliwościach. Ponadto rozwiązania kryptograficzne są bezpieczne tylko w takim stopniu, w jakim bezpieczny jest klucz szyfrujący. Stawia to przed urządzeniem wymaganie bezpiecznego przechowywania klucza, co jest zadaniem nietrywialnym biorąc pod uwagę fakt, że urządzenie podatne jest na sprzętowe ataki.
+				W systemach krytycznych działających w oparciu o komunikację bezprzewodową bezpieczeństwo danych stanowi punkt wyjścia dla rozważań o bezpieczeństwie całego systemu. Szyfrowanie jest efektywnym sposobem ochrony danych przed nieautoryzowanym odczytem, ma jednak swoje ograniczenia. Algorytmy kryptograficzne są wymagające obliczeniowo, co stanowi problem zwłaszcza w przypadku platform sprzętowych o ograniczonych możliwościach. Ponadto, rozwiązania kryptograficzne są bezpieczne tylko w takim stopniu, w jakim bezpieczny jest klucz szyfrujący. Stawia to przed urządzeniem konieczność bezpiecznego przechowywania klucza, co biorąc pod uwagę podatnośc na ataki sprzętowe stanowi istotny problem.
 
 		\end{enumerate}

@@ -1,7 +1,7 @@
 \chapter{Projekt rozwiązania}
 \label{chap:hl-arch}
 
-    Niniejszy rozdział przedstawia koncepcję systemu. Definiuje użytkowników oraz wymagania funkcjonalne i pozafunkcjonalne. Przedstawia budowę systemu, opisuje kolejno tworzące system komponenty sprzętowe oraz podsystemy, a także relacje, które między nimi zachodzą. Ponadto prezentuje zakładany sposób działania systemu w kilku najbardziej prawdopodobnych sytuacjach.
+    Niniejszy rozdział przedstawia koncepcję systemu. Wprowadza użytkowników oraz definiuje wymagania funkcjonalne i pozafunkcjonalne. Przedstawia budowę systemu, opisuje kolejno tworzące go komponenty sprzętowe oraz podsystemy, a także relacje, które między nimi zachodzą. Ponadto prezentuje zakładany sposób działania systemu w kilku najbardziej prawdopodobnych sytuacjach.
 
     \section{Idea}
         Idea systemu przedstawiona została na rysnku \ref{fig:door}.
@@ -24,7 +24,7 @@
                 \centering
                 \begin{tabular}{|p{2cm}|p{12cm}|}
                     \hline USER\_1      & \textbf{Użytkownik} \\
-                    \hline \cellcolor[gray]{0.8} Opis         & Osoba posiadająca identyfikator RFID, której celem jest uzyskanie dostępu do chronionego zamkiem pomieszczenia  \\
+                    \hline \cellcolor[gray]{0.8} Opis         & Osoba posiadająca identyfikator RFID, której celem jest uzyskanie dostępu do chronionego zamkiem pomieszczenia.  \\
                     \hline
                 \end{tabular}
                 \label{tbl:usr1}
@@ -35,7 +35,7 @@
                 \centering
                 \begin{tabular}{|p{2cm}|p{12cm}|}
                     \hline USER\_2      & \textbf{Administrator} \\
-                    \hline \cellcolor[gray]{0.8} Opis         & Osoba posiadająca uprawnienia administracyjne w systemie, mająca dostęp do oprogramowania zarządzającego systemem \\
+                    \hline \cellcolor[gray]{0.8} Opis         & Osoba posiadająca uprawnienia administracyjne w systemie, mająca dostęp do oprogramowania zarządzającego systemem. \\
                     \hline
                 \end{tabular}
                 \label{tbl:usr2}       
@@ -54,7 +54,7 @@
                 \centering
                 \begin{tabular}{|p{2cm}|p{12cm}|}
                     \hline FNRQ\_1      & \textbf{Kontrola dostępu do pomieszczeń}  \\
-                    \hline \cellcolor[gray]{0.8} Opis         & Dopuszczanie do pomieszczeń użytkowników posiadających odpowiedni identyfikator i niedopuszczanie użytkowników nieposiadających odpowiedniego identyfikatora  \\
+                    \hline \cellcolor[gray]{0.8} Opis         & Dopuszczanie do pomieszczeń użytkowników posiadających odpowiedni identyfikator i niedopuszczanie użytkowników nieposiadających odpowiedniego identyfikatora.  \\
                     \hline
                 \end{tabular}
                 \label{tbl:fnrq1}
@@ -65,7 +65,7 @@
                 \centering
                  \begin{tabular}{|p{2cm}|p{12cm}|}
                     \hline FNRQ\_2      & \textbf{Przeglądanie historii prób dostępu do pomieszczeń}  \\
-                    \hline \cellcolor[gray]{0.8} Opis         & Dostęp do listy dokonanych w przeszłości prób dostępu zakończonych zarówno sukcesem, jak i porażką \\
+                    \hline \cellcolor[gray]{0.8} Opis         & Dostęp do listy dokonanych w przeszłości prób dostępu zakończonych zarówno sukcesem, jak i porażką. \\
                     \hline
                 \end{tabular}
                 \label{tbl:fnrq2}
@@ -75,7 +75,7 @@
                 \centering
                  \begin{tabular}{|p{2cm}|p{12cm}|}
                     \hline FNRQ\_3      & \textbf{Dodawanie identyfikatorów}  \\
-                    \hline \cellcolor[gray]{0.8} Opis         & Dodawanie identyfikatorów wraz z przyznaniem dostępu do wybranej grupy zamków \\
+                    \hline \cellcolor[gray]{0.8} Opis         & Dodawanie identyfikatorów wraz z przyznaniem dostępu do wybranej grupy zamków. \\
                     \hline
                 \end{tabular}
                 \label{tbl:fnrq3}
@@ -93,7 +93,7 @@
                 \centering
                  \begin{tabular}{|p{2cm}|p{12cm}|}
                     \hline FNRQ\_4      & \textbf{Przeglądanie identyfikatorów powiązanych z danym zamkiem} \\
-                    \hline \cellcolor[gray]{0.8} Opis         & Dostęp do listy powiązań między identyfikatorami a zamkami \\
+                    \hline \cellcolor[gray]{0.8} Opis         & Dostęp do listy powiązań między identyfikatorami a zamkami. \\
                     \hline
                 \end{tabular}
                 \label{tbl:fnrq4}
@@ -104,7 +104,7 @@
                 \centering
                  \begin{tabular}{|p{2cm}|p{12cm}|}
                     \hline FNRQ\_5      & \textbf{Blokowanie dostępu do pomieszczeń dla wybranego identyfikatora}  \\
-                    \hline \cellcolor[gray]{0.8} Opis         & Manualny wybór opcji czasowego usunięcia powiązania wybranego identyfikatora z wybraną grupą zamków \\
+                    \hline \cellcolor[gray]{0.8} Opis         & Usunięcie upoważnienia danego identyfikatora w danym zamku. \\
                     \hline
                 \end{tabular}
                 \label{tbl:fnrq5}
@@ -115,7 +115,7 @@
                 \centering
                  \begin{tabular}{|p{2cm}|p{12cm}|}
                     \hline FNRQ\_6      & \textbf{Dostęp do grupy pomieszczeń za pomocą jednego identyfikatora}  \\
-                    \hline \cellcolor[gray]{0.8} Opis         & Ustawienie powiązań identyfikatorów i zamków w taki sposób, aby możliwy był dostęp do grupy zamków za pomocą jednego identyfikatora \\
+                    \hline \cellcolor[gray]{0.8} Opis         & Ustawienie powiązań identyfikatorów i zamków w taki sposób, aby możliwy był dostęp do grupy zamków za pomocą jednego identyfikatora. \\
                     \hline
                 \end{tabular}
                 \label{tbl:fnrq6}
@@ -126,7 +126,7 @@
                 \centering
                  \begin{tabular}{|p{2cm}|p{12cm}|}
                     \hline FNRQ\_7      & \textbf{Dostęp do pomieszczenia za pomocą grupy identyfikatorów}  \\
-                    \hline \cellcolor[gray]{0.8} Opis         & Ustawienie powiązań identyfikatorów i zamków w taki sposób, aby możliwy był dostęp do jednego zamka za pomocą grupy identyfikatorów \\
+                    \hline \cellcolor[gray]{0.8} Opis         & Ustawienie powiązań identyfikatorów i zamków w taki sposób, aby możliwy był dostęp do jednego zamka za pomocą grupy identyfikatorów. \\
                     \hline
                 \end{tabular}
                 \label{tbl:fnrq7}
@@ -137,21 +137,11 @@
                 \centering
                  \begin{tabular}{|p{2cm}|p{12cm}|}
                     \hline FNRQ\_8      & \textbf{Sygnalizacja przyznania lub odmowy dostępu}  \\
-                    \hline \cellcolor[gray]{0.8} Opis         & Powiadamianie użytkownika o podjętej przez system decyzji \\
+                    \hline \cellcolor[gray]{0.8} Opis         & Powiadamianie użytkownika o podjętej przez system decyzji. \\
                     \hline
                 \end{tabular}
                 \label{tbl:fnrq8}
                 \vspace{10mm}           
-            \end{subtable}
-        \quad%
-            \begin{subtable}[c]{\textwidth}
-                \centering
-                 \begin{tabular}{|p{2cm}|p{12cm}|}
-                    \hline FNRQ\_9      & \textbf{Sygnalizacja stanu naładowania baterii w układzie zamka} \\
-                    \hline \cellcolor[gray]{0.8} Opis         & Okresowe powiadamianie administratora systemu o bieżącym stanie naładowania baterii \\
-                    \hline
-                \end{tabular}
-                \label{tbl:fnrq9}         
             \end{subtable}
             \label{tbl:fnrq_2}
         \end{table}
@@ -163,7 +153,7 @@
                 \centering
                 \begin{tabular}{|p{2cm}|p{12cm}|}
                     \hline XXRQ\_1      & \textbf{Długość czasu pracy układu zamka na baterii równa minimum 1 rok}  \\
-                    \hline \cellcolor[gray]{0.8} Opis         & Długość czasu pracy układu zamka na baterii powinna wynosić minimum 1 rok \\
+                    \hline \cellcolor[gray]{0.8} Opis         & Długość czasu pracy układu zamka na baterii powinna wynosić minimum 1 rok. \\
                     \hline
                 \end{tabular}
                 \label{tbl:xxrq1}
@@ -219,7 +209,7 @@
                     \begin{subtable}[c]{\textwidth}
                         \centering
                         \begin{tabular}{|p{2cm}|p{12cm}|}
-                            \hline SSYS\_3      & \textbf{Podsystem zarządzający} \\
+                            \hline SSYS\_3      & \textbf{Podsystem zarządzania} \\
                             \hline \cellcolor[gray]{0.8} Opis         & Odpowiedzialny za umożliwienie administratorowi systemu wglądu do danych takich jak historia prób dostępu, zbiór identyfikatorów, zamków, oraz powiązań między nimi, a także stan poszczególnych zamków. Dzięki niemu możliwa jest konfiguracja rozpoznawanych przez system identyfikatorów i zamków oraz manualne przyznawanie dostępu poszczególnym identyfikatorom. Nazywany też podsystemem zarządzania. \\
                             \hline \cellcolor[gray]{0.8} Lokalizacja  & HCMP\_2 Serwer    \\
                             \hline \cellcolor[gray]{0.8} Komponenty   & SCMP\_3 Oprogramowanie zarządzające, SCMP\_4 Baza danych \\
@@ -328,7 +318,7 @@
 
         \section{Projekt architektury}
 
-            Na architekturę systemu składają się komponenty sprzętowe oraz podsystemy (rysunek \ref{fig:hl-arch}). Rysunek \ref{fig:lock-arch} przedstawia szczegółową budowę układu zamka. Podsystem zarządzający zbudowany jest z dwóch współpracujących ze sobą aplikacji (rysunek \ref{fig:mngmt_subsystem}). \textbf{TBD - budowa podsystemu autoryzacyjnego} 
+            Na architekturę systemu składają się komponenty sprzętowe oraz podsystemy (rysunek \ref{fig:hl-arch}). Rysunek \ref{fig:lock-arch} przedstawia szczegółową budowę układu zamka. Podsystem zarządzania zbudowany jest z dwóch współpracujących ze sobą aplikacji (rysunek \ref{fig:mngmt_subsystem}). \textbf{TBD - budowa podsystemu autoryzacyjnego} 
 
             \begin{figure}[h!]
                 \includegraphics[width=\linewidth]{chapters/images/hl-arch3.png}
@@ -348,7 +338,7 @@
             \begin{figure}[h!]
                 \centering
                 \includegraphics[width=\textwidth]{chapters/images/mngmt_subsystem.png}
-                \caption{Budowa podsystemu zarządzającego}
+                \caption{Budowa podsystemu zarządzania}
                 \label{fig:mngmt_subsystem}
             \end{figure}
 
@@ -366,11 +356,11 @@
                     Jeżeli połączenie z serwerem nie może zostać nawiązane w czasie \textit{t + 3~sek.}, gdzie \textit{t} jest zmiennym czasem upływającym od momentu podjęcia próby nawiązania połączenia z serwerem do momentu zakończenia odczytu danych z identyfikatora, mikrokontroler sygnalizuje użytkownikowi błąd połączenia, po czym wprowadza się w stan uśpienia.
             \end{enumerate}
 
-            Jeżeli żadna z wymienionych wyżej niekorzystnych sytuacji nie wystąpi i dane zostaną pomyślnie przesłane do serwera, serwer podejmuje decyzję o przyznaniu bądź odmowie dostępu. Dokonuje tego po wysłaniu zapytania do bazy danych, a następnie wysyła potwierdzenie lub odmowę do mikrokontrolera. Mikrokontroler w sposób wizualny sygnalizuje decyzję użytkownikowi, a jeżeli była ona pomyślna, dodatkowo wysyła sygnał otwierający zamek. Niezależnie od decyzji serwera, wpis o próbie dostępu zostaje zapisany w bazie danych, skąd może być pobrany przez podsystem zarządzający w celu prezentacji danych administratorowi systemu.
+            Jeżeli żadna z wymienionych wyżej niekorzystnych sytuacji nie wystąpi i dane zostaną pomyślnie przesłane do serwera, serwer podejmuje decyzję o przyznaniu bądź odmowie dostępu. Dokonuje tego po wysłaniu zapytania do bazy danych, a następnie wysyła potwierdzenie lub odmowę do mikrokontrolera. Mikrokontroler w sposób wizualny sygnalizuje decyzję użytkownikowi, a jeżeli była ona pomyślna, dodatkowo wysyła sygnał otwierający zamek. Niezależnie od decyzji serwera, wpis o próbie dostępu zostaje zapisany w bazie danych, skąd może być pobrany przez podsystem zarządzania w celu prezentacji danych administratorowi systemu.
 
-            Opisane wyżej mechanizmy zostały szerzej ukazane na diagramach sekwencji. Diagramy \ref{fig:sequence1}-\ref{fig:sequence3} dotyczą podsystemu sterowania zamkiem oraz podsystemu autoryzacji, natomiast diagramy \ref{fig:sequence4}-\ref{fig:sequence5} dotyczą podsystemu zarządzającego.
+            Opisane wyżej mechanizmy zostały szerzej ukazane na diagramach sekwencji. Diagramy \ref{fig:sequence1}-\ref{fig:sequence3} dotyczą podsystemu sterowania zamkiem oraz podsystemu autoryzacji, natomiast diagramy \ref{fig:sequence4}-\ref{fig:sequence5} dotyczą podsystemu zarządzania.
 
-            Przedstawione sytuacje to kolejno: proces autoryzacji identyfikatora użytkownika w przypadku najbardziej pomyślnego scenariusza (\ref{fig:sequence1}), przepływ sterowania pomiędzy elementami systemu w sytuacji, gdy użytkownik zostanie wykryty, ale identyfikator nie zostanie przyłożony do czytnika w zadanym przedziale czasu (\ref{fig:sequence2}), przepływ sterowania pomiędzy elementami systemu w sytuacji, gdy niemożliwe jest nawiązanie połączenia z serwerem (\ref{fig:sequence3}), przepływ sterowania pomiędzy warstwami podsystemu zarządzającego w sytuacji żądania dostępu do historii prób dostępu przez administratora systemu (\ref{fig:sequence4}) oraz przepływ sterowania pomiędzy warstwami podsystemu zarządzajacego w sytuacji dodania nowego identyfikatora przez administratora systemu (\ref{fig:sequence5}).
+            Przedstawione sytuacje to kolejno: proces autoryzacji identyfikatora użytkownika w przypadku najbardziej pomyślnego scenariusza (\ref{fig:sequence1}), przepływ sterowania pomiędzy elementami systemu w sytuacji, gdy użytkownik zostanie wykryty, ale identyfikator nie zostanie przyłożony do czytnika w zadanym przedziale czasu (\ref{fig:sequence2}), przepływ sterowania pomiędzy elementami systemu w sytuacji, gdy niemożliwe jest nawiązanie połączenia z serwerem (\ref{fig:sequence3}), przepływ sterowania pomiędzy warstwami podsystemu zarządzania w sytuacji żądania dostępu do historii prób dostępu przez administratora systemu (\ref{fig:sequence4}) oraz przepływ sterowania pomiędzy warstwami podsystemu zarządzajacego w sytuacji dodania nowego identyfikatora przez administratora systemu (\ref{fig:sequence5}).
 
             Należy zwrócić uwagę na możliwość wystąpienia również innych sytuacji niekorzystnych, takich jak błąd połączenia z bazą danych lub \textbf{co jeszcze?}. Ich obsługa jest pomijalna z punktu widzenia współpracy komponentów systemu, dlatego nie została uwzględniona na diagramach.
 

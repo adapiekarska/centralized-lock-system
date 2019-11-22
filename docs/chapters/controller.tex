@@ -19,7 +19,7 @@
 
         \subsection{Czujnik ruchu}
 
-            Czujnik ruchu posiada krytyczne znaczenie w układzie zamka. Jako jedyny z podzespołów musi być zasilany przez cały czas pracy układu. Ze względu na wymaganie wykorzystania zasilania bateryjnego w układzie istotną cechą jest jak najniższy pobór mocy w stanie spoczynku. Wybranym rozwiązaniem jest czujnik PIR (ang. \textit{Passive Infrared}, pasywny czujnik podczerwieni), model HC-SR501. Wykrycie obiektu sygnalizowane jest stanem wysokim na cyfrowym wyjściu. Czujnik HC-SR501 wyposażony jest w dwa potencjometry umożliwiające regulację czasu trwania stanu wysokiego po wykryciu obiektu oraz czułości czujnika. Układ posiada także zworkę, za pomocą której można wybrać jeden z dwóch możliwych trybów:
+            Czujnik ruchu posiada krytyczne znaczenie w układzie zamka. Jako jedyny z podzespołów musi być zasilany przez cały czas pracy układu. Ze względu na wymaganie wykorzystania zasilania bateryjnego w układzie istotną cechą jest jak najniższy pobór mocy w stanie spoczynku. Wybranym rozwiązaniem jest czujnik PIR (ang. \textit{Passive Infrared}, pasywny czujnik podczerwieni), model HC-SR501. Wykrycie obiektu sygnalizowane jest stanem wysokim na cyfrowym wyjściu, natomiast maksymalny zasięg wykrywania wynosi 3-7 m. Czujnik wyposażony jest w dwa potencjometry umożliwiające regulację czasu trwania stanu wysokiego po wykryciu obiektu oraz czułości czujnika. Układ posiada także zworkę, za pomocą której można wybrać jeden z dwóch możliwych trybów:
 
             \begin{itemize}
                 \item Tryb \textit{retriggering} - po wykryciu obiektu stan wysoki utrzymywany jest przez określony przez potencjometr czas,
@@ -28,13 +28,13 @@
 
             Dzięki temu możliwe jest dobranie parametrów czujnika w taki sposób, aby użytkownik był wykrywany w odpowiednim momencie, co przekłada się na bardziej optymalne działanie układu.
 
-            \textbf{Napisać jak u nas są te parametry ustawione}
-
-            \textbf{Napisać jaki ma zasięg, sprzeczne źródła :/}
+            Aby zapewnić wykrycie zbliżającego się użytkownika w optymalnym dla pracy układu czasie, poziom czułości czujnika został ustawiony na wartość minimalną 3 m. Długość czasu trwania stanu wysokiego po wykryciu obiektu została ustawiona na wartość minimalną celem uzyskania impulsu stanowiącego źródło wybudzenia mikrokontrolera. Wybrany został tryb \textit{retriggering} w celu zapewnienia poprawnego działania układu w sytuacji gdy użytkownik zostanie wykryty, lecz nie zdąży przyłożyć identyfikatora do czytnika w zadanym okresie czasu. Dzięki zastosowaniu trybu \textit{retriggering} możliwe jest ponowne wykrycie użytkownika po jego zbliżeniu się do zamka. 
 
             \textbf{TBD - schemat jak sa polaczone pinami te wszystkie komponenty}
 
-            \textbf{TBD - opisać układ do zasilania czytnika RFID}
+        \subsection{Układ do zasilania czytnika RFID}
+
+            \textbf{TBD}
 
     \section{Konfiguracja środowiska}
 
@@ -60,17 +60,17 @@
             Kod źródłowy oprogramowania mikrokontrolera został podzielony na następujące komponenty:
 
             \begin{enumerate}
-                \item Komponent główny (\textit{main})
+                \item Komponent główny (\texttt{main})
 
-                    Odpowiedzialny za inicjalizację niezbędnych modułów i przejście w tryb głębokiego uśpienia w przypadku standardowego uruchomienia mikrokontrolera. W przypadku zdarzenia wybudzenia z głębokiego uśpienia odpowiedzialny dodatkowo za wywołanie kodu należącego do komponentu sterującego. Składa się z pojedynczego pliku źródłowego \textit{main.c}.
+                    Odpowiedzialny za inicjalizację niezbędnych modułów i przejście w tryb głębokiego uśpienia w przypadku standardowego uruchomienia mikrokontrolera. W przypadku zdarzenia wybudzenia z głębokiego uśpienia odpowiedzialny dodatkowo za wywołanie kodu należącego do komponentu sterującego. Składa się z pojedynczego pliku źródłowego.
 
                 \item Komponent RFID
 
-                    Odpowiedzialny za komunikację z czytnikiem RFID. Składa się z zewnętrznej biblioteki obsługującej czytnik MFRC522 (patrz \ref{sub:rfid_lib}), pliku ze zbiorem funkcji umożliwiających jej łatwą obsługę oraz pliku z funkcjami związanymi z zadaniem \textit{rfid} (patrz \ref{sub:tasks}).
+                    Odpowiedzialny za komunikację z czytnikiem RFID. Składa się z zewnętrznej biblioteki obsługującej czytnik MFRC522 (patrz \ref{sub:rfid_lib}), pliku ze zbiorem funkcji umożliwiających jej łatwą obsługę oraz pliku z funkcjami związanymi z zadaniem \texttt{rfid} (patrz \ref{sub:tasks}).
 
                 \item Komponent WiFi
 
-                    Odpowiedzialny za nawiązanie połączenia z siecią bezprzewodową i serwerem oraz przeprowadzenie procesu wymiany informacji w celu autoryzacji identyfikatora. Składa się z biblioteki obsługującej komunikację za pomocą \textit{socket'ów}, biblioteki obsługującej komunikację wspierającą TLS, bazującej na bibliotece \textit{mbed TLS}, kilku plików z funkcjami pomocniczymi oraz pliku z funkcjami związanymi z zadaniem \textit{wifi}. To, czy komunikacja z serwerem odbywać się będzie z wykorzystaniem TLS, definiowane jest przez opcję TLS\_ENABLED zawartą w opcjach \textit{menuconfig} komponentu WiFi.
+                    Odpowiedzialny za nawiązanie połączenia z siecią bezprzewodową i serwerem oraz przeprowadzenie procesu wymiany informacji w celu autoryzacji identyfikatora. Składa się z biblioteki obsługującej komunikację za pomocą \socket'ów, biblioteki obsługującej komunikację z wykorzystaniem protokołu TLS (patrz \ref{sub:tls}), kilku plików z funkcjami pomocniczymi oraz pliku z funkcjami związanymi z zadaniem \texttt{wifi}. To, czy komunikacja z serwerem odbywać się będzie z wykorzystaniem TLS, definiowane jest przez opcję \texttt{TLS\_ENABLED} zawartą w opcjach \textit{menuconfig} komponentu WiFi.
 
                 \item Komponent GPIO
 
@@ -94,13 +94,11 @@
             Aby maksymalnie wykorzystać możliwości platformy ESP-IDF w kwestii współbieżności jednocześnie unikając nadmiernego skompilowania kodu, zdecydowano się na wykorzystanie w ramach aplikacji dwóch zadań. Należy nadmienić, że mikrokontroler przez większą część czasu wykonuje operacje, których zrównoleglenie nie przyniosłoby korzyści. Jedyną sytuacją, w której warto zastosować przetwarzanie współbieżne jest nawiązywanie połączenia z serwerem oraz odczyt danych z czytnika RFID. Obie czynności mogą okazać się czasochłonne. W aplikacji jednowątkowej, odczyt danych z czytnika RFID musiałby zakończyć się przed rozpoczęciem nawiązywania połączenia, lub odwrotnie. Jeśli zastosujemy zapewniany przez ESP-IDF mechanizm zadań, możemy wykonywać obie operacje jednocześnie. Zdefiniowano zatem następujące zadania:
 
             \begin{enumerate}
-                \item Zadanie \textit{wifi},
-                \item Zadanie \textit{rfid}.
+                \item Zadanie \texttt{wifi},
+                \item Zadanie \texttt{rfid}.
             \end{enumerate}
 
             Do synchronizacji zadań wykorzystany został mechanizm tzw. \textit{event group} (grupy zdarzeń) dostarczany przez system FreeRTOS. Zakłada on wykorzystanie przez współpracujące zadania współdzielonej grupy zdarzeń, składającej się z zestawu flag, oraz udostępnia funkcje do operowania na niej. Możliwe operacje to ustawianie w stan wysoki lub niski danej flagi oraz oczekiwanie na stan wysoki flagi. Korzystny z perspektywy synchronizacji wątków jest fakt, że oczekiwanie na dane zdarzenie blokuje aktualnie wykonywane zadanie, umożliwiając oddanie sterowania innym oczekującym zadaniom.
-
-            \textbf{Tutaj jakiś diagram pokazujący komunikację między taskami czy coś}
 
         \subsection{Stan głębokiego uśpienia}
 
@@ -139,6 +137,7 @@
             Do zarządzania czytnikiem MFRC522 wykorzystano zewnętrzną bibliotekę\footnote{Alija Bobija, \textit{C library for interfacing ESP32 with MFRC522 RFID card reader}, \url{https://github.com/abobija/esp-idf-rc522} (rewizja 557af67)}.
 
         \subsection{Komunikacja z wykorzystaniem TLS}
+        \label{sub:tls}
 
             TLS (ang. \textit{Transport Layer Security}) jest rozwinięciem protokołu SSL (ang. \textit{Secure Socket Layer}). TLS zapewnia poufność, integralność transmisji oraz uwierzytelnienie serwera, i czasami klienta. 
             Protokół TLS w wersji 1.3 zaproponowano w dokumencie \cite{rfc8446}. Dokument definiuje podprotokół uścisku dłoni (ang. \textit{handshake}), dzięki któremu klient i serwer mogą uzgodnić wersję protokołu, rodzaj wykorzystywanych algorytmów kryptograficznych, opcjonalnie dokonać wzajemnego uwierzytelnienia, a także ustanowić klucze. Po dokonaniu uścisku dłoni, strony używają ustalonych kluczy do zabezpieczenia przesyłanych danych.
