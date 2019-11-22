@@ -318,7 +318,9 @@
 
         \section{Projekt architektury}
 
-            Na architekturę systemu składają się komponenty sprzętowe oraz podsystemy (rysunek \ref{fig:hl-arch}). Rysunek \ref{fig:lock-arch} przedstawia szczegółową budowę układu zamka. Podsystem zarządzania zbudowany jest z dwóch współpracujących ze sobą aplikacji (rysunek \ref{fig:mngmt_subsystem}). \textbf{TBD - budowa podsystemu autoryzacyjnego} 
+            Na architekturę systemu składają się komponenty sprzętowe oraz podsystemy (rysunek \ref{fig:hl-arch}). Rysunek \ref{fig:lock-arch} przedstawia szczegółową budowę układu zamka. 
+
+            % Podsystem zarządzania zbudowany jest z dwóch współpracujących ze sobą aplikacji (rysunek \ref{fig:mngmt_subsystem}). \textbf{TBD - budowa podsystemu autoryzacyjnego} 
 
             \begin{figure}[h!]
                 \includegraphics[width=\linewidth]{chapters/images/hl-arch3.png}
@@ -353,16 +355,16 @@
                 \item
                     Jeżeli identyfikator nie zostanie przyłożony w przeciągu 10~sek. od momentu wybudzenia czytnika, mikrokontroler ponownie wprowadza czytnik oraz samego siebie w stan uśpienia.
                 \item
-                    Jeżeli połączenie z serwerem nie może zostać nawiązane w czasie \textit{t + 3~sek.}, gdzie \textit{t} jest zmiennym czasem upływającym od momentu podjęcia próby nawiązania połączenia z serwerem do momentu zakończenia odczytu danych z identyfikatora, mikrokontroler sygnalizuje użytkownikowi błąd połączenia, po czym wprowadza się w stan uśpienia.
+                    Jeżeli połączenie z serwerem nie może zostać nawiązane w czasie t + 3~sek., gdzie t jest zmiennym czasem upływającym od momentu podjęcia próby nawiązania połączenia z serwerem do momentu zakończenia odczytu danych z identyfikatora, mikrokontroler sygnalizuje użytkownikowi błąd połączenia, po czym wprowadza się w stan uśpienia.
             \end{enumerate}
 
-            Jeżeli żadna z wymienionych wyżej niekorzystnych sytuacji nie wystąpi i dane zostaną pomyślnie przesłane do serwera, serwer podejmuje decyzję o przyznaniu bądź odmowie dostępu. Dokonuje tego po wysłaniu zapytania do bazy danych, a następnie wysyła potwierdzenie lub odmowę do mikrokontrolera. Mikrokontroler w sposób wizualny sygnalizuje decyzję użytkownikowi, a jeżeli była ona pomyślna, dodatkowo wysyła sygnał otwierający zamek. Niezależnie od decyzji serwera, wpis o próbie dostępu zostaje zapisany w bazie danych, skąd może być pobrany przez podsystem zarządzania w celu prezentacji danych administratorowi systemu.
+            Jeżeli żadna z wymienionych wyżej niekorzystnych sytuacji nie wystąpi i dane zostaną pomyślnie przesłane do serwera, serwer podejmuje decyzję o przyznaniu bądź odmowie dostępu. Dokonuje tego po wystosowaniu zapytania do bazy danych, a następnie wysyła potwierdzenie lub odmowę do mikrokontrolera. Mikrokontroler w sposób wizualny sygnalizuje decyzję użytkownikowi, a jeżeli była ona pomyślna, dodatkowo wysyła sygnał otwierający zamek. Niezależnie od decyzji serwera, wpis o próbie dostępu zostaje zapisany w bazie danych, skąd może być pobrany przez podsystem zarządzania w celu prezentacji danych administratorowi systemu.
 
             Opisane wyżej mechanizmy zostały szerzej ukazane na diagramach sekwencji. Diagramy \ref{fig:sequence1}-\ref{fig:sequence3} dotyczą podsystemu sterowania zamkiem oraz podsystemu autoryzacji, natomiast diagramy \ref{fig:sequence4}-\ref{fig:sequence5} dotyczą podsystemu zarządzania.
 
             Przedstawione sytuacje to kolejno: proces autoryzacji identyfikatora użytkownika w przypadku najbardziej pomyślnego scenariusza (\ref{fig:sequence1}), przepływ sterowania pomiędzy elementami systemu w sytuacji, gdy użytkownik zostanie wykryty, ale identyfikator nie zostanie przyłożony do czytnika w zadanym przedziale czasu (\ref{fig:sequence2}), przepływ sterowania pomiędzy elementami systemu w sytuacji, gdy niemożliwe jest nawiązanie połączenia z serwerem (\ref{fig:sequence3}), przepływ sterowania pomiędzy warstwami podsystemu zarządzania w sytuacji żądania dostępu do historii prób dostępu przez administratora systemu (\ref{fig:sequence4}) oraz przepływ sterowania pomiędzy warstwami podsystemu zarządzajacego w sytuacji dodania nowego identyfikatora przez administratora systemu (\ref{fig:sequence5}).
 
-            Należy zwrócić uwagę na możliwość wystąpienia również innych sytuacji niekorzystnych, takich jak błąd połączenia z bazą danych lub \textbf{co jeszcze?}. Ich obsługa jest pomijalna z punktu widzenia współpracy komponentów systemu, dlatego nie została uwzględniona na diagramach.
+            Należy zwrócić uwagę na możliwość wystąpienia również innych sytuacji niekorzystnych, takich jak błąd połączenia z bazą danych. Ich obsługa jest mało istotna z punktu widzenia współpracy komponentów systemu, dlatego nie została uwzględniona na diagramach.
 
             \begin{figure}[]
                 \includegraphics[width=\linewidth]{chapters/images/sequence1.png}

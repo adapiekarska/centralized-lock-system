@@ -56,9 +56,7 @@
 
 	\section{Bezpieczeństwo}
 
-		W obliczu ograniczeń czasowych i budżetowych wielu producentów systemów elektronicznych nie podejmuje kroków w kierunku zapewnienienia odpowiedniego poziomu bezpieczeństwa, co może mieć poważne konsekwencje i narażać użytkowników systemu na straty.
-
-		Bezpieczeństwo jest jednym z głównych wyznaczników jakości systemu kontroli dostępu. Dlatego należy poświęcić odpowiednią uwagę zagadnieniom związanym z potencjalymi zagrożeniami i możliwymi słabymi punktami architektury. Rozproszone systemy elektroniczne są sczególnym wyzwaniem z punktu widzenia bezpieczeństwa. Poniżej przedstawiono wybrane punkty zaproponowanej w \cite{iot-vulnerabilities} klasyfikacji potencjalnych zagrożeń w systemach IoT (ang. \textit{Internet of Things}, Internet Rzeczy):
+		Bezpieczeństwo jest jednym z głównych wyznaczników jakości systemu kontroli dostępu. Wielu producentów systemów elektronicznych nie podejmuje kroków w kierunku zapewnienienia odpowiedniego poziomu bezpieczeństwa swoich produktów, co często prowadzi do narażenia konsumentów na straty. Dlatego należy poświęcić odpowiednią uwagę zagadnieniom związanym z potencjalymi zagrożeniami i możliwymi słabymi punktami architektury. Rozproszone systemy elektroniczne są sczególnym wyzwaniem z punktu widzenia bezpieczeństwa. Poniżej przedstawiono wybrane punkty zaproponowanej w \cite{iot-vulnerabilities} klasyfikacji potencjalnych podatności w systemach IoT (ang. \textit{Internet of Things}, Internet Rzeczy):
 		
 		\begin{enumerate}[label=\Alph*.]
 			\item Bezpieczeństwo fizyczne
@@ -71,6 +69,8 @@
 
 			\item Poufność danych
 
-				W systemach krytycznych działających w oparciu o komunikację bezprzewodową bezpieczeństwo danych stanowi punkt wyjścia dla rozważań o bezpieczeństwie całego systemu. Szyfrowanie jest efektywnym sposobem ochrony danych przed nieautoryzowanym odczytem, ma jednak swoje ograniczenia. Algorytmy kryptograficzne są wymagające obliczeniowo, co stanowi problem zwłaszcza w przypadku platform sprzętowych o ograniczonych możliwościach. Ponadto, rozwiązania kryptograficzne są bezpieczne tylko w takim stopniu, w jakim bezpieczny jest klucz szyfrujący. Stawia to przed urządzeniem konieczność bezpiecznego przechowywania klucza, co biorąc pod uwagę podatnośc na ataki sprzętowe stanowi istotny problem.
+				W systemach krytycznych działających w oparciu o komunikację bezprzewodową bezpieczeństwo danych stanowi punkt wyjścia dla rozważań o bezpieczeństwie całego systemu. Szyfrowanie jest efektywnym sposobem ochrony danych przed nieautoryzowanym odczytem, ma jednak swoje ograniczenia. Algorytmy kryptograficzne często są wymagające obliczeniowo, co stanowi problem zwłaszcza w przypadku platform sprzętowych o ograniczonych możliwościach. Ponadto rozwiązania kryptograficzne są bezpieczne tylko w takim stopniu, w jakim bezpieczny jest klucz szyfrujący. Stawia to przed urządzeniem konieczność bezpiecznego przechowywania klucza, co biorąc pod uwagę podatnośc na ataki sprzętowe stanowi istotny problem.
 
 		\end{enumerate}
+
+		Podsumowując, bezpieczeństwo stanowi nieodzowny problem z którym muszą zmierzyć się projektanci systemów kontroli dostępu. Bezpieczeństwo całego systemu tworzą liczne elementy takie jak bezpieczeństwo danych czy transmisji. Nie jest możliwe stworzenie bezpiecznego systemu bez zapewnienia stosownych mechanizmów ochrony wszystkich komponentów z których się składa. Aby z powodzeniem uchronić system przed atakami należy z uwagą przeanalizować potrzeby, wymagania oraz potencjalne zagrożenia mogące występować w środowisku wdrażania. 
