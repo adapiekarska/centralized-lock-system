@@ -20,11 +20,11 @@
                     \hline
                 \end{tabular}
                 \label{tbl:test1}
-                \vspace{10mm}           
+                \vspace{10mm}
             \end{subtable}
             \label{tbl:tests}
         \end{table}
-        % \quad%  
+        % \quad%
         %     \begin{subtable}[c]{\textwidth}
         %         \centering
         %          \begin{tabular}{|p{2cm}|p{12cm}|}
@@ -33,7 +33,7 @@
         %             \hline
         %         \end{tabular}
         %         \label{tbl:fnrq2}
-        %         \vspace{10mm}           
+        %         \vspace{10mm}
         %     \end{subtable}
         %     \begin{subtable}[c]{\textwidth}
         %         \centering
@@ -43,12 +43,12 @@
         %             \hline
         %         \end{tabular}
         %         \label{tbl:fnrq3}
-        %         \vspace{10mm}           
+        %         \vspace{10mm}
         %     \end{subtable}
         % \label{tbl:fnrq}
         % \end{table}
-    
-        % \pagebreak  
+
+        % \pagebreak
 
         % \begin{table}[h!]
         %     \ContinuedFloat
@@ -61,7 +61,7 @@
         %             \hline
         %         \end{tabular}
         %         \label{tbl:fnrq4}
-        %         \vspace{10mm}           
+        %         \vspace{10mm}
         %     \end{subtable}
         % \quad%
         %     \begin{subtable}[c]{\textwidth}
@@ -72,7 +72,7 @@
         %             \hline
         %         \end{tabular}
         %         \label{tbl:fnrq5}
-        %         \vspace{10mm}           
+        %         \vspace{10mm}
         %     \end{subtable}
         % \quad%
         %     \begin{subtable}[c]{\textwidth}
@@ -83,7 +83,7 @@
         %             \hline
         %         \end{tabular}
         %         \label{tbl:fnrq6}
-        %         \vspace{10mm}           
+        %         \vspace{10mm}
         %     \end{subtable}
         % \quad%
         %     \begin{subtable}[c]{\textwidth}
@@ -94,7 +94,7 @@
         %             \hline
         %         \end{tabular}
         %         \label{tbl:fnrq7}
-        %         \vspace{10mm}           
+        %         \vspace{10mm}
         %     \end{subtable}
         % \quad%
         %     \begin{subtable}[c]{\textwidth}
@@ -105,7 +105,7 @@
         %             \hline
         %         \end{tabular}
         %         \label{tbl:fnrq8}
-        %         \vspace{10mm}           
+        %         \vspace{10mm}
         %     \end{subtable}
         % \quad%
         %     \begin{subtable}[c]{\textwidth}
@@ -115,7 +115,7 @@
         %             \hline \cellcolor[gray]{0.8} Opis         & Okresowe powiadamianie administratora systemu o bieżącym stanie naładowania baterii \\
         %             \hline
         %         \end{tabular}
-        %         \label{tbl:fnrq9}         
+        %         \label{tbl:fnrq9}
         %     \end{subtable}
         %     \label{tbl:tests}
         % \end{table}
@@ -131,7 +131,7 @@
         %             \hline
         %         \end{tabular}
         %         \label{tbl:xxrq1}
-        %         \vspace{10mm}       
+        %         \vspace{10mm}
         %     \end{subtable}
         % \quad%
         %     \begin{subtable}[c]{\textwidth}
@@ -141,11 +141,25 @@
         %             \hline \cellcolor[gray]{0.8} Opis         & Czas odpowiedzi układu zamka od momentu przyłożenia identyfikatora do momentu wysłania sygnału otwierającego zamek przez układ sterowania zamkiem powinien być nie dłuższy niż 3 sekundy. \\
         %             \hline
         %         \end{tabular}
-        %         \label{tbl:xxrq2}    
+        %         \label{tbl:xxrq2}
         %     \end{subtable}
 
         %     \label{tbl:xxrq}
         % \end{table}
+
+
+    \section{Wydajność energetyczna}
+
+    Założono, że w wyniku prób dostępu lub przypadkowych wzbudzeń czujnika zbliżeniowego, układ zamka zostaje wybudzony około 120 razy w ciągu doby, z czego za każdym razem pozostaje w stanie operacyjnym od 7 do maksymalnie 16 sekund. Oznacza to że układ przez ponad 98\% czasu pozostaje w stanie uśpienia, co świadczy o tym, że pobór prądu w tym stanie będzie miał dominujący wpływ na ogólną efektywność energetyczną. Na podstawie wykonanych pomiarów, można oszacować dobowy pobór prądu na około 107mAh. Stosując 9  ogniw galwanicznych o napięciu wyjściowym 1.5V i pojemności 1100mAh, połączonych zgodnie ze schematem przedstawionym na obrazie \ref{fig:battery_layout}, można zapewnić stałe źródło zasilania o napięciu 4.5V i pojemności 3300mAh. W takiej konfiguracji, żywotność układu wynosi w przybliżeniu 30 dni.
+
+    Powodem tak niskiej żywotności jest wysoki pobór prądu w stanie spoczynku. Odpowiedzialny za tą nieefektywność jest element układu zasilania wykorzystanej płytki prototypowej: regulator napięcia LD1117. Jego standardowy prąd spoczynkowy wynosi około 5mA~\cite{AMS1117-ds}. Zastępując go regulatorem AP2112K o prądzie spoczynkowym w granicach 50μA~\cite{AP2112K-ds}, można zredukować pobór prądu w stanie uśpienia z 4mA do około 150μA, tym samym zwiększając żywotność.
+
+    \begin{figure}[]
+        \centering
+        \includegraphics[width=0.5\textwidth]{chapters/images/battery_layout.png}
+        \caption{Sposób połączenia baterii}
+        \label{fig:battery_layout}
+    \end{figure}
 
 
 	\textbf{Wydajność energetyczna - TBD}
