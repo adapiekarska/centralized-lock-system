@@ -12,8 +12,10 @@
         </td>
 
         <td>
-          <button type="button" class="btn btn-secondary btn-light px-5 btn-outline-secondary" (click)="openShow(lock.id)">Show</button>
-          <button type="button" class="btn btn-indigo btn-outline-danger m-0" (click)="remove(lock)">Delete</button>
+          <div class="btn-group" role="group">
+            <button type="button" class="btn btn-secondary btn-light px-5 btn-outline-secondary" (click)="openShow(lock.id)">Show</button>
+            <button type="button" class="btn btn-indigo btn-outline-danger m-0" (click)="remove(lock)">Delete</button>
+          </div>
         </td>
       </tr>
     </table>
