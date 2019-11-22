@@ -1,18 +1,27 @@
 \chapter{Serwer}
 \label{chap:server}
 
-    Niniejszy rozdział przedstawia zagadnienia związane z procesem implementacji części serwerowej systemu. Uzasadnia wybór wykorzystanych technologii sprzętowych.
+    Niniejszy rozdział przedstawia zagadnienia związane z procesem implementacji części serwerowej systemu. Uzasadnia wybór wykorzystanych technologii sprzętowych, ukazuje przepływ sterowania.
+
+    Założeniem tej części procesu implementacyjnego nie było stworzenie skomplikowanego oprogramowania klasy biznesowej umożliwiającego zaawansowaną konfigurację systemu, lecz w pełni funkcjonalnego prototypu na potrzeby demonstracyjne.
 
     \section{Podsystem autoryzacji}
+    \label{s:auth_subs}
 
-    	Do implementacji części autoryzacyjnej serwera wybrano język Python. Istotnym faktem była możliwość łatwego przeprowadzania operacji na bazie danych.
+    	Zadania należące do oprogramowania autoryzującego to komunikacja z klientami oraz interakcja z bazą danych. Niewielka liczba jego funkcji powoduje, że kluczową cechą na którą zwrócono uwagę przy wyborze technologii do jego implementacji jest prostota i zdolność do szybkiego stworzenia operacyjnego prototypu. Istotnym wymaganiem była także możliwość łatwego przeprowadzania operacji na bazie danych. Do implementacji części autoryzacyjnej serwera wybrano język Python ze względu na jego interpretowalny charakter . 
 
-    	Podsystem autoryzacji składa się z pojedynczego skryptu.
+    	Podsystem autoryzacji składa się z pojedynczego skryptu. Jego działanie opiera się na nieskończonej pętli oczekiwania na połączenie od urządzenia klienckiego. Schemat blokowy oprogramowania autoryzującego przedstawia rysunek \ref{fig:flowchart5}.
 
+    	\begin{figure}[]
+            \centering
+            \includegraphics[width=\textwidth]{chapters/images/flowchart5.png}
+            \caption{Schemat blokowy przepływu sterowania oprogramowania autoryzującego}
+            \label{fig:flowchart5}
+        \end{figure}
+
+    	W celu realizacji komunikacji z wykorzystaniem protokołu TLS użyto biblioteki ssl języka Python bazującej na OpenSSL. Uwierzytelnienie klienta zostało osiągnięte poprzez przekazanie do metody tworzącej kontekst SSL \texttt{create\_default\_context()} parametru \texttt{Purpose\.CLIENT\_AUTH} oraz ustawienie parametru \texttt{verify\_mode} na wartość \texttt{CERT\_REQUIRED}.
 
     \section{Podsystem zarządzania}
-
-    	Założeniem tej części procesu implementacyjnego nie było stworzenie skomplikowanej aplikacji umożliwiającej zaawansowaną konfigurację systemu, lecz w pełni funkcjonalnego prototypu na potrzeby demonstracyjne.
 
     	Podsystem został podzielony na dwie współpracujące ze sobą aplikacje. Aplikacje te to:
 

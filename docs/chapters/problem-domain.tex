@@ -19,8 +19,6 @@
 
 		W przypadku, gdy system kontroli dostępu nie funkcjonuje odpowiednio (np. z powodu braku zasilania), stosuje się tzw. \textit{break glass device}.
 
-		W zależności od potrzeb, oprogramowanie w systemie może być samodzielnym programem zainstalowanym na komputerze osobistym bądź złożonym i bezpiecznym oprogramowaniem zainstalowanym na serwerze. Często opiera się na rozwiązaniach webowych lub mobilnych, umożliwiając dostęp z dowolnego urządzenia
-
 	\section{Przegląd istniejących rozwiązań}
 
 		Obecny w dzisiejszych czasach postęp technologiczny zapewnia wiele możliwości w kwestii implementacji systemów kontroli dostępu. Prowadzi to do różnorodności rozwiązań, z których każde posiada właściwe dla wykorzystanych metod wady i zalety. Poniżej przedstawiona została zaproponowana w \cite{access-system-survey} klasyfikacja systemów kontroli dostępu ze względu na metodę uwierzytelniania:
@@ -50,7 +48,6 @@
 				Bezpieczeństwo tego rozwiązania bazuje na kluczu dostępu znanym wyłącznie przez użytkownika systemu. W pamięci układu zamka zapisywana jest odpowiednia sekwencja, która po transformacji kryptograficznej staje się hasłem dostępu (w tej postaci jest ono przekazywane użytkownikowi). W ten sposób hasło znane jest tylko użytkownikowi co zapewnia, że nawet osoby odpowiedzialne za utrzymanie systemu nie uzyskają dostępu przez pozyskanie hasła. Słabą stroną metody jest oparcie bezpieczeństwa na kluczu kryptograficznym który musi być przechowywany w bezpieczny sposób. \textbf{Nie rozumiem o co tu chodzi.}
 
 			\item System oparty o komunikację bezprzewodową
-				\textbf{TODO: review documentation considering author names}
 				W systemie tego typu przepływ danych odbywa się za pośrednictwem sieci bezprzewodowej. W celu autoryzacji wykorzystywane jest urządzenie mobilne połączone z siecią. W przeciwieństwie do pozostałych wymienionych rozwiązań, rozwiązanie zaproponowane w \cite{cryptographic-iot-access-system} nie zakłada bezpośredniej komunikacji użytkownika z zamkiem. Urządzenie mobilne użytkownika generuje zapytanie do serwera, który dokonuje kontroli uprawnień i w przypadku pozytywnej ich weryfikacji, przekazuje decyzję o sukcesie do układu zamka.
 
 		\end{enumerate}
@@ -58,32 +55,22 @@
 		\textbf{Tu może jakieś podsumowanie tych różnych rodzajów jeszcze jakby się dało}
 
 	\section{Bezpieczeństwo}
-		\textbf{Przegląd zagrożeń związanych z bezpieczeństwem - TBD}
 
+		W obliczu ograniczeń czasowych i budżetowych wielu producentów systemów elektronicznych nie podejmuje wysiłku potrzebnego w celu zapewnienienia odpowiedniego poziomu bezpieczeństwa, co może mieć poważne konsekwencje i narażać użytkowników systemu na straty.
 
-
-		Rynek systemów IoT nastawiony jest przede wszystkim na zysk. W efekcie wielu producentów w obliczu ograniczeń czasowych i budżetowych nie podejmuje prac związanych z zapewnieniem odpowiedniego poziomu bezpieczeństwa. Stosowanie takiej praktyki może jednak mieć poważne konsekwencje, jako że naraża użytkowników systemu na straty
-
-		W projekcie systemu realizującego funkcjonalność o znaczeniu krytycznym, taką jak kontrola dostępu, jego bezpieczeństwo jest głównym wyznacznikiem jakości. Z tego powodu należy poświęcić odpowiednią uwagę zagadnieniom związanym z potencjalymi zagrożeniami i możliwymi słabymi punktami architektury. Systemy realizujące ideę Internetu Rzeczy są sczególnym wyzwaniem z punktu widzenia bezpieczeństwa. Poniżej przedstawiono wybrane punkty zaproponowanej w \cite{iot-vulnerabilities} klasyfikacji potencjalnych zagrożeń w systemach IoT:
+		Bezpieczeństwo jest jednym z głównych wyznaczników jakości systemu kontroli dostępu. Dlatego należy poświęcić odpowiednią uwagę zagadnieniom związanym z potencjalymi zagrożeniami i możliwymi słabymi punktami architektury. Rozproszone systemy elektroniczne są sczególnym wyzwaniem z punktu widzenia bezpieczeństwa. Poniżej przedstawiono wybrane punkty zaproponowanej w \cite{iot-vulnerabilities} klasyfikacji potencjalnych zagrożeń w systemach IoT (ang. \textit{Internet of Things}, Internet Rzeczy):
+		
 		\begin{enumerate}[label=\Alph*.]
 			\item Bezpieczeństwo fizyczne
 
-				Urządzenia tworzące system częto umieszczane są w miejscach bez odpowiedniej fizycznej ochrony. Stwarza to możliwość zakłócenia pracy urządzenia czy wydobycia wrażliwych danych włącznie z kodem i kluczami kryptograficznymi. Jak przedstawia \cite{iot-hardware-attack}, producenci często skupiają się na zagrożeniach sieciowych bez uwzględnienia możliwości ataku sprzętowego. Pozwoliło to autorom pracy uzyskać niskopoziomowy dostęp konfigurując proces uruchomienia przez port szeregowy i w efekcie zdobyć uprawnienia administratora w systemie operacyjnym działającym na urządzeniu.
+				Urządzenia systemu częto umieszczane są w miejscach nieposiadających odpowiedniej fizycznej ochrony. Stwarza to możliwość zakłócenia pracy urządzenia lub wydobycia wrażliwych danych włącznie z kodem i kluczami kryptograficznymi. Jak przedstawia \cite{iot-hardware-attack}, producenci często skupiają się na zagrożeniach sieciowych bez uwzględnienia możliwości ataku sprzętowego. Brak poświęcenia uwagi bezpieczeństwa sprzętowego umożliwił autorom wspomnianej pracy zmianę konfiguracji procesu uruchomienia przez port szeregowy i w efekcie zdobycie uprawnień administratora w systemie operacyjnym działającym na urządzeniu.
 
 			\item Dostępność
 
-				Wezły systemu dysponujące ograniczonym zasobem energii podatne są na tak zwany atak wyczerpania zasobów (ang. \textit{resource depletion attack}). Jak sugeruje nazwa, celem tego ataku jest skończony zasób, krytyczny dla funkcjonowania danego urządzenia. W tym przypadku owym zasobem jest źródło zasilania w postaci baterii o ograniczonej pojemności. W przeciwieństwie do standardowych ataków DoS (ang. \textit{Denial of Service}, Odmowa Usługi), ataki wyczerpania zasobów są rozłożone w czasie i dążą do osiągnięcia długotrwałej odmowy usługi~\cite{iot-rd-attack}.
+				Węzły systemu dysponujące ograniczonym zasobem energii podatne są na tzw. atak wyczerpania zasobów (ang. \textit{resource depletion attack}). Jak sugeruje nazwa, celem tego ataku jest skończony zasób, o krytycznym z punktu widzenia funkcjonowania danego urządzenia znaczeniu. W przypadku opisywanego ataku zasobem jest źródło zasilania w postaci baterii o ograniczonej pojemności. W przeciwieństwie do standardowych ataków DoS (ang. \textit{Denial of Service}), ataki wyczerpania zasobów są rozłożone w czasie i dążą do osiągnięcia długotrwałego efektu odmowy usługi~\cite{iot-rd-attack}.
 
 			\item Poufność danych
 
-				Bezpieczeństwo danych, szczególnie w systemach krytycznych oraz wykorzystujących komunikację bezprzewodową, jest najczęściej punktem wyjścia dla rozważań o bezpieczeństwie całego systemu. Szyfrowanie jest efektywnym sposobem ochrony danych przed nieautoryzowanym odczytem. Ma ono jednak swoje ograniczenia. Algorytmy kryptograficzne są wymagające obliczeniowo co ma spore znaczenie w przypadku platform sprzętowych o ograniczonych możliwościach. Ponadto rozwiązania kryptograficzne są tak bezpieczne, jak bezpieczny jest klucz szyfrujący, co stawia przed urządzeniem wymaganie bezpiecznego przehowywania klucza jest zadaniem nietrywialnym biorąc pod uwagę fakt, że urządzenie podatne jest na sprzętowe ataki.
+				W systemach krytycznych wykorzystujących komunikację bezprzewodową bezpieczeństwo danych jest punktem wyjścia dla rozważań o bezpieczeństwie całego systemu. Szyfrowanie jest efektywnym sposobem ochrony danych przed nieautoryzowanym odczytem. Ma ono jednak swoje ograniczenia. Algorytmy kryptograficzne są wymagające obliczeniowo. Ma to duże znaczenie w przypadku platform sprzętowych o ograniczonych możliwościach. Ponadto rozwiązania kryptograficzne są bezpieczne tylko w takim stopniu, w jakim bezpieczny jest klucz szyfrujący. Stawia to przed urządzeniem wymaganie bezpiecznego przechowywania klucza, co jest zadaniem nietrywialnym biorąc pod uwagę fakt, że urządzenie podatne jest na sprzętowe ataki.
 
 		\end{enumerate}
-
-
-
-		% W mniej wymagających systemach często stosuje się rozwiązania oparte na architekturze rozproszonej. W rozwiązaniach tego typu urządzenia kontrolujące zamki pracują w sposób autonomiczny. Oznacza to, iż cały proces uwierzytelniania dokonywany jest przez oprogramowanie mikroprocesora obsługującego zamek.
-
-		% Na rynku dostępne są także rozwiązania sieciowe, bądź też takie, które umożliwiają konfigurację urządzeń w tryb zarówno autonomiczny, jak i sieciowy. Rozwiązania sieciowe charakteryzują się znacznym stopniem skomplikowania, zarówno pod względem architektonicznym (ilość i rodzaj potrzebnych komponentów sprzętowych)~\cite{racs5}, jak i konfiguracyjnym (trudność instalacji, konieczność modyfikacji istniejącej infrastruktury). Mogą oferować oddzielenie funkcjonalności czytnika dostępu od kontrolera, umożliwiając obsługę do kilkunastu czytników za pomocą jednego urządzenia kontrolującego~\cite{racs5}. Mimo możliwości dołączenia do kontrolera zamków bezprzewodowych, działanie całego systemu wciąż pozostaje w pewnym stopniu uzależnione od komunikacji przewodowej.
-
-		% Ze względu na ilość komponentów sprzętowych, istniejące rozwiązania bywają drogie.

@@ -1,17 +1,152 @@
 \chapter{Podsumowanie}
 \label{chap:results}
 
-	Niniejszy rozdział dokonuje podsumowania rezultatów prowadzonej pracy. Porównuje szacunki dotyczące poboru mocy z rzeczywistym poborem. Ponadto dokonuje oceny bezpieczeństwa oraz responsywności systemu.
+	Niniejszy rozdział dokonuje podsumowania rezultatów prowadzonej pracy. Prezentuje wyniki testów, które przeprowadzono w celu weryfikacji spełnienia wymagań. Porównuje szacunki dotyczące poboru mocy z rzeczywistym poborem. Ponadto dokonuje oceny bezpieczeństwa oraz responsywności systemu.
 
-	W ramach niniejszej pracy stworzono funkcjonalny prototyp systemu, który po odpowiednich modyfikacjach miałby szansę efektywnej pracy w odpowiednim środowisku.
+    \section{Testowanie}
 
-	Dzięki wykorzystaniu zdalnego serwera do przeprowadzenia procesu uwierzytelniania system zapewnia większą elastyczność i łatwość zarządzania niż alternatywne systemy wykorzystujące zamki pracujące w sposób autonomiczny.
+        Tabela \ref{tbl:tests} przedstawia przeprowadzone testy oraz ich wyniki.
 
-	Rozwiązanie cechuje się wygodą montażu, ponieważ nie wymaga przewodów zasilających i komunikacyjnych prowadzonych w ścianach budynków. Przy wdrażaniu rozwiązania nie jest konieczna modyfikacja istniejącej infrastruktury budynku, z wyjątkiem wymiany samych zamków. System nie wymaga żadnych dodatkowych komponentów sprzętowych poza zamkami i serwerem.
+        \begin{table}[h!]
+            \caption{Testy wymagań funkcjonalnych}
+            \centering
+            \begin{subtable}[c]{\textwidth}
+                \centering
+                \begin{tabular}{|p{2cm}|p{12cm}|}
+                    \hline TEST\_1      & \textbf{Kontrola dostępu do pomieszczeń} \\
+                    \hline \cellcolor[gray]{0.8} Wymaganie    & FNRQ\_1 Kontrola dostępu do pomieszczeń  \\
+                    \hline \cellcolor[gray]{0.8} Opis testu        & Dopuszczanie do pomieszczeń użytkowników posiadających odpowiedni identyfikator i niedopuszczanie użytkowników nieposiadających odpowiedniego identyfikatora  \\
+                    \hline \cellcolor[gray]{0.8} Wynik        & Placeholder \\
+                    \hline
+                \end{tabular}
+                \label{tbl:test1}
+                \vspace{10mm}           
+            \end{subtable}
+            \label{tbl:tests}
+        \end{table}
+        % \quad%  
+        %     \begin{subtable}[c]{\textwidth}
+        %         \centering
+        %          \begin{tabular}{|p{2cm}|p{12cm}|}
+        %             \hline FNRQ\_2      & \textbf{Przeglądanie historii prób dostępu do pomieszczeń}  \\
+        %             \hline \cellcolor[gray]{0.8} Opis         & Dostęp do listy dokonanych w przeszłości prób dostępu zakończonych zarówno sukcesem, jak i porażką \\
+        %             \hline
+        %         \end{tabular}
+        %         \label{tbl:fnrq2}
+        %         \vspace{10mm}           
+        %     \end{subtable}
+        %     \begin{subtable}[c]{\textwidth}
+        %         \centering
+        %          \begin{tabular}{|p{2cm}|p{12cm}|}
+        %             \hline FNRQ\_3      & \textbf{Dodawanie identyfikatorów}  \\
+        %             \hline \cellcolor[gray]{0.8} Opis         & Dodawanie identyfikatorów wraz z przyznaniem dostępu do wybranej grupy zamków \\
+        %             \hline
+        %         \end{tabular}
+        %         \label{tbl:fnrq3}
+        %         \vspace{10mm}           
+        %     \end{subtable}
+        % \label{tbl:fnrq}
+        % \end{table}
+    
+        % \pagebreak  
 
-	Wydajność energetyczna podsystemu sterowania zamkiem została osiągnięta przez zarządzanie zasilaniem jego peryferiów oraz kontrolę stanu zasilania mikrokontrolera w celu minimalizacji poboru mocy i maksymalizacji czasu pracy na zasilaniu bateryjnym.
+        % \begin{table}[h!]
+        %     \ContinuedFloat
+        %     \caption{Wymagania funkcjonalne, c.d.}
+        %     \begin{subtable}[c]{\textwidth}
+        %         \centering
+        %          \begin{tabular}{|p{2cm}|p{12cm}|}
+        %             \hline FNRQ\_4      & \textbf{Przeglądanie identyfikatorów powiązanych z danym zamkiem} \\
+        %             \hline \cellcolor[gray]{0.8} Opis         & Dostęp do listy powiązań między identyfikatorami a zamkami \\
+        %             \hline
+        %         \end{tabular}
+        %         \label{tbl:fnrq4}
+        %         \vspace{10mm}           
+        %     \end{subtable}
+        % \quad%
+        %     \begin{subtable}[c]{\textwidth}
+        %         \centering
+        %          \begin{tabular}{|p{2cm}|p{12cm}|}
+        %             \hline FNRQ\_5      & \textbf{Blokowanie dostępu do pomieszczeń dla wybranego identyfikatora}  \\
+        %             \hline \cellcolor[gray]{0.8} Opis         & Manualny wybór opcji czasowego usunięcia powiązania wybranego identyfikatora z wybraną grupą zamków \\
+        %             \hline
+        %         \end{tabular}
+        %         \label{tbl:fnrq5}
+        %         \vspace{10mm}           
+        %     \end{subtable}
+        % \quad%
+        %     \begin{subtable}[c]{\textwidth}
+        %         \centering
+        %          \begin{tabular}{|p{2cm}|p{12cm}|}
+        %             \hline FNRQ\_6      & \textbf{Dostęp do grupy pomieszczeń za pomocą jednego identyfikatora}  \\
+        %             \hline \cellcolor[gray]{0.8} Opis         & Ustawienie powiązań identyfikatorów i zamków w taki sposób, aby możliwy był dostęp do grupy zamków za pomocą jednego identyfikatora \\
+        %             \hline
+        %         \end{tabular}
+        %         \label{tbl:fnrq6}
+        %         \vspace{10mm}           
+        %     \end{subtable}
+        % \quad%
+        %     \begin{subtable}[c]{\textwidth}
+        %         \centering
+        %          \begin{tabular}{|p{2cm}|p{12cm}|}
+        %             \hline FNRQ\_7      & \textbf{Dostęp do pomieszczenia za pomocą grupy identyfikatorów}  \\
+        %             \hline \cellcolor[gray]{0.8} Opis         & Ustawienie powiązań identyfikatorów i zamków w taki sposób, aby możliwy był dostęp do jednego zamka za pomocą grupy identyfikatorów \\
+        %             \hline
+        %         \end{tabular}
+        %         \label{tbl:fnrq7}
+        %         \vspace{10mm}           
+        %     \end{subtable}
+        % \quad%
+        %     \begin{subtable}[c]{\textwidth}
+        %         \centering
+        %          \begin{tabular}{|p{2cm}|p{12cm}|}
+        %             \hline FNRQ\_8      & \textbf{Sygnalizacja przyznania lub odmowy dostępu}  \\
+        %             \hline \cellcolor[gray]{0.8} Opis         & Powiadamianie użytkownika o podjętej przez system decyzji \\
+        %             \hline
+        %         \end{tabular}
+        %         \label{tbl:fnrq8}
+        %         \vspace{10mm}           
+        %     \end{subtable}
+        % \quad%
+        %     \begin{subtable}[c]{\textwidth}
+        %         \centering
+        %          \begin{tabular}{|p{2cm}|p{12cm}|}
+        %             \hline FNRQ\_9      & \textbf{Sygnalizacja stanu naładowania baterii w układzie zamka} \\
+        %             \hline \cellcolor[gray]{0.8} Opis         & Okresowe powiadamianie administratora systemu o bieżącym stanie naładowania baterii \\
+        %             \hline
+        %         \end{tabular}
+        %         \label{tbl:fnrq9}         
+        %     \end{subtable}
+        %     \label{tbl:tests}
+        % \end{table}
 
-	Bezpieczeństwo systemu na wielu poziomach zapewnia wykorzystanie mechanizmów takich jak TLS w warstwie komunikacji pomiędzy zamkiem a serwerem czy szyfrowanie pamięci Flash w warstwie operacji na danych w mikroprocesorze w układzie zamka.
+        % \begin{table}[h!]
+        %     \caption{Wymagania pozafunkcjonalne}
+        %     \centering
+        %     \begin{subtable}[c]{\textwidth}
+        %         \centering
+        %         \begin{tabular}{|p{2cm}|p{12cm}|}
+        %             \hline XXRQ\_1      & \textbf{Długość czasu pracy układu zamka na baterii równa minimum 1 rok}  \\
+        %             \hline \cellcolor[gray]{0.8} Opis         & Długość czasu pracy układu zamka na baterii powinna wynosić minimum 1 rok \\
+        %             \hline
+        %         \end{tabular}
+        %         \label{tbl:xxrq1}
+        %         \vspace{10mm}       
+        %     \end{subtable}
+        % \quad%
+        %     \begin{subtable}[c]{\textwidth}
+        %         \centering
+        %         \begin{tabular}{|p{2cm}|p{12cm}|}
+        %             \hline XXRQ\_2      & \textbf{Czas odpowiedzi układu zamka nie dłuższy niż 3 sekundy}  \\
+        %             \hline \cellcolor[gray]{0.8} Opis         & Czas odpowiedzi układu zamka od momentu przyłożenia identyfikatora do momentu wysłania sygnału otwierającego zamek przez układ sterowania zamkiem powinien być nie dłuższy niż 3 sekundy. \\
+        %             \hline
+        %         \end{tabular}
+        %         \label{tbl:xxrq2}    
+        %     \end{subtable}
+
+        %     \label{tbl:xxrq}
+        % \end{table}
+
 
 	\textbf{Wydajność energetyczna - TBD}
 
@@ -44,3 +179,15 @@
 
         \subsection{Obsługa kont użytkowników w podsystemie zarządzania}
             Podsystem zarządzania nie implementuje mechanizmu dostępu do zasobów, co czyni system mniej bezpiecznym. W końcowym produkcie należałoby rozszerzyć go o możliwość tworzenia kont użytkowników i przypisywania im określonych uprawnień co do odczytu i zapisu danych.
+
+    \section{Podsumowanie}
+
+        W ramach niniejszej pracy stworzono funkcjonalny prototyp systemu, który po odpowiednich modyfikacjach miałby szansę efektywnej pracy w odpowiednim środowisku.
+
+        Dzięki wykorzystaniu zdalnego serwera do przeprowadzenia procesu uwierzytelniania system zapewnia większą elastyczność i łatwość zarządzania niż alternatywne systemy wykorzystujące zamki pracujące w sposób autonomiczny.
+
+        Rozwiązanie cechuje się wygodą montażu, ponieważ nie wymaga przewodów zasilających i komunikacyjnych prowadzonych w ścianach budynków. Przy wdrażaniu rozwiązania nie jest konieczna modyfikacja istniejącej infrastruktury budynku, z wyjątkiem wymiany samych zamków. System nie wymaga żadnych dodatkowych komponentów sprzętowych poza zamkami i serwerem.
+
+        Wydajność energetyczna podsystemu sterowania zamkiem została osiągnięta przez zarządzanie zasilaniem jego peryferiów oraz kontrolę stanu zasilania mikrokontrolera w celu minimalizacji poboru mocy i maksymalizacji czasu pracy na zasilaniu bateryjnym.
+
+        Bezpieczeństwo systemu na wielu poziomach zapewnia wykorzystanie mechanizmów takich jak TLS w warstwie komunikacji pomiędzy zamkiem a serwerem czy szyfrowanie pamięci Flash w warstwie operacji na danych w mikroprocesorze w układzie zamka.
