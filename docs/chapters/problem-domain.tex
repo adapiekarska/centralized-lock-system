@@ -5,7 +5,7 @@
 
 	\section{Podstawowe pojęcia}
 
-		Celem dokumentu \cite{rfc4949} jest przedstawienie terminologii związanej z bezpieczeństwem systemów informacyjnych, jednak wiele z zawartych w nim definicji ma zastosowanie także w ujęciu systemów kontroli dostępu do przestrzeni użytkowych.
+		Dokument \cite{rfc4949} przedstawia terminologię związaną z bezpieczeństwem systemów informacyjnych, jednak wiele z zawartych w nim definicji ma zastosowanie także w ujęciu systemów kontroli dostępu do przestrzeni użytkowych.
 
 		Dostęp definiowany jest jako zdolność i środki umożliwiające komunikację lub inną interakcję z systemem w celu wykorzystania jego zasobów by obsłużyć informację lub uzyskać wiedzę na temat informacji, które system zawiera.
 
@@ -17,7 +17,7 @@
 
 		Jak podaje \cite{rfc4949}, token to obiekt używany w celu kontroli dostępu, przekazywany pomiędzy współpracującymi podmiotami w ramach protokołu definiującego synchronizację użytku współdzielonego zasobu. Przeważnie, podmiot będący w posiadaniu tokena ma wyłączny dostęp do zasobu. Inna definicja zawarta w tym samym dokumencie mówi, że token to obiekt lub fizyczne urządzenie używane w celu weryfikacji tożsamości w procesie uwierzytelniania.
 
-		W ramach niniejszej pracy termin \textit{identyfikator} stosowany jest jako określenie obiektu zawierającego układ RFID. Służy on autoryzacji dostępu podmiotów oraz rejestracji wykonywanych przez nie czynności.
+		W ramach niniejszej pracy termin \textit{identyfikator} stosowany jest jako określenie obiektu zawierającego układ RFID. Służy on poświadczeniu tożsamości podmiotów.
 
 		Według \cite{bsia2016}, w większości przypadków tylko wejście na teren pomieszczenia objętego systemem podlega kontroli. Aby możliwa była również kontrola wyjścia z chronionego terenu, potrzebny jest drugi czytnik umieszczony po drugiej stronie drzwi. Jeżeli obustronna kontrola nie jest wymagana, stosuje się zazwyczaj przycisk umożliwiający otworzenie zamka od środka.
 
@@ -25,7 +25,7 @@
 
 	\section{Przegląd istniejących rozwiązań}
 
-		Rozwinięta technologia dostarcza wiele możliwości w kwestii implementacji systemów kontroli dostępu. Nie wszyscy zarządcy obiektów decydują się jednak na wykorzystanie nowoczesnych systemów. Prowadzi to do znacznej różnorodności rozwiązań, z których każde posiada zalety i wady właściwe dla wykorzystanych metod. Poniżej przedstawiona została zaproponowana w \cite{access-system-survey} klasyfikacja systemów kontroli dostępu ze względu na metodę uwierzytelniania:
+		Rozwinięta technologia dostarcza wiele możliwości w kwestii implementacji systemów kontroli dostępu. Prowadzi to do znacznej różnorodności rozwiązań, z których każde posiada zalety i wady właściwe dla wykorzystanych metod. Poniżej przedstawiona została zaproponowana w \cite{access-system-survey} klasyfikacja systemów kontroli dostępu ze względu na metodę uwierzytelniania:
 		\begin{enumerate}[label=\Alph*.]
 			\item System zamków mechanicznych
 
@@ -63,7 +63,7 @@
 	\section{Bezpieczeństwo}
 
 		Bezpieczeństwo jest jednym z głównych wyznaczników jakości systemu kontroli dostępu. Wielu producentów systemów elektronicznych nie podejmuje kroków w kierunku zapewnienienia odpowiedniego poziomu bezpieczeństwa swoich produktów, co często prowadzi do narażenia konsumentów na straty. Aby zminimalizować ryzyko strat, należy poświęcić odpowiednią uwagę zagadnieniom związanym z potencjalymi zagrożeniami i możliwymi słabymi punktami architektury. Rozproszone systemy elektroniczne są sczególnym wyzwaniem z punktu widzenia bezpieczeństwa. Poniżej przedstawiono wybrane punkty zaproponowanej w \cite{iot-vulnerabilities} klasyfikacji potencjalnych podatności w systemach IoT (ang. \textit{Internet of Things}, Internet Rzeczy):
-		
+
 		\begin{enumerate}[label=\Alph*.]
 			\item Bezpieczeństwo fizyczne
 
@@ -79,4 +79,4 @@
 
 		\end{enumerate}
 
-		Podsumowując, bezpieczeństwo stanowi nieodzowny problem z którym muszą zmierzyć się projektanci systemów kontroli dostępu. Nie jest możliwe stworzenie bezpiecznego systemu bez zapewnienia stosownych mechanizmów ochrony wszystkich komponentów z których się składa. Aby z powodzeniem uchronić system przed atakami należy z uwagą przeanalizować potrzeby, wymagania oraz potencjalne zagrożenia mogące występować w środowisku jego wdrożenia. 
+		Podsumowując, bezpieczeństwo stanowi nieodzowny problem z którym muszą zmierzyć się projektanci systemów kontroli dostępu. Nie jest możliwe stworzenie bezpiecznego systemu bez zapewnienia stosownych mechanizmów ochrony wszystkich komponentów z których się składa. Aby z powodzeniem uchronić system przed atakami należy z uwagą przeanalizować potrzeby, wymagania oraz potencjalne zagrożenia mogące występować w środowisku jego wdrożenia.

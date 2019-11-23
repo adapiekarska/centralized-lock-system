@@ -8,8 +8,8 @@
     \section{Oprogramowanie autoryzujące}
     \label{s:auth_subs}
 
-    	Zadania należące do oprogramowania autoryzującego to komunikacja z klientami oraz interakcja z bazą danych. Niewielka liczba jego funkcji powoduje, że kluczową cechą na którą zwrócono uwagę przy wyborze technologii jego implementacji jest prostota i zdolność do szybkiego stworzenia funkcjonalnego prototypu. Istotnym wymaganiem była także możliwość łatwości przeprowadzania nieskomplikowanych operacji na bazie danych.
-    	Do implementacji części autoryzacyjnej serwera wybrano język Python ze względu na jego interpretowalny charakter, prostą składnię oraz wbudowaną możliwość integracji z bazą danych. 
+    	Zadania należące do oprogramowania autoryzującego to komunikacja z klientami oraz interakcja z bazą danych. Niewielka liczba jego funkcji powoduje, że kluczową cechą na którą zwrócono uwagę przy wyborze technologii jego implementacji jest prostota i zdolność do szybkiego stworzenia funkcjonalnego prototypu. Istotnym wymaganiem była także możliwość przeprowadzania nieskomplikowanych operacji na bazie danych.
+    	Do implementacji części autoryzacyjnej serwera wybrano język Python ze względu na jego przenośność, prostą składnię oraz wbudowaną możliwość integracji z bazą danych.
 
     	Oprogramowanie autoryzujące składa się z pojedynczego skryptu. Jego działanie opiera się na nieskończonej pętli oczekiwania na połączenie od urządzenia klienckiego. Schemat blokowy oprogramowania autoryzującego przedstawia rysunek \ref{fig:flowchart5}.
 
@@ -20,7 +20,7 @@
             \label{fig:flowchart5}
         \end{figure}
 
-    	W celu realizacji komunikacji z wykorzystaniem protokołu TLS użyto biblioteki ssl języka Python bazującej na OpenSSL. Uwierzytelnienie klienta zostało osiągnięte poprzez przekazanie do metody tworzącej kontekst SSL \texttt{create\_default\_context()} parametru \texttt{Purpose\\.CLIENT\_AUTH} oraz ustawienie parametru \texttt{verify\_mode} na wartość \texttt{CERT\_REQUIRED}.
+    	W celu realizacji komunikacji z wykorzystaniem protokołu TLS użyto biblioteki ssl języka Python bazującej na OpenSSL. Uwierzytelnienie klienta zostało osiągnięte poprzez odpowiednią konfigurację kontekstu SSl, tak aby tryb weryfikacji wymagał poświadczenia tożsamości klienta w formie odpowiedniego certyfikatu.
 
     \section{Oprogramowanie zarządzające}
 
@@ -45,7 +45,7 @@
             \label{fig:mngmt_subs_layers}
         \end{figure}
 
-       	Istotnym czynnikiem motywującym wybór technologii aplikacji była prostota oraz łatwość implementacji oraz rozwoju funkcjonalnej i estetycznej aplikacji demonstracyjnej zarówno po stronie przeglądarki jak i serwera. Ważną cechą była także łatwość integracji rozwiązania z bazą danych. 
+       	Istotnym czynnikiem motywującym wybór technologii aplikacji była prostota oraz łatwość implementacji oraz rozwoju funkcjonalnej i estetycznej aplikacji demonstracyjnej zarówno po stronie przeglądarki jak i serwera. Ważną cechą była także łatwość integracji rozwiązania z bazą danych.
 
 		Jako język implementacji aplikacji API wybrano język Python z framework'iem Flask. Ważną cechą języka Python jest wbudowane wsparcie dla bazy danych SQLite (patrz \ref{s:db}). Framework Flask jest lekką platformą do tworzenia aplikacji internetowych. Zawiera deweloperski serwer WWW, co znacznie ułatwia wytwarzanie i testowanie aplikacji.
 
@@ -78,3 +78,5 @@
     \label{s:db}
 
     	Istotnym kryterium przydatności systemu zarządzania bazą danych była lekkość i łatwość obsługi z poziomu aplikacji internetowej napisanej w języku Python. Z tego względu zdecydowano się na system SQLite. Jest to system zarządzania bazą danych oraz biblioteka języka C implementująca taki system, obsługująca język SQL (ang. \textit{Structured Query Language}). Posiada API do wielu języków, w tym Pythona. Zawartość bazy danych przechowywana jest w pojedynczym pliku na dysku. Wszystkie powyższe cechy czynią SQLite rozwiązaniem przydatnym w szeroko pojętym procesie prototypowania.
+
+    	Baza danych systemu tworzona jest przez aplikację API po jej uruchomieniu. Krok ten jest pomijany, jeżeli baza danych już istnieje.
