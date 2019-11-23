@@ -172,26 +172,28 @@
 
         \section{Projekt architektury}
 
-            Na architekturę systemu składają się komponenty sprzętowe oraz podsystemy (rysunek \ref{fig:hl-arch}). Rysunek \ref{fig:lock-arch} przedstawia szczegółową budowę układu zamka. 
+            Na architekturę systemu składają się komponenty sprzętowe oraz podsystemy (rysunek \ref{fig:hl-arch}). Podsystemy (tabela \ref{tbl:subsystems}) realizują określone funkcjonalności za pomocą komponentów programowych (tabela \ref{tbl:sw_comp}) i istnieją w ramach komponentów sprzętowych (tabela \ref{tbl:hw_comp}). Rysunek \ref{fig:lock-arch} przedstawia szczegółową budowę układu zamka. Rysunek \ref{fig:db} przedstawia schemat bazy danych.
 
-            % Podsystem zarządzania zbudowany jest z dwóch współpracujących ze sobą aplikacji (rysunek \ref{fig:mngmt_subsystem}). \textbf{TBD - budowa podsystemu autoryzacyjnego} 
-
-            \begin{figure}[h!]
+            \vspace{10mm}
+            \begin{figure}[h]
                 \includegraphics[width=\linewidth]{chapters/images/hl-arch3.png}
                 \caption{Architektura systemu}
                 \label{fig:hl-arch}
             \end{figure}
 
-            \vspace{10mm} 
-
-            \begin{figure}[h!]
+            \begin{figure}[h]
                 \centering
                 \includegraphics[width=0.5\textwidth]{chapters/images/lock.png}
                 \caption{Budowa układu zamka}
                 \label{fig:lock-arch}
             \end{figure}
-
-            System podzielony został na podsystemy (tabela \ref{tbl:subsystems}) realizujące określone funkcjonalności za pomocą komponentów programowych (tabela \ref{tbl:sw_comp}) i istniejące w ramach fizycznych komponentów sprzętowych (tabela \ref{tbl:hw_comp}).
+            \vspace{10mm}
+            \begin{figure}[h]
+                \centering
+                \includegraphics[width=0.8\textwidth]{chapters/images/schema.png}
+                \caption{Schemat bazy danych}
+                \label{fig:db}
+            \end{figure}
 
                 \begin{table}
                     \caption{Podsystemy}
