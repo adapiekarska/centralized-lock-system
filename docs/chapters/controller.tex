@@ -125,14 +125,12 @@
 
             \end{enumerate}
 
-            \textbf{Można dodać jakie są zużycia energii tutaj}
-
             Z punktu widzenia wymagań dotyczących poboru energii niezwykle przydatnym trybem jest tryb głębokiego uśpienia (ang. \textit{deep-sleep mode}). Dzięki jego wykorzystaniu możliwe jest przebywanie mikrokontrolera w trybie niskiego zużycia energii przez większą część czasu. Ze względu na cyfrowy charakter wyjścia czujnika ruchu, jako sposób wybudzenia mikrokontrolera skonfigurowano tryb EXT0 (ang. \textit{External Wakeup 0}, wybudzenie zewnętrzne) umożliwiający wykorzystanie modułu RTC IO (ang. \textit{Real-Time Clock Input Output}) w celu zainicjowania wybudzenia. Inne możliwe źródła wybudzenia to m.in. regulator czasowy RTC czy przerwanie wbudowanego czujnika dotykowego (ang. \textit{touch pad}). Konfiguracja trybu wybudzania odbywa się programowo.
 
         \subsection{Biblioteka do zarządzania czytnikiem RFID}
         \label{sub:rfid_lib}
 
-            Do zarządzania czytnikiem MFRC522 wykorzystano zewnętrzną bibliotekę\footnote{Alija Bobija, \textit{C library for interfacing ESP32 with MFRC522 RFID card reader}, \url{https://github.com/abobija/esp-idf-rc522} (rewizja 557af67)}.
+            Ze względu na brak dostępnego rozwiązania z wykorzystaniem ESP-IDF, do zarządzania czytnikiem MFRC522 wykorzystano zewnętrzną bibliotekę\footnote{Alija Bobija, \textit{C library for interfacing ESP32 with MFRC522 RFID card reader}, \url{https://github.com/abobija/esp-idf-rc522} (rewizja 557af67)}.
 
         \subsection{Komunikacja z wykorzystaniem TLS}
         \label{sub:tls}
@@ -166,11 +164,11 @@
 
         \subsection{Przepływ sterowania}
 
-            Przepływ sterowania w oprogramowaniu mikrokontrolera ukazują rysunki \ref{fig:flowchart1} i \ref{fig:flowchart4}. Na rysunkach \ref{fig:flowchart2} i \ref{fig:flowchart3} przedstawiono przepływ sterowania w zadaniach \textit{wifi} i \textit{rfid}.
+            Przepływ sterowania w oprogramowaniu mikrokontrolera ukazują rysunki \ref{fig:flowchart1} i \ref{fig:flowchart4}. Na rysunkach \ref{fig:flowchart2} i \ref{fig:flowchart3} przedstawiono przepływ sterowania w zadaniach \texttt{wifi} i \texttt{rfid}.
 
             \begin{figure}[]
                 \centering
-                \includegraphics[width=\textwidth]{chapters/images/flowchart1.png}
+                \includegraphics[width=0.85\textwidth]{chapters/images/flowchart1.png}
                 \caption{Schemat blokowy przepływu sterowania oprogramowania mikrokontrolera}
                 \label{fig:flowchart1}
             \end{figure}

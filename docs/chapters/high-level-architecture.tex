@@ -1,21 +1,21 @@
 \chapter{Projekt rozwiązania}
 \label{chap:hl-arch}
 
-    Niniejszy rozdział przedstawia koncepcję systemu. Wprowadza użytkowników oraz definiuje wymagania funkcjonalne i pozafunkcjonalne. Przedstawia budowę systemu, opisuje kolejno tworzące go komponenty sprzętowe oraz podsystemy, a także relacje, które między nimi zachodzą. Ponadto prezentuje zakładany sposób działania systemu w kilku najbardziej prawdopodobnych sytuacjach.
+    Niniejszy rozdział przedstawia projekt systemu. Definiuje użytkowników oraz wymagania funkcjonalne i pozafunkcjonalne. Przedstawia budowę systemu, opisuje kolejno tworzące go komponenty sprzętowe oraz podsystemy, a także relacje, które między nimi zachodzą. Ponadto prezentuje zakładany sposób działania systemu w kilku najbardziej prawdopodobnych sytuacjach.
 
     \section{Idea}
-        Idea systemu przedstawiona została na rysnku \ref{fig:door}.
+        Idea systemu opiera się na współpracy układu zamka z serwerem w celu zapewnienia poprawnej autoryzacji identyfikatorów RFID w zamkach. Funkcjonalność autoryzacji realizowana jest wyłącznie po stronie serwera. Układ zamka, będący urządzeniem klienckim, jest jedynie pośrednikiem przekazującym dane od użytkownika do serwera. Proces ten odbywa się bezprzewodowo. Dodatkowym usprawnieniem jest zastosowanie w układzie zamka czujnika ruchu, którego zadaniem jest odpowiednio wczesne wykrycie zbliżającej się osoby i pobudzenie układu do działania. Umożliwia to przeprowadzenie czasochłonnej operacji nawiązania połączenia z serwerem autoryzacji w czasie, gdy użytkownik podchodzi do fizycznego zamka, a także oszczędzanie energii przez większą część czasu. Istotnym założeniem jest fakt, że układ operuje na zasilaniu bateryjnym. Opisywaną ideę przedstawiono na rysunku \ref{fig:door}.
 
         \begin{figure}[h!]
             \begin{center}
-                \includegraphics[width=.7\linewidth]{chapters/images/door2.png}
+                \includegraphics[width=.8\linewidth]{chapters/images/door2.png}
                 \caption{Idea systemu}
                 \label{fig:door}
             \end{center}
         \end{figure}
 
     \section{Użytkownicy}
-        Na potrzeby projektu rozwiązania zidentyfikowano dwóch użytkowników. Ich specyfikacja przedstawiona została w tabeli \ref{tbl:users}.
+        Na potrzeby projektu rozwiązania zidentyfikowano dwóch uniwersalnych użytkowników systemu. Ich specyfikację przedstawiono w tabeli \ref{tbl:users}.
 
         \begin{table}[h!]
             \caption{Użytkownicy systemu}
@@ -42,6 +42,8 @@
             \end{subtable}                
             \label{tbl:users}
         \end{table}
+
+    \newpage
 
     \section{Wymagania}
 
@@ -81,14 +83,7 @@
                 \label{tbl:fnrq3}
                 \vspace{10mm}           
             \end{subtable}
-        \label{tbl:fnrq}
-        \end{table}
-    
-        \pagebreak  
-
-        \begin{table}[h!]
-            \ContinuedFloat
-            \caption{Wymagania funkcjonalne, c.d.}
+        \quad%
             \begin{subtable}[c]{\textwidth}
                 \centering
                  \begin{tabular}{|p{2cm}|p{12cm}|}
@@ -143,7 +138,7 @@
                 \label{tbl:fnrq8}
                 \vspace{10mm}           
             \end{subtable}
-            \label{tbl:fnrq_2}
+            \label{tbl:fnrq}
         \end{table}
 
         \begin{table}[h!]
@@ -173,7 +168,28 @@
             \label{tbl:xxrq}
         \end{table}
 
-        \section{Komponenty}
+    \newpage
+
+        \section{Projekt architektury}
+
+            Na architekturę systemu składają się komponenty sprzętowe oraz podsystemy (rysunek \ref{fig:hl-arch}). Rysunek \ref{fig:lock-arch} przedstawia szczegółową budowę układu zamka. 
+
+            % Podsystem zarządzania zbudowany jest z dwóch współpracujących ze sobą aplikacji (rysunek \ref{fig:mngmt_subsystem}). \textbf{TBD - budowa podsystemu autoryzacyjnego} 
+
+            \begin{figure}[h!]
+                \includegraphics[width=\linewidth]{chapters/images/hl-arch3.png}
+                \caption{Architektura systemu}
+                \label{fig:hl-arch}
+            \end{figure}
+
+            \vspace{10mm} 
+
+            \begin{figure}[h!]
+                \centering
+                \includegraphics[width=0.5\textwidth]{chapters/images/lock.png}
+                \caption{Budowa układu zamka}
+                \label{fig:lock-arch}
+            \end{figure}
 
             System podzielony został na podsystemy (tabela \ref{tbl:subsystems}) realizujące określone funkcjonalności za pomocą komponentów programowych (tabela \ref{tbl:sw_comp}) i istniejące w ramach fizycznych komponentów sprzętowych (tabela \ref{tbl:hw_comp}).
 
@@ -308,47 +324,23 @@
                             \hline \cellcolor[gray]{0.8} Powiązania   & HCMP\_2 Serwer    \\
                             \hline
                         \end{tabular}
-                        \label{tbl:scmp4}   
-                        \vspace{10mm}       
+                        \label{tbl:scmp4}     
                     \end{subtable} 
                     \label{tbl:sw_comp}
                 \end{table}
 
         \pagebreak
 
-        \section{Projekt architektury}
-
-            Na architekturę systemu składają się komponenty sprzętowe oraz podsystemy (rysunek \ref{fig:hl-arch}). Rysunek \ref{fig:lock-arch} przedstawia szczegółową budowę układu zamka. 
-
-            % Podsystem zarządzania zbudowany jest z dwóch współpracujących ze sobą aplikacji (rysunek \ref{fig:mngmt_subsystem}). \textbf{TBD - budowa podsystemu autoryzacyjnego} 
-
-            \begin{figure}[h!]
-                \includegraphics[width=\linewidth]{chapters/images/hl-arch3.png}
-                \caption{Architektura systemu}
-                \label{fig:hl-arch}
-            \end{figure}
-
-            \vspace{10mm} 
-
-            \begin{figure}[h!]
-                \centering
-                \includegraphics[width=0.5\textwidth]{chapters/images/lock.png}
-                \caption{Budowa układu zamka}
-                \label{fig:lock-arch}
-            \end{figure}
-
-            \begin{figure}[h!]
-                \centering
-                \includegraphics[width=\textwidth]{chapters/images/mngmt_subsystem.png}
-                \caption{Budowa podsystemu zarządzania}
-                \label{fig:mngmt_subsystem}
-            \end{figure}
+            % \begin{figure}[h!]
+            %     \centering
+            %     \includegraphics[width=\textwidth]{chapters/images/mngmt_subsystem.png}
+            %     \caption{Budowa podsystemu zarządzania}
+            %     \label{fig:mngmt_subsystem}
+            % \end{figure}
 
         \pagebreak
 
         \section{Sposób działania}
-            Działanie systemu opiera się na współpracy układu zamka z serwerem w celu zapewnienia poprawnej autoryzacji identyfikatorów w zamkach. Funkcjonalność autoryzacji realizowana jest wyłącznie po stronie serwera. Układ zamka, będący urządzeniem klienckim, jest jedynie pośrednikiem przekazującym dane od użytkownika do serwera.
-
             W celu osiągnięcia największej możliwej wydajności energetycznej czytnik RFID oraz mikrokontroler przez większą część czasu pozostają w stanie uśpienia. Zadaniem czujnika ruchu, zasilanego przez cały czas, jest odpowiednio wczesne wykrycie zbliżającego się użytkownika i wybudzenie mikrokontrolera, który z kolei jest odpowiedzialny za zasilenie czytnika RFID oraz nawiązanie połączenia z serwerem. Jeśli operacja nawiązania połączenia przebiegnie pomyślnie, a do czytnika przyłożony zostanie identyfikator, rozpoczyna się proces przekazywania danych odczytanych z identyfikatora do serwera w celu autoryzacji identyfikatora. Należy zwrócić uwagę na niekorzystne z punktu widzenia systemu warunki, które mogą zajść w trakcie procesu:
 
             \begin{enumerate}

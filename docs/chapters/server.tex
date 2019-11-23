@@ -8,18 +8,19 @@
     \section{Oprogramowanie autoryzujące}
     \label{s:auth_subs}
 
-    	Zadania należące do oprogramowania autoryzującego to komunikacja z klientami oraz interakcja z bazą danych. Niewielka liczba jego funkcji powoduje, że kluczową cechą na którą zwrócono uwagę przy wyborze technologii do jego implementacji jest prostota i zdolność do szybkiego stworzenia funkcjonalnego prototypu. Istotnym wymaganiem była także możliwość łatwości przeprowadzania nieskomplikowanych operacji na bazie danych. Do implementacji części autoryzacyjnej serwera wybrano język Python ze względu na jego interpretowalny charakter. 
+    	Zadania należące do oprogramowania autoryzującego to komunikacja z klientami oraz interakcja z bazą danych. Niewielka liczba jego funkcji powoduje, że kluczową cechą na którą zwrócono uwagę przy wyborze technologii jego implementacji jest prostota i zdolność do szybkiego stworzenia funkcjonalnego prototypu. Istotnym wymaganiem była także możliwość łatwości przeprowadzania nieskomplikowanych operacji na bazie danych.
+    	Do implementacji części autoryzacyjnej serwera wybrano język Python ze względu na jego interpretowalny charakter, prostą składnię oraz wbudowaną możliwość integracji z bazą danych. 
 
     	Oprogramowanie autoryzujące składa się z pojedynczego skryptu. Jego działanie opiera się na nieskończonej pętli oczekiwania na połączenie od urządzenia klienckiego. Schemat blokowy oprogramowania autoryzującego przedstawia rysunek \ref{fig:flowchart5}.
 
     	\begin{figure}[]
             \centering
-            \includegraphics[width=\textwidth]{chapters/images/flowchart5.png}
+            \includegraphics[width=0.85\textwidth]{chapters/images/flowchart5.png}
             \caption{Schemat blokowy przepływu sterowania oprogramowania autoryzującego}
             \label{fig:flowchart5}
         \end{figure}
 
-    	W celu realizacji komunikacji z wykorzystaniem protokołu TLS użyto biblioteki ssl języka Python bazującej na OpenSSL. Uwierzytelnienie klienta zostało osiągnięte poprzez przekazanie do metody tworzącej kontekst SSL \texttt{create\_default\_context()} parametru \texttt{Purpose\.CLIENT\_AUTH} oraz ustawienie parametru \texttt{verify\_mode} na wartość \texttt{CERT\_REQUIRED}.
+    	W celu realizacji komunikacji z wykorzystaniem protokołu TLS użyto biblioteki ssl języka Python bazującej na OpenSSL. Uwierzytelnienie klienta zostało osiągnięte poprzez przekazanie do metody tworzącej kontekst SSL \texttt{create\_default\_context()} parametru \texttt{Purpose\\.CLIENT\_AUTH} oraz ustawienie parametru \texttt{verify\_mode} na wartość \texttt{CERT\_REQUIRED}.
 
     \section{Oprogramowanie zarządzające}
 
@@ -49,6 +50,29 @@
 		Jako język implementacji aplikacji API wybrano język Python z framework'iem Flask. Ważną cechą języka Python jest wbudowane wsparcie dla bazy danych SQLite (patrz \ref{s:db}). Framework Flask jest lekką platformą do tworzenia aplikacji internetowych. Zawiera deweloperski serwer WWW, co znacznie ułatwia wytwarzanie i testowanie aplikacji.
 
 		Do implementacji aplikacji GUI zdecydowano się na framework Angular. Angular jest otwartą platformą do tworzenia tzw. SPA (ang. \textit{Single Page Applications}). SPA to aplikacje internetowe, w których nawigacja polega na dynamicznym ładowaniu poszczególnych elementów strony zamiast pobierania całych stron z serwera. Angular napisany jest w języku TypeScript, który jest otwartoźródłowym, typowanym nadzbiorem języka JavaScript. Angular CLI jest z kolei narzędziem wspierającym pracę z framework'iem Angular poprzez udostępnienie zestawu prostych komend ułatwiających wykonywanie operacji związanych z procesem rozwijania aplikacji, takich jak tworzenie projektu, generowanie kodu źródłowego czy testowanie z użyciem wbudowanego serwera.
+
+		Zrzuty ekranu aplikacji GUI przedstawiono na rysunkach. Są to widok tabeli identyfikatorów RFID (\ref{fig:ss1}), widok okna dodawania nowego identyfikatora (\ref{fig:ss2}) oraz widok tabeli zawierającej historię prób dostępu (\ref{fig:ss3}).
+
+		\begin{figure}[]
+            \centering
+            \includegraphics[width=\textwidth, frame]{chapters/images/ss1.png}
+            \caption{Zrzut ekranu widoku tabeli identyfikatorów RFID}
+            \label{fig:ss1}
+        \end{figure}
+
+        \begin{figure}[]
+            \centering
+            \includegraphics[width=\textwidth]{chapters/images/ss2.png}
+            \caption{Zrzut ekranu widoku okna dodawania nowego identyfikatora}
+            \label{fig:ss2}
+        \end{figure}
+
+        \begin{figure}[]
+            \centering
+            \includegraphics[width=\textwidth, frame]{chapters/images/ss3.png}
+            \caption{Zrzut ekranu widoku tabeli historii prób dostępu}
+            \label{fig:ss3}
+        \end{figure}
 
     \section{Baza danych}
     \label{s:db}
