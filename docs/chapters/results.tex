@@ -135,7 +135,7 @@
 
     \section{Wydajność energetyczna}
 
-        W celu przeprowadzenia szacunków dotyczących poboru prądu założono, że w wyniku prób dostępu lub przypadkowych wzbudzeń czujnika zbliżeniowego, mikrokontroler i czytnik RFID zostają wybudzone maksymalnie 120 razy w ciągu doby. Minimalny czas wybudzenia układu to 7 sekund, a maksymalny 16 sekund. Założono więc, że podczas każdego wybudzenia układ znajduje się w stanie operacyjnym przez okres czasu trwający od 7 do 16 sekund (średnio 11,5 sekundy). Wynika z tego fakt, że przez ponad 98\% czasu pozostaje w stanie uśpienia. Dlatego pobór prądu w tym stanie będzie miał dominujący wpływ na ogólną efektywność energetyczną. Opisywane założenia przedstawiono w tabeli \ref{tbl:tab4}.
+        W celu przeprowadzenia szacunków dotyczących poboru prądu założono, że w wyniku prób dostępu lub przypadkowych wzbudzeń czujnika zbliżeniowego, mikrokontroler i czytnik RFID zostają wybudzone maksymalnie 120 razy w ciągu doby. Minimalny czas wybudzenia układu to 7 sekund, a maksymalny 16 sekund. Założono więc, że podczas każdego wybudzenia układ znajduje się w stanie operacyjnym przez okres czasu trwający od 7 do 16 sekund (średnio 11,5 sekundy). Wynika z tego, że przez ponad 98\% czasu pozostaje w stanie uśpienia. Dlatego pobór prądu w tym stanie będzie miał dominujący wpływ na ogólną efektywność energetyczną. Opisywane założenia przedstawiono w tabeli \ref{tbl:tab4}.
 
         \begin{table}[]
             \caption{Zakładane wartości dotyczące obciążenia układu}
@@ -145,7 +145,7 @@
                      11,5 & 120 & 1380 & 1,60 \\
             \end{tabular}
             \label{tbl:tab4}
-            \vspace{10mm}           
+            \vspace{10mm}
         \end{table}
 
         Na podstawie wykonanych pomiarów można oszacować dobowy pobór prądu na około 107~mAh. Stosując 9 ogniw galwanicznych o napięciu wyjściowym 1,5~V i pojemności~1100 mAh, połączonych zgodnie ze schematem przedstawionym na rysunku \ref{fig:battery_layout}, można zapewnić stałe źródło zasilania o napięciu 4,5~V i pojemności 3300~mAh. W takiej konfiguracji żywotność układu wynosi w przybliżeniu 30 dni.
@@ -168,24 +168,24 @@
              \textbf{Zmierzone wartości}
                       & 4 & 38 \\
             \hline
-            \textbf{Szacowane wartości (inny regulator napięcia)} &  0,15 & 38  \\
+            \textbf{Szacowane wartości zakładając wykorzystanie regulatora napięcia AP2112K} &  0,15 & 38  \\
             \end{tabular}
             \label{tbl:tab1}
-            \vspace{10mm}           
+            \vspace{10mm}
         \end{table}
 
         \begin{table}[]
             \centering
-            \caption{Porównanie osiągniętego dziennego poboru prądu z poborem możliwym do osiągnięcia}
+            \caption{Porównanie osiągniętego dziennego poboru prądu z dziennym poborem możliwym do osiągnięcia}
             \begin{tabular}{p{4cm}|p{3cm}|p{3cm}|p{3cm} }
-                    & \textbf{Pobór prądu w trybie uśpienia [mAh]} & \textbf{Pobór prądu w trybie aktywnego działania [mAh]} & \textbf{Całkowity pobór prądu [mAh]} \\ \hline
+                    & \textbf{Pobór prądu w trybie uśpienia w ciągu doby [mAh]} & \textbf{Pobór prądu w trybie aktywnego działania w ciągu doby [mAh]} & \textbf{Całkowity pobór prądu w ciągu doby [mAh]} \\ \hline
              \textbf{Zmierzone wartości}
                       & 94,47 & 12,98 & 109,03 \\
             \hline
-            \textbf{Szacowane wartości (inny regulator napięcia)} &  3,54 & 12,98 & 18,11 \\
+            \textbf{Szacowane wartości zakładając wykorzystanie regulatora napięcia AP2112K} &  3,54 & 12,98 & 18,11 \\
             \end{tabular}
             \label{tbl:tab2}
-            \vspace{10mm}           
+            \vspace{10mm}
         \end{table}
 
         \begin{table}[]
@@ -196,10 +196,10 @@
              \textbf{Zmierzone wartości}
                       & 30,27 \\
             \hline
-            \textbf{Szacowane wartości (inny regulator napięcia)} &  182,23  \\
+            \textbf{Szacowane wartości zakładając wykorzystanie regulatora napięcia AP2112K} &  182,23  \\
             \end{tabular}
             \label{tbl:tab3}
-            \vspace{10mm}           
+            \vspace{10mm}
         \end{table}
 
 	\section{Możliwe rozszerzenia}
