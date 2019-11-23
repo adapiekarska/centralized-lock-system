@@ -28,13 +28,39 @@
 
             Dzięki temu możliwe jest dobranie parametrów czujnika w taki sposób, aby użytkownik był wykrywany w odpowiednim momencie, co przekłada się na bardziej optymalne działanie układu.
 
-            Aby zapewnić wykrycie zbliżającego się użytkownika w optymalnym dla pracy układu czasie, poziom czułości czujnika został ustawiony na wartość minimalną 3 m. Długość czasu trwania stanu wysokiego po wykryciu obiektu została ustawiona na wartość minimalną celem uzyskania impulsu stanowiącego źródło wybudzenia mikrokontrolera. Wybrany został tryb \textit{retriggering} w celu zapewnienia poprawnego działania układu w sytuacji gdy użytkownik zostanie wykryty, lecz nie zdąży przyłożyć identyfikatora do czytnika w zadanym okresie czasu. Dzięki zastosowaniu trybu \textit{retriggering} możliwe jest ponowne wykrycie użytkownika po jego zbliżeniu się do zamka. 
+            Aby zapewnić wykrycie zbliżającego się użytkownika w optymalnym dla pracy układu czasie, poziom czułości czujnika został ustawiony na wartość minimalną 3 m. Długość czasu trwania stanu wysokiego po wykryciu obiektu została ustawiona na wartość minimalną celem uzyskania impulsu stanowiącego źródło wybudzenia mikrokontrolera. Wybrany został tryb \textit{retriggering} w celu zapewnienia poprawnego działania układu w sytuacji gdy użytkownik zostanie wykryty, lecz nie zdąży przyłożyć identyfikatora do czytnika w zadanym okresie czasu. Dzięki zastosowaniu trybu \textit{retriggering} możliwe jest ponowne wykrycie użytkownika po jego zbliżeniu się do zamka.
 
             \textbf{TBD - schemat jak sa polaczone pinami te wszystkie komponenty}
 
-        \subsection{Układ do zasilania czytnika RFID}
+        \subsection{Połączenia komponentów}
 
-            \textbf{TBD}
+            Rysunek \ref{fig:lock_hardware_schematic} przedstawia sposób połączenia komponentów sprzętowych. Układ HC-SR501 komunikuje się z mikrokontrolerem umieszczonym na płytce ESP32-DevKitC-32D przez pojedynczą linię sygnałową. Czytnik MFRC522 w celu komunikacji z mikrokontrolerem wykorzystuje interfejs SPI. Głównym źródłem zasilania jest źródło stałoprądowe o napięciu w granicach 5~V. Jest ono wykorzystywane bezpośrednio przez układ mikrokontrolera i czujnika ruchu. Platforma ESP32-DevKitC-32D zapewnia dodatkowo źródło zasilania napięciem o wartości 3,3~V. które za pośrednictwem układu sterującego wykorzystywane jest do zasilania czytnika.
+
+            \begin{figure}[]
+                \centering
+                \includegraphics[width=\textwidth]{chapters/images/lock_hardware_schematic.png}
+                \caption[Schemat połączeń w układzie zamka] {
+                    Schemat połączeń w układzie zamka.
+                    \textbf{(A)} ESP32-DevKitC-32D
+                    \textbf{(B)} Czytnik MFRC522
+                    \textbf{(C)} Czujnik ruchu HC-SR501
+                    \textbf{(D)} Układ sterujący zasilaniem czytnika
+                }
+                \label{fig:lock_hardware_schematic}
+            \end{figure}
+
+        \subsection{Układ sterujący zasilaniem czytnika RFID}
+
+            Układ czytnika wymaga zasilania napięciem 3,3V o mocy do 330mW~\cite{mfrc522-ds}. Jest to kosztowne z punktu widzenia wydajności energetycznej, dlatego z chwilą wprowadzenia mikrokontrolera w stan głębokiego uśpienia czytnik musi zostać wyłączony. Wyjścia mikrokontrolera są łatwo dostępnym i kontrolowanym programowo źródłem napięcia, jednak ze względu na niską wydajność prądową, nie można ich wykorzystać do bezpośredniego zasilania układów o mocy powyżej 130mW~\cite{esp32-ds}. Dlatego zastosowano przedstawiony na rysunku \ref{fig:rfid_power_relay} układ przełączający. Stan wysoki na wejściu układu otwiera kanał tranzystora przełączającego co umożliwia przepływ prądu przez układ i w efekcie zasilenie układu czujnika.
+
+            \begin{figure}[]
+                \centering
+                \includegraphics[width=0.5\textwidth]{chapters/images/rfid_power_relay.png}
+                \caption{Schemat układu sterującego zasilaniem czytnika}
+                \label{fig:rfid_power_relay}
+            \end{figure}
+
+
 
     \section{Wytwarzanie oprogramowania}
 
@@ -116,7 +142,7 @@
                 \item Tryb z uśpionym modemem (\textit{Modem-sleep mode})
 
                     Aktywne CPU, układ radiowy wyłączony.
-                
+
                 \item Tryb lekkiego uśpienia (\textit{Light-sleep mode})
 
                     Uśpione CPU. Pamięć i peryferia RTC (ang. \textit{Real-Time Clock}, zegar czasu rzeczywistego) wraz z koprocesorem ULP (ang. \textit{Ultra Low Power co-processor}) są aktywne. Jakiekolwiek zdarzenia wybudzające doprowadzą do wybudzenia układu.
@@ -141,7 +167,7 @@
         \subsection{Komunikacja z wykorzystaniem TLS}
         \label{sub:tls}
 
-            TLS (ang. \textit{Transport Layer Security}) jest rozwinięciem protokołu SSL (ang. \textit{Secure Socket Layer}). TLS zapewnia poufność oraz integralność transmisji. Umożliwia też uwierzytelnienie serwera, a czasami również klienta. 
+            TLS (ang. \textit{Transport Layer Security}) jest rozwinięciem protokołu SSL (ang. \textit{Secure Socket Layer}). TLS zapewnia poufność oraz integralność transmisji. Umożliwia też uwierzytelnienie serwera, a czasami również klienta.
             Protokół TLS w wersji 1.3 zaproponowano w dokumencie \cite{rfc8446}. Dokument definiuje podprotokół uścisku dłoni (ang. \textit{handshake}), dzięki któremu klient i serwer mogą uzgodnić wersję protokołu, rodzaj używanych algorytmów kryptograficznych, opcjonalnie dokonać wzajemnego uwierzytelnienia, a także ustanowić klucze kryptograficzne. Po dokonaniu uścisku dłoni, strony używają ustalonych kluczy celem zabezpieczenia przesyłanych danych.
             \textit{Handshake} TLS składa się z trzech faz:
 
