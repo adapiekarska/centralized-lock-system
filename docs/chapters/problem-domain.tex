@@ -1,22 +1,27 @@
 \chapter{Dziedzina problemu}
 \label{chap:problem-domain}
-	\textbf{TBD: dodac sekcję z najważniejszymi pojęciami}
 
-	Niniejszy rozdział definiuje dziedzinę problemu, przedstawia i porównuje kilka istniejących rozwiązań oraz nakreśla podstawowe zagadnienia związane z bezpieczeństwem tego typu systemów.
+	Niniejszy rozdział definiuje dziedzinę problemu, opisuje najważniejsze pojęcia, przedstawia i porównuje kilka istniejących rozwiązań z zakresu systemów kontroli dostępu oraz nakreśla podstawowe zagadnienia związane z bezpieczeństwem tego typu systemów.
 
-	\section{Kontrola dostępu}
+	\section{Podstawowe pojęcia}
 
-		Kontrola dostępu definiowana jest w \cite{pkn2002} jako środki mające na celu zapewnienie, że do zasobów systemu przetwarzania danych mogą mieć dostęp tylko uprawnione jednostki w uprawniony sposób.
+		Celem dokumentu \cite{rfc4949} jest przedstawienie terminologii związanej z bezpieczeństwem systemów informacyjnych, jednak wiele z zawartych w nim definicji ma zastosowanie także w ujęciu systemów kontroli dostępu do przestrzeni użytkowych.
 
-		British Security Industry Association wyodrębnia kilka komponentów składających się na system kontroli dostępu~\cite{bsia2016}. Poniżej przedstawiono najważniejsze z nich.
+		Dostęp definiowany jest jako zdolność i środki umożliwiające komunikację lub inną interakcję z systemem w celu wykorzystania jego zasobów by obsłużyć informację lub uzyskać wiedzę na temat informacji, które system zawiera.
 
-		Poświadczenie tożsamości (ang. \textit{credentials}) to fizyczny lub materialny obiekt, element wiedzy lub cecha biometryczna umożliwiająca uzyskanie dostępu do kontrolowanej strefy. Najczęściej jako poświadczenie tożsamości stosuje się kody, np. PIN (ang. \textit{Personal Identification Number}, osobisty numer identyfikacyjny), tokeny (karty, urządzenia mobilne itp.) oraz dane biometryczne.
+		Kontrola dostępu definiowana jest jako ochrona zasobów systemu przed nieupoważnionym dostępem.
 
-		British Security Industry Association terminem ''czytniki'' (ang. \textit{readers}) nazywa urządzenia odpowiedzialne za kontrolę dostępu. Dla uproszczenia nomenklatura ta została zachowana w niniejszej sekcji. W innych częściach niniejszej pracy termin ''czytnik'' używany jest w znaczeniu urządzenia odpowiedzialnego wyłącznie za odczyt danych z nośnika.
+		Proces uzyskiwania dostępu do zasobów systemu składa się z kilku etapów. Pierwszym z nich jest identyfikacja, czyli akt prezentacji identyfikatora w celu umożliwienia systemowi rozpoznania podmiotu \cite{rfc4949}. Następnie tożsamość podmiotu zostaje zweryfikowana w procesie uwierzytelniania. Norma ISO/IEC 27000:2018 definiuje uwierzytelnianie (ang. \textit{authentication}) jako uzyskiwanie pewności, że zadeklarowana cecha danego podmiotu jest prawdziwa \cite{iso27000}. Jako ostatni następuje etap autoryzacji, czyli proces zatwierdzania dostępu do zasobu systemu \cite{rfc4949}.
 
-		W większości przypadków tylko wejście podlega kontroli. Aby możliwa była również kontrola wyjścia z chronionego terenu, potrzebny jest drugi czytnik umieszczony po drugiej stronie drzwi. Jeżeli obustronna kontrola nie jest wymagana, stosuje się zazwyczaj przycisk umożliwiający otworzenie zamka od środka.
+		Istotnym pojęciem jest poświadczenie tożsamości (ang. \textit{credentials}), zdefiniowane w \cite{bsia2016} jako fizyczny lub materialny obiekt, element wiedzy lub cecha biometryczna umożliwiająca uzyskanie dostępu do kontrolowanej strefy. Najczęściej jako poświadczenie tożsamości stosuje się kody, np. PIN (ang. \textit{Personal Identification Number}, osobisty numer identyfikacyjny), tokeny (karty, urządzenia mobilne itp.) oraz dane biometryczne.
 
-		Urządzenia wyjściowe (ang. \textit{egress devices}) umożliwiają użytkownikowi opusczenie strefy chronionej od wewnątrz. Jako urządzenia wyjściowe najczęściej używa się przełączników, czujników ruchu lub czytników. Według British Security Industry Association urządzenia wyjściowe można podzielić je na zwykłe oraz awaryjne (ang. \textit{emergency egress}), przy czym, ze względu na krytyczne znaczenie w wypadku awarii, działanie tych drugich nie powinno zależeć od komponentów systemu. Jako urządzenie awaryjne często stosuje się tzw. \textit{break glass device}, którego uaktywnienie powoduje odcięcie zasilania w zamku, a tym samym wstrzymanie kontroli dostępu w danym punkcie. Dostęp uzyskany za pomocą tego urządzenia powinien wygenerować stosowne powiadomienie bądź alarm.
+		Jak podaje \cite{rfc4949}, token to obiekt używany w celu kontroli dostępu, przekazywany pomiędzy współpracującymi podmiotami w ramach protokołu definiującego synchronizację użytku współdzielonego zasobu. Przeważnie, podmiot będący w posiadaniu tokena ma wyłączny dostęp do zasobu. Inna definicja zawarta w tym samym dokumencie mówi, że token to obiekt lub fizyczne urządzenie używane w celu weryfikacji tożsamości w procesie uwierzytelniania.
+
+		W ramach niniejszej pracy termin \textit{identyfikator} stosowany jest jako określenie obiektu zawierającego układ RFID. Służy on autoryzacji dostępu podmiotów oraz rejestracji wykonywanych przez nie czynności.
+
+		Według \cite{bsia2016}, w większości przypadków tylko wejście na teren pomieszczenia objętego systemem podlega kontroli. Aby możliwa była również kontrola wyjścia z chronionego terenu, potrzebny jest drugi czytnik umieszczony po drugiej stronie drzwi. Jeżeli obustronna kontrola nie jest wymagana, stosuje się zazwyczaj przycisk umożliwiający otworzenie zamka od środka.
+
+		Urządzenia wyjściowe (ang. \textit{egress devices}) umożliwiają użytkownikowi opusczenie strefy chronionej od wewnątrz. Jako urządzenia wyjściowe najczęściej używa się przełączników, czujników ruchu lub czytników. Według \cite{bsia2016} urządzenia wyjściowe można podzielić je na zwykłe oraz awaryjne (ang. \textit{emergency egress}), przy czym, ze względu na krytyczne znaczenie w wypadku awarii, działanie tych drugich nie powinno zależeć od komponentów systemu. Jako urządzenie awaryjne często stosuje się tzw. \textit{break glass device}, którego uaktywnienie powoduje odcięcie zasilania w zamku, a tym samym wstrzymanie kontroli dostępu w danym punkcie. Dostęp uzyskany za pomocą tego urządzenia powinien wygenerować stosowne powiadomienie bądź alarm.
 
 	\section{Przegląd istniejących rozwiązań}
 

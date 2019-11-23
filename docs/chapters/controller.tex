@@ -36,7 +36,7 @@
 
             \textbf{TBD}
 
-    \section{Konfiguracja środowiska}
+    \section{Wytwarzanie oprogramowania}
 
         Platforma programistyczna ESP-IDF zapewnia zestaw narzędzi (ang. \textit{toolchain}) umożliwiających wytwarzanie oprogramowania dla mikrokontrolera ESP32. Platforma ESP-IDF dostępna jest jako projekt otwartoźródłowy na licencji Apache 2.0 w serwisie github.
 
@@ -44,18 +44,24 @@
 
         \begin{figure}[]
             \centering
-            \includegraphics[width=\textwidth]{chapters/images/esp32_dev.png}
+            \includegraphics[width=0.8\textwidth]{chapters/images/esp32_dev.png}
             \caption{Wytwarzanie oprogramowania dla ESP32}
             \label{fig:esp32_dev}
         \end{figure}
 
-        Konfiguracja, budowanie aplikacji i programowanie mikrokontrolera odbywa się za pomocą dedykowanego skryptu dostarczanego przez platformę.
+        Konfiguracja, budowanie aplikacji i programowanie mikrokontrolera odbywa się za pomocą dedykowanego skryptu dostarczanego przez platformę. Skrypt ten ułatwia zarządzanie budowaniem projektu. W tym celu wykorzystuje następujące narzędzia:
+
+        \begin{itemize}
+            \item CMake - narzędzie do zarządzania procesem budowania projektu,
+            \item Ninja lub GNU Make -  narzędzie linii poleceń slużące do budowania oprogramowania,
+            \item \texttt{esptool.py} - narzędzie służące do wgrywania oprogramowania do mikrokontrolera ESP32.
+        \end{itemize}
 
     \section{Oprogramowanie mikrokontrolera}
 
         \subsection{Komponenty}
 
-            ESP-IDF umożliwia podział aplikacji na komponenty oraz ich łatwą konfigurację w procesie kompilacji za pomocą tekstowego menu (tzw. \textit{menuconfig}). Jak wyjaśnia \cite{esp-idf-build-system}, komponenty to modularne i samodzielne fragmenty kodu kompilowane do bibliotek statycznych i dołączane do aplikacji. Niektóre z nich są dostarczane przez platformę ESP-IDF. Istnieje też możliwość tworzenia własnych komponentów.
+            ESP-IDF umożliwia podział aplikacji na komponenty oraz ich łatwą konfigurację w procesie kompilacji za pomocą tekstowego menu (tzw. \textit{menuconfig}). Jak wyjaśnia \cite{esp-idf-build-system}, komponenty to samodzielne, modularne fragmenty kodu kompilowane do bibliotek statycznych i dołączane do aplikacji. Niektóre z nich są dostarczane przez platformę ESP-IDF. Istnieje też możliwość tworzenia własnych komponentów.
 
             Kod źródłowy oprogramowania mikrokontrolera został podzielony na następujące komponenty:
 
@@ -70,13 +76,13 @@
 
                 \item Komponent WiFi
 
-                    Odpowiedzialny za nawiązanie połączenia z siecią bezprzewodową i serwerem oraz przeprowadzenie procesu wymiany informacji w celu autoryzacji identyfikatora. Składa się z biblioteki obsługującej komunikację za pomocą socket'ów, biblioteki obsługującej komunikację z wykorzystaniem protokołu TLS (patrz \ref{sub:tls}), kilku plików z funkcjami pomocniczymi oraz pliku z funkcjami związanymi z zadaniem \texttt{wifi}. To, czy komunikacja z serwerem odbywać się będzie z wykorzystaniem TLS, definiowane jest przez opcję \texttt{TLS\_ENABLED} zawartą w opcjach \textit{menuconfig} komponentu WiFi.
+                    Odpowiedzialny za nawiązanie połączenia z siecią bezprzewodową i serwerem oraz przeprowadzenie procesu wymiany informacji w celu autoryzacji identyfikatora. Składa się z biblioteki obsługującej komunikację za pomocą socket'ów, biblioteki obsługującej komunikację z wykorzystaniem protokołu TLS (patrz \ref{sub:tls}), kilku plików z funkcjami pomocniczymi oraz pliku z funkcjami związanymi z zadaniem \texttt{wifi}. To, czy komunikacja z serwerem odbywać się będzie z wykorzystaniem TLS, definiowane jest przez opcję \texttt{TLS\_ENABLED} zawartą w opcjach \textit{menuconfig} komponentu WiFi. Inne konfigurowalne parametry to adres IP oraz port serwera autoryzacji.
 
                 \item Komponent GPIO
 
-                    Odpowiedzialny za obsługę komunikacji za pomocą GPIO w celu kontroli zasilania czytnika MFRC522. Składa się z pojedynczego pliku zawierającego proste funkcje umożliwiające ustawianie żądanych stanów na wyjściach.
+                    Odpowiedzialny za obsługę komunikacji za pomocą GPIO w celu kontroli zasilania czytnika MFRC522. Składa się z pojedynczego pliku zawierającego proste funkcje umożliwiające ustawianie żądanych stanów na wyjściach mikrokontrolera.
 
-                \item Komponent sterujący (\textit{flow-controller})
+                \item Komponent sterujący (\texttt{flow-controller})
 
                     Odpowiedzialny za wykonanie i nadzór nad przepływem sterowania od momentu wybudzenia z głębokiego uśpienia aż do zakończenia procesu komunikacji z serwerem. Składa się z pliku zawierającego funkcję obsługującą cały proces oraz pliku definiującego mechanizm synchronizacji zadań (patrz \ref{sub:tasks}).
 
