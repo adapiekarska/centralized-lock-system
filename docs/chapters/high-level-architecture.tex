@@ -22,10 +22,9 @@
             \centering
             \begin{subtable}[c]{\textwidth}
                 \centering
-                \begin{tabular}{|p{2cm}|p{12cm}|}
-                    \hline USER\_1      & \textbf{Użytkownik} \\
-                    \hline \cellcolor[gray]{0.8} Opis         & Osoba posiadająca identyfikator RFID, której celem jest uzyskanie dostępu do chronionego zamkiem pomieszczenia.  \\
-                    \hline
+                \begin{tabular}{p{2cm}|p{12cm}}
+                    USER\_1      & \textbf{Użytkownik} \\
+                    \hline Opis         & Osoba posiadająca identyfikator RFID, której celem jest uzyskanie dostępu do chronionego zamkiem pomieszczenia.  \\
                 \end{tabular}
                 \label{tbl:usr1}
                 \vspace{10mm}           
@@ -164,31 +163,30 @@
                 \end{tabular}
                 \label{tbl:xxrq2}    
             \end{subtable}
-
             \label{tbl:xxrq}
         \end{table}
 
-    \newpage
+    \vspace{10mm}
 
         \section{Projekt architektury}
 
             Na architekturę systemu składają się komponenty sprzętowe oraz podsystemy (rysunek \ref{fig:hl-arch}). Podsystemy (tabela \ref{tbl:subsystems}) realizują określone funkcjonalności za pomocą komponentów programowych (tabela \ref{tbl:sw_comp}) i istnieją w ramach komponentów sprzętowych (tabela \ref{tbl:hw_comp}). Rysunek \ref{fig:lock-arch} przedstawia szczegółową budowę układu zamka. Rysunek \ref{fig:db} przedstawia schemat bazy danych.
 
             \vspace{10mm}
-            \begin{figure}[h]
+            \begin{figure}[]
                 \includegraphics[width=\linewidth]{chapters/images/hl-arch3.png}
                 \caption{Architektura systemu}
                 \label{fig:hl-arch}
             \end{figure}
 
-            \begin{figure}[h]
+            \begin{figure}[]
                 \centering
                 \includegraphics[width=0.5\textwidth]{chapters/images/lock.png}
                 \caption{Budowa układu zamka}
                 \label{fig:lock-arch}
             \end{figure}
             \vspace{10mm}
-            \begin{figure}[h]
+            \begin{figure}[]
                 \centering
                 \includegraphics[width=0.8\textwidth]{chapters/images/schema.png}
                 \caption{Schemat bazy danych}

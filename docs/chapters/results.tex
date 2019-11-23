@@ -138,13 +138,24 @@
             \label{tbl:tests}
         \end{table}
 
-    \newpage
+    \pagebreak
 
     \section{Wydajność energetyczna}
 
-        W celu przeprowadzenia szacunków dotyczących poboru prądu założono, że w wyniku prób dostępu lub przypadkowych wzbudzeń czujnika zbliżeniowego, mikrokontroler i czytnik RFID zostają wybudzone maksymalnie 120 razy w ciągu doby. Założono także, że podczas każdego wybudzenia układ znajduje się w stanie operacyjnym przez okres czasu trwający od 7 do 16 sekund. Wynika z tego fakt, że przez ponad 98\% czasu pozostaje w stanie uśpienia. Dlatego pobór prądu w tym stanie będzie miał dominujący wpływ na ogólną efektywność energetyczną. Na podstawie wykonanych pomiarów można oszacować dobowy pobór prądu na około 107~mAh. Stosując 9 ogniw galwanicznych o napięciu wyjściowym 1,5~V i pojemności~1100 mAh, połączonych zgodnie ze schematem przedstawionym na rysunku \ref{fig:battery_layout}, można zapewnić stałe źródło zasilania o napięciu 4,5~V i pojemności 3300~mAh. W takiej konfiguracji żywotność układu wynosi w przybliżeniu 30 dni.
+        W celu przeprowadzenia szacunków dotyczących poboru prądu założono, że w wyniku prób dostępu lub przypadkowych wzbudzeń czujnika zbliżeniowego, mikrokontroler i czytnik RFID zostają wybudzone maksymalnie 120 razy w ciągu doby. Minimalny czas wybudzenia układu to 7 sekund, a maksymalny 16 sekund. Założono więc, że podczas każdego wybudzenia układ znajduje się w stanie operacyjnym przez okres czasu trwający od 7 do 16 sekund (średnio 11,5 sekundy). Wynika z tego fakt, że przez ponad 98\% czasu pozostaje w stanie uśpienia. Dlatego pobór prądu w tym stanie będzie miał dominujący wpływ na ogólną efektywność energetyczną. Opisywane założenia przedstawiono w tabeli \ref{tbl:tab4}.
 
-        Powodem stosunkowo niskiej żywotności układu jest wysoki pobór prądu w stanie spoczynku. Odpowiedzialny za tę nieefektywność jest element układu zasilania wykorzystanej płytki prototypowej, regulator napięcia LD1117. Jego standardowy prąd spoczynkowy wynosi około 5 mA~\cite{AMS1117-ds}. Zastępując go np. regulatorem AP2112K o prądzie spoczynkowym w granicach 50 μA~\cite{AP2112K-ds}, można zredukować pobór prądu w stanie uśpienia z 4 mA do około 150 μA, tym samym zwiększając żywotność.
+        \begin{table}[]
+            \caption{Zakładane wartości dotyczące obciążenia układu}
+            \centering
+            \begin{tabular}{p{4cm}|p{3cm}|p{3cm}|p{3cm}}
+                    \textbf{Średni czas przebywania układu w stanie aktywnym} & \textbf{Liczba wybudzeń w ciągu dnia} & \textbf{Łączny czas w ciągu dnia [s]} & \textbf{Łączny czas w ciągu dnia [\% doby]} \\ \hline
+                     11,5 & 120 & 1380 & 1,60 \\
+            \end{tabular}
+            \label{tbl:tab4}
+            \vspace{10mm}           
+        \end{table}
+
+        Na podstawie wykonanych pomiarów można oszacować dobowy pobór prądu na około 107~mAh. Stosując 9 ogniw galwanicznych o napięciu wyjściowym 1,5~V i pojemności~1100 mAh, połączonych zgodnie ze schematem przedstawionym na rysunku \ref{fig:battery_layout}, można zapewnić stałe źródło zasilania o napięciu 4,5~V i pojemności 3300~mAh. W takiej konfiguracji żywotność układu wynosi w przybliżeniu 30 dni.
 
         \begin{figure}[]
             \centering
@@ -152,6 +163,48 @@
             \caption{Schemat połączenia baterii}
             \label{fig:battery_layout}
         \end{figure}
+
+        Powodem stosunkowo niskiej żywotności układu jest wysoki pobór prądu w stanie spoczynku. Odpowiedzialny za tę nieefektywność jest element układu zasilania wykorzystanej płytki prototypowej, regulator napięcia LD1117. Jego standardowy prąd spoczynkowy wynosi około 5 mA~\cite{AMS1117-ds}. Zastępując go np. regulatorem AP2112K o prądzie spoczynkowym w granicach 50 μA~\cite{AP2112K-ds}, można zredukować pobór prądu w stanie uśpienia z 4 mA do około 150 μA, tym samym zwiększając żywotność. W tabeli \ref{tbl:tab1} przedstawiono porównanie rzeczywistych wartości poboru prądu z wartościami możliwymi do osiągnięcia w przypadku zastosowania regulatora napięcia AP2112K. Tabela \ref{tbl:tab2} porównuje rzeczywiste wartości dziennego poboru prądu z wartościami możliwymi do osiągnięcia poprzez zmianę regulatora napięcia. Tabela \ref{tbl:tab3} porównuje faktyczny osiągnięty czas pracy na baterii z czasem możliwym do osiągnięcia przez zmianę zastosowanego regulatora napięcia.
+
+
+        \begin{table}[]
+            \caption{Porównanie osiągniętego poboru prądu z poborem możliwym do osiągnięcia}
+            \centering
+            \begin{tabular}{p{6cm}|p{4cm}|p{4cm} }
+                    & \textbf{Pobór prądu w trybie uśpienia [mA]} & \textbf{Pobór prądu w trybie aktywnego działania [mA]} \\ \hline
+             \textbf{Zmierzone wartości}
+                      & 4 & 38 \\
+            \textbf{Szacowane wartości (inny regulator napięcia)} &  0,15 & 38  \\
+            \end{tabular}
+            \label{tbl:tab1}
+            \vspace{10mm}           
+        \end{table}
+
+        \begin{table}[]
+            \centering
+            \caption{Porównanie osiągniętego dziennego poboru prądu z poborem możliwym do osiągnięcia}
+            \begin{tabular}{p{4cm}|p{3cm}|p{3cm}|p{3cm} }
+                    & \textbf{Pobór prądu w trybie uśpienia [mAh]} & \textbf{Pobór prądu w trybie aktywnego działania [mAh]} & \textbf{Całkowity pobór prądu [mAh]} \\ \hline
+             \textbf{Zmierzone wartości}
+                      & 94,47 & 12,98 & 109,03 \\
+            \textbf{Szacowane wartości (inny regulator napięcia)} &  3,54 & 12,98 & 18,11 \\
+            \end{tabular}
+            \label{tbl:tab2}
+            \vspace{10mm}           
+        \end{table}
+
+        \begin{table}[]
+            \caption{Porównanie osiągniętego czasu pracy na baterii z czasem możliwym do osiągnięcia}
+            \centering
+            \begin{tabular}{p{9cm}|p{5cm}}
+                    & \textbf{Czas pracy na baterii 3300 mAh [dni]} \\ \hline
+             \textbf{Zmierzone wartości}
+                      & 30,27 \\
+            \textbf{Szacowane wartości (inny regulator napięcia)} &  182,23  \\
+            \end{tabular}
+            \label{tbl:tab3}
+            \vspace{10mm}           
+        \end{table}
 
 	\section{Możliwe rozszerzenia}
 
