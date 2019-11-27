@@ -1,0 +1,10 @@
+menu "General controller configuration"
+
+    config LOCK_ID
+        int "Lock ID"
+        range 0 2147483647
+        default 1
+        help
+            Enter the unique ID which will be used to identify this lock
+
+endmenu
