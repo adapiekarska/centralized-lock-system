@@ -54,36 +54,36 @@ void deep_sleep_wakeup_flow()
         NULL
         );
 
-    // Wait for the rfid to notify about detected card
-    ESP_LOGI(LOG_TAG, "Waiting for card");
+    // Wait for the rfid to notify about detected tag
+    ESP_LOGI(LOG_TAG, "Waiting for tag");
     status = controller_status_wait_bits_timeout(
-        RFID_CARD_HANDLING_IN_PROGRESS_BIT, 
+        RFID_TAG_HANDLING_IN_PROGRESS_BIT, 
         DONT_CLEAR, 
-        RFID_CARD_HANDLING_IN_PROGRESS_TIMEOUT
+        RFID_TAG_HANDLING_IN_PROGRESS_TIMEOUT
         );
     if (status == ESP_ERR_TIMEOUT)
     {
-        // no card detected before timeout
+        // no tag detected before timeout
         // log error and finish flow
-        ESP_LOGE(LOG_TAG, "TIMEOUT while waiting for card");
+        ESP_LOGE(LOG_TAG, "TIMEOUT while waiting for tag");
         return;
     }
 
-    // Retrieve detected card id
-    uint8_t *detected_card = rfid_get_card_id();
-    ESP_ERROR_CHECK(detected_card == NULL ? ESP_FAIL : ESP_OK);
-    ESP_LOGI(LOG_TAG, "Detected card: %x %x %x %x %x", 
-        detected_card[0],
-        detected_card[1],
-        detected_card[2],
-        detected_card[3],
-        detected_card[4]);
+    // Retrieve detected tag id
+    uint8_t *detected_tag = rfid_get_tag_id();
+    ESP_ERROR_CHECK(detected_tag == NULL ? ESP_FAIL : ESP_OK);
+    ESP_LOGI(LOG_TAG, "Detected tag: %x %x %x %x %x", 
+        detected_tag[0],
+        detected_tag[1],
+        detected_tag[2],
+        detected_tag[3],
+        detected_tag[4]);
         
-    // Stop polling for card
+    // Stop polling for tag
     rfid_reader_stop();
 
     // Communicate with server    
-    status = wifi_client_send_data(detected_card, RFID_TOKEN_LEN_BYTES);
+    status = wifi_client_send_data(detected_tag, RFID_TOKEN_LEN_BYTES);
     if (status != ESP_OK){
         // TODO: handle ESP_FAIL and ESP_ERR_TIMEOUT separately
         ESP_LOGE(LOG_TAG, "Failed to send data");

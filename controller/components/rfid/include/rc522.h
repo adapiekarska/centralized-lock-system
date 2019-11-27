@@ -86,7 +86,7 @@ uint8_t* rc522_calculate_crc(
     uint8_t n
     );
 
-uint8_t* rc522_card_write(
+uint8_t* rc522_tag_write(
     uint8_t cmd, 
     uint8_t *data, 
     uint8_t n, 

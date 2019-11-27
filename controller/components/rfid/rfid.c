@@ -7,13 +7,13 @@
 #include "rc522.h"
 #include "controller_status.h"
 
-static uint8_t card_id_buffer[RFID_TOKEN_LEN_BYTES];
+static uint8_t tag_id_buffer[RFID_TOKEN_LEN_BYTES];
 
-uint8_t* rfid_get_card_id()
+uint8_t* rfid_get_tag_id()
 {
-    if(controller_status_get_bit(RFID_CARD_HANDLING_IN_PROGRESS_BIT) == TRUE)
+    if(controller_status_get_bit(RFID_TAG_HANDLING_IN_PROGRESS_BIT) == TRUE)
     {
-        return card_id_buffer;
+        return tag_id_buffer;
     }
     else
     {
@@ -22,18 +22,18 @@ uint8_t* rfid_get_card_id()
 }
 
 /**
- * @brief Copy detected card number to external buffer and stop polling
+ * @brief Copy detected tag number to external buffer and stop polling
  *  
- * @param serial_no detected card number
+ * @param serial_no detected tag number
  */
-static void card_read_callback(
+static void tag_read_callback(
     uint8_t *serial_no
     ) 
 {   
-    if(controller_status_get_bit(RFID_CARD_HANDLING_IN_PROGRESS_BIT) == FALSE)
+    if(controller_status_get_bit(RFID_TAG_HANDLING_IN_PROGRESS_BIT) == FALSE)
     {
-        controller_status_set_bits(RFID_CARD_HANDLING_IN_PROGRESS_BIT);
-        memcpy(card_id_buffer, serial_no, RFID_TOKEN_LEN_BYTES);
+        controller_status_set_bits(RFID_TAG_HANDLING_IN_PROGRESS_BIT);
+        memcpy(tag_id_buffer, serial_no, RFID_TOKEN_LEN_BYTES);
     }
 }
 
@@ -45,7 +45,7 @@ void rfid_reader_start()
         .mosi_io  = GPIO_RC522_SPI_MOSI,
         .sck_io   = GPIO_RC522_SPI_CLK,
         .sda_io   = GPIO_RC522_SPI_CS,
-        .callback = &card_read_callback
+        .callback = &tag_read_callback
     };
 
     rc522_start(start_args);

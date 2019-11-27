@@ -246,7 +246,7 @@ uint8_t* rc522_calculate_crc(
     return res;
 }
 
-uint8_t* rc522_card_write(
+uint8_t* rc522_tag_write(
     uint8_t cmd, 
     uint8_t *data, 
     uint8_t n, 
@@ -339,7 +339,7 @@ uint8_t* rc522_request(
     rc522_write(0x0D, 0x07);
 
     uint8_t req_mode = 0x26;
-    result = rc522_card_write(0x0C, &req_mode, 1, res_n);
+    result = rc522_tag_write(0x0C, &req_mode, 1, res_n);
 
     if(*res_n * 8 != 0x10) 
     {        
@@ -358,7 +358,7 @@ uint8_t* rc522_anticoll()
 
     rc522_write(0x0D, 0x00);
 
-    result = rc522_card_write(0x0C, serial_number, 2, &res_n);
+    result = rc522_tag_write(0x0C, serial_number, 2, &res_n);
 
     if(result != NULL && res_n != 5) 
     {        
@@ -393,7 +393,7 @@ uint8_t* rc522_get_tag()
 
             free(crc);
 
-            res_data = rc522_card_write(0x0C, buf, 4, &res_data_n);
+            res_data = rc522_tag_write(0x0C, buf, 4, &res_data_n);
             free(res_data);
 
             rc522_clear_bitmask(0x08, 0x08);

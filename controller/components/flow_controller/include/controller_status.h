@@ -13,9 +13,9 @@
 #define WIFI_CLIENT_RECEIVE_PENDING_BIT         BIT3 // Recieve operation is pending
 #define WIFI_CLIENT_TRANSMISSION_SUCCESS_BIT    BIT4 // Data has been succesfully transferred
 #define WIFI_CLIENT_TRANSMISSION_FAIL_BIT       BIT5 // Wifi client failed to transfer data
-#define RFID_CARD_HANDLING_IN_PROGRESS_BIT      BIT6 // Rfid component has detected the card and retrieved its ID
+#define RFID_TAG_HANDLING_IN_PROGRESS_BIT      BIT6 // Rfid component has detected the tag and retrieved its ID
 
-#define RFID_CARD_HANDLING_IN_PROGRESS_TIMEOUT  10000
+#define RFID_TAG_HANDLING_IN_PROGRESS_TIMEOUT  10000
 #define WIFI_CLIENT_READY_TIMEOUT               30000
 
 // Defines used by controller_status_wait_bits
