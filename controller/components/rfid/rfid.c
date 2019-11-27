@@ -11,7 +11,7 @@ static uint8_t tag_id_buffer[RFID_TOKEN_LEN_BYTES];
 
 uint8_t* rfid_get_tag_id()
 {
-    if(controller_status_get_bit(RFID_TAG_HANDLING_IN_PROGRESS_BIT) == TRUE)
+    if(controller_status_get_bit(RFID_TAG_RETRIEVED_BIT) == TRUE)
     {
         return tag_id_buffer;
     }
@@ -30,9 +30,9 @@ static void tag_read_callback(
     uint8_t *serial_no
     ) 
 {   
-    if(controller_status_get_bit(RFID_TAG_HANDLING_IN_PROGRESS_BIT) == FALSE)
+    if(controller_status_get_bit(RFID_TAG_RETRIEVED_BIT) == FALSE)
     {
-        controller_status_set_bits(RFID_TAG_HANDLING_IN_PROGRESS_BIT);
+        controller_status_set_bits(RFID_TAG_RETRIEVED_BIT);
         memcpy(tag_id_buffer, serial_no, RFID_TOKEN_LEN_BYTES);
     }
 }

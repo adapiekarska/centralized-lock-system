@@ -57,9 +57,9 @@ void deep_sleep_wakeup_flow()
     // Wait for the rfid to notify about detected tag
     ESP_LOGI(LOG_TAG, "Waiting for tag");
     status = controller_status_wait_bits_timeout(
-        RFID_TAG_HANDLING_IN_PROGRESS_BIT, 
+        RFID_TAG_RETRIEVED_BIT, 
         DONT_CLEAR, 
-        RFID_TAG_HANDLING_IN_PROGRESS_TIMEOUT
+        RFID_TAG_RETRIEVED_TIMEOUT
         );
     if (status == ESP_ERR_TIMEOUT)
     {
