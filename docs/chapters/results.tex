@@ -1,7 +1,35 @@
-\chapter{Podsumowanie}
+\newchapter{Podsumowanie}{Adrianna Piekarska}
 \label{chap:results}
 
-	Niniejszy rozdział dokonuje podsumowania rezultatów prowadzonej pracy. Prezentuje wyniki testów, które przeprowadzono w celu weryfikacji spełnienia wymagań. Porównuje szacunki dotyczące poboru mocy z rzeczywistym poborem. Ponadto dokonuje oceny bezpieczeństwa oraz responsywności systemu.
+	Niniejszy rozdział dokonuje podsumowania rezultatów prowadzonej pracy. W pierwszej części przedstawia podział prac i obowiązków, który przyjęto w ramach projektu. Następnie prezentuje opisy i wyniki testów, które przeprowadzono w celu weryfikacji spełnienia wymagań, po czym przechodzi do porównania wstępnych szacunków dotyczących poboru mocy z rzeczywistym poborem. W kolejnej części przedstawia możliwe rozszerzenia powstałego prototypu. Ostatnia część rozdziału jest podsumowaniem pracy.
+
+    \section{Podział prac}
+
+    Tabela \ref{tbl:podzial} przedstawia podział odpowiedzialności za poszczególne elementy projektu.
+
+     \begin{table}[]
+            \caption{Podział odpowiedzialności}
+            \centering
+            \begin{tabular}{p{5cm}|p{6cm}}
+            \textbf{Element} & \textbf{Osoba odpowiedzialna} \\ \hline
+            Oprogramowanie mikrokontrolera w układzie zamka & Adrianna Piekarska, Grzegorz Wąs \\
+            \hline
+            Układ zasilający czytnik RFID & Grzegorz Wąs \\
+            \hline
+            Oprogramowanie autoryzujące & Grzegorz Wąs \\
+            \hline
+            Oprogramowanie zarządzające - Aplikacja API & Adrianna Piekarska \\
+            \hline
+            Oprogramowanie zarządzające - Aplikacja GUI & Adrianna Piekarska \\
+            \hline
+            Projekt i utworzenie bazy danych & Adrianna Piekarska \\
+            \hline
+            Przygotowanie środowiska uruchomieniowego projektu & Grzegorz Wąs \\
+            \end{tabular}
+            \label{tbl:podzial}
+    \end{table}
+
+
 
     \section{Testowanie}
 
@@ -132,7 +160,7 @@
 
     \pagebreak
 
-    \section{Wydajność energetyczna}
+    \newsection{Wydajność energetyczna}{Grzegorz Wąs}
 
         W celu przeprowadzenia szacunków dotyczących poboru prądu założono, że w wyniku prób dostępu lub przypadkowych wzbudzeń czujnika zbliżeniowego, mikrokontroler i czytnik RFID zostają wybudzone maksymalnie 120 razy w ciągu doby. Minimalny czas wybudzenia układu to 7 sekund, a maksymalny 16 sekund. Założono więc, że podczas każdego wybudzenia układ znajduje się w stanie operacyjnym przez okres czasu trwający od 7 do 16 sekund (średnio 11,5 sekundy). Wynika z tego, że przez ponad 98\% czasu pozostaje w stanie uśpienia. Dlatego pobór prądu w tym stanie będzie miał dominujący wpływ na ogólną efektywność energetyczną. Opisywane założenia przedstawiono w tabeli \ref{tbl:tab4}.
 
@@ -230,4 +258,12 @@
 
     \section{Podsumowanie}
 
-        W ramach niniejszej pracy stworzono funkcjonalny prototyp systemu kontroli dostępu do pomieszczeń opartego na bezprzewodowej komunikacji układu zamka i serwera. Dzięki wykorzystaniu serwera w celu przeprowadzenia procesu uwierzytelniania system zapewnia większą elastyczność i łatwość zarządzania niż alternatywne systemy wykorzystujące zamki pracujące w sposób autonomiczny. Rozwiązanie cechuje się wygodą montażu, ponieważ nie wymaga przewodów zasilających i komunikacyjnych prowadzonych w ścianach budynków. Przy wdrażaniu rozwiązania nie jest konieczna modyfikacja istniejącej infrastruktury budynku, z wyjątkiem wymiany samych zamków. System nie wymaga żadnych dodatkowych komponentów sprzętowych poza zamkami i serwerem. Wydajność energetyczna podsystemu sterowania zamkiem została osiągnięta przez zarządzanie zasilaniem jego peryferiów oraz kontrolę stanu zasilania mikrokontrolera w celu minimalizacji poboru mocy i maksymalizacji czasu pracy na zasilaniu bateryjnym. Bezpieczeństwo systemu na wielu poziomach zapewnia wykorzystanie mechanizmów takich jak protokół TLS w warstwie komunikacji pomiędzy zamkiem a serwerem. Po stosownych modyfikacjach i rozszerzeniach, stworzony system miałby szansę efektywnej pracy w odpowiednim środowisku.
+        W ramach niniejszej pracy stworzono funkcjonalny prototyp systemu kontroli dostępu do pomieszczeń opartego na bezprzewodowej komunikacji układu zamka i serwera.
+
+        Dzięki wykorzystaniu serwera w celu przeprowadzenia procesu uwierzytelniania system zapewnia większą elastyczność i łatwość zarządzania niż alternatywne systemy wykorzystujące zamki pracujące w sposób autonomiczny. Rozwiązanie cechuje się wygodą montażu, ponieważ nie wymaga przewodów zasilających i komunikacyjnych prowadzonych w ścianach budynków. Przy wdrażaniu rozwiązania nie jest konieczna modyfikacja istniejącej infrastruktury budynku, z wyjątkiem wymiany samych zamków. System nie wymaga żadnych dodatkowych komponentów sprzętowych poza zamkami i serwerem.
+
+        Wydajność energetyczna podsystemu sterowania zamkiem miała zostać osiągnięta przez zarządzanie zasilaniem jego peryferiów oraz kontrolę stanu zasilania mikrokontrolera w celu minimalizacji poboru mocy i maksymalizacji czasu pracy na zasilaniu bateryjnym. Ze względu na wysoki pobór prądu w stanie spoczynku przez regulator napięcia wybranej płytki prototypowej, nie udało się osiągnąć założonej wydajności.
+
+        Bezpieczeństwo systemu na wielu poziomach zapewnia wykorzystanie mechanizmów takich jak protokół TLS w warstwie komunikacji pomiędzy zamkiem a serwerem.
+
+        Po stosownych modyfikacjach i rozszerzeniach, stworzony system miałby szansę efektywnej pracy w odpowiednim środowisku.

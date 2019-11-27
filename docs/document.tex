@@ -2,6 +2,43 @@
 
 \usepackage{mystyle}
 
+
+
+\newcommand\newchapter[2]{%
+  \clearpage
+  \chapter{#1}%
+  \addtocontents{toc}{\textit{(#2)}}
+ % \addcontentsline{toc}{chapter}{#1\tocauthor{#2}}
+  %\vspace{5mm}%
+}
+
+\newcommand\newsection[2]{%
+  \section{#1}%
+  \addtocontents{toc}{\hspace{0.75cm}\textit{(#2)}}
+  %\addcontentsline{toc}{section*}{\hspace{0.75cm}\textit{(#2)}}
+  %\vspace{5mm}%
+}
+
+%\titlecontents*{section}[0pt]{\normalfont\normalsize}{\Sectionname\ \thecontentslabel.\quad}{}{}
+
+% \newcommand\chapterauthor[1]{\authortoc{#1}\printchapterauthor{#1}}
+% \WithSuffix\newcommand\chapterauthor*[1]{\printchapterauthor{#1}}
+
+% \newcommand{\printchapterauthor}[1]{%
+%   {\parindent0pt\vspace*{-25pt}%
+%   \linespread{1.1}\large\scshape#1%
+%   \par\nobreak\vspace*{35pt}}
+%   \@afterheading%
+% }
+% \newcommand{\authortoc}[1]{%
+%   \addtocontents{toc}{\vskip-10pt}%
+%   \addtocontents{toc}{%
+%     \protect\contentsline{chapter}%
+%     {\hskip1.3em\mdseries\scshape\protect\scriptsize#1}{}{}}
+%   \addtocontents{toc}{\vskip5pt}%
+% }
+
+
 \begin{document}
 
 \includepdf[pages=-]{title/title-project.pdf}
@@ -11,7 +48,6 @@
 \renewcommand\appendixname{Dodatek}
 \renewcommand\appendixpagename{Dodatki}
 \renewcommand\appendixtocname{Dodatki}
-% \renewcommand\lstlistlistingname{Spis kodów źródłowych}
 
 \tableofcontents
 \listoffigures
