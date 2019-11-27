@@ -30,7 +30,7 @@ void wifi_client_start()
 
     while (TRUE)
     {
-        err = TLS_ENABLED ?
+        err = CONFIG_TLS_ENABLED ?
             wifi_tls_connect()
             : wifi_socket_connect();
 
@@ -59,7 +59,7 @@ void wifi_client_start()
                 controller_status_clear_bits(WIFI_CLIENT_SEND_PENDING_BIT);
 
                 // Send data
-                err = TLS_ENABLED ?
+                err = CONFIG_TLS_ENABLED ?
                         wifi_tls_transfer_data(pending_data, pending_data_size)
                         : wifi_socket_transfer_data(pending_data, pending_data_size);
                 if (err == ESP_FAIL)
@@ -76,7 +76,7 @@ void wifi_client_start()
                 controller_status_clear_bits(WIFI_CLIENT_RECEIVE_PENDING_BIT);
 
                 // Receive data
-                err = TLS_ENABLED ?
+                err = CONFIG_TLS_ENABLED ?
                         wifi_tls_receive_data(pending_data, pending_data_size)
                         : wifi_socket_receive_data(pending_data, pending_data_size);
 
@@ -93,7 +93,7 @@ void wifi_client_start()
             vTaskDelay(2000 / portTICK_PERIOD_MS);
         }
 
-        TLS_ENABLED ? wifi_tls_shutdown() : wifi_socket_shutdown();
+        CONFIG_TLS_ENABLED ? wifi_tls_shutdown() : wifi_socket_shutdown();
     }
 
     // Remove task from kernel's management

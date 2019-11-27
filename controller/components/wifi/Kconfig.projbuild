@@ -12,4 +12,10 @@ menu "Wifi configuration"
         help
             Enter the TCP port the server is listening on
 
+    config TLS_ENABLED
+        boolean "Enable TLS"
+        default y
+        help
+            Enable TLS for wireless data transfer
+
 endmenu
