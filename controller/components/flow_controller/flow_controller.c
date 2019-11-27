@@ -98,4 +98,7 @@ void deep_sleep_wakeup_flow()
     }
     ESP_LOGI(LOG_TAG, "GOT DATA: %d", received_bytes[0]);
     ESP_LOGI(LOG_TAG, "SERVER RESPONSE: %s", received_bytes[0] == 1 ? "OK" : "NOK");
+    if(received_bytes[0] == 1) {
+        controller_status_set_bits(LOCK_OPEN_BIT);
+    }
 }

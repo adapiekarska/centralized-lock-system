@@ -14,6 +14,7 @@
 #define WIFI_CLIENT_TRANSMISSION_SUCCESS_BIT    BIT4 // Data has been succesfully transferred
 #define WIFI_CLIENT_TRANSMISSION_FAIL_BIT       BIT5 // Wifi client failed to transfer data
 #define RFID_TAG_RETRIEVED_BIT                  BIT6 // Rfid component has detected the tag and retrieved its ID
+#define LOCK_OPEN_BIT                           BIT7 // Access has been granted thus the lock shall open
 
 #define RFID_TAG_RETRIEVED_TIMEOUT              10000
 #define WIFI_CLIENT_READY_TIMEOUT               30000
