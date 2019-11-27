@@ -14,7 +14,7 @@ ca_cer      = 'CERTS/ca.cer'
 # 	[b'\xcbmR\r\xf9'] : b'\x01'
 # }
 
-USE_TLS = False
+USE_TLS = True
 
 def create_socket():
     family_addr = socket.AF_INET
@@ -57,12 +57,15 @@ def lookup_id_in_database(id):
 
 def handle_client(connstream):
     data = connstream.recv(1024)
-    print(data)
     if data is None:
         print("No data received!")
-        return 
-    print('Received data: ' + data.hex())
-    reply = lookup_id_in_database(data)
+        return
+
+    recieved_tag = data[:5]
+    lock_id = data[5:] 
+    print('Received tag: ' + recieved_tag.hex())
+    print('Received lock_id: ' + lock_id.hex())
+    reply = lookup_id_in_database(recieved_tag)
     print( "access granted" if reply == 1 else "access denied")
     cnt = connstream.send(bytes([reply]))    
 

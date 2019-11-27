@@ -9,15 +9,16 @@
 
 static uint8_t tag_id_buffer[RFID_TOKEN_LEN_BYTES];
 
-uint8_t* rfid_get_tag_id()
+esp_err_t rfid_get_tag_id(uint8_t* tag_id)
 {
     if(controller_status_get_bit(RFID_TAG_RETRIEVED_BIT) == TRUE)
     {
-        return tag_id_buffer;
+        memcpy(tag_id, tag_id_buffer, RFID_TOKEN_LEN_BYTES);
+        return ESP_OK;
     }
     else
     {
-        return NULL;
+        return ESP_ERR_NOT_FOUND;
     }
 }
 

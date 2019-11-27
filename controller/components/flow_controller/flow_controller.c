@@ -16,6 +16,12 @@
 #include "wifi_client.h"
 #include "gpio.h"
 
+#pragma pack(1)
+typedef struct {
+    uint8_t detected_tag[RFID_TOKEN_LEN_BYTES];
+    uint32_t lock_id;
+} ACCESS_DATA; 
+
 void deep_sleep_wakeup_flow()
 {
     static const char *LOG_TAG = "sleep wakeup flow";
@@ -70,20 +76,22 @@ void deep_sleep_wakeup_flow()
     }
 
     // Retrieve detected tag id
-    uint8_t *detected_tag = rfid_get_tag_id();
-    ESP_ERROR_CHECK(detected_tag == NULL ? ESP_FAIL : ESP_OK);
+    ACCESS_DATA access_data;
+    access_data.lock_id = CONFIG_LOCK_ID;
+    status = rfid_get_tag_id(access_data.detected_tag);
+    ESP_ERROR_CHECK(status);
     ESP_LOGI(LOG_TAG, "Detected tag: %x %x %x %x %x", 
-        detected_tag[0],
-        detected_tag[1],
-        detected_tag[2],
-        detected_tag[3],
-        detected_tag[4]);
+        access_data.detected_tag[0],
+        access_data.detected_tag[1],
+        access_data.detected_tag[2],
+        access_data.detected_tag[3],
+        access_data.detected_tag[4]);
         
     // Stop polling for tag
     rfid_reader_stop();
 
     // Communicate with server    
-    status = wifi_client_send_data(detected_tag, RFID_TOKEN_LEN_BYTES);
+    status = wifi_client_send_data((void*)&access_data, sizeof(ACCESS_DATA));
     if (status != ESP_OK){
         // TODO: handle ESP_FAIL and ESP_ERR_TIMEOUT separately
         ESP_LOGE(LOG_TAG, "Failed to send data");
