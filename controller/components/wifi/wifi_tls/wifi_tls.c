@@ -107,7 +107,7 @@ esp_err_t wifi_tls_transfer_data(
         ret = esp_tls_conn_write(
             tls_conn,
             data + bytes_written,
-            strlen(data) - bytes_written
+            size - bytes_written
             );
 
         if (ret >= 0)
