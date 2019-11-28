@@ -119,7 +119,7 @@
     			\begin{itemize}
     				\item warstwy definiującej punkty końcowe (ang. \textit{endpoints}) REST API,
     				\item warstwy usług,
-    				\item warstwy modelu danych.
+    				\item warstwy modelu i dostępu danych.
     			\end{itemize}
 
     			Warstwa definiująca punkty końcowe składa się z następujących modułów:
@@ -140,13 +140,13 @@
     				\item \texttt{AuthMappingService} - odpowiada za obsługę operacji związanych z powiązaniami pomiędzy identyfikatorami i zamkami.
     			\end{itemize}
 
-    			Warstwa modelu danych składa się z następujących modułów:
+    			Warstwa modelu i dostępu do danych składa się z następujących modułów:
 
     			\begin{itemize}
-    				\item \texttt{Access} - modeluje obiekt reprezentujący próbę dostępu,
-    				\item \texttt{Lock} - modeluje obiekt reprezentujący zamek,
-    				\item \texttt{Token} - modeluje obiekt reprezentujący identyfikator,
-    				\item \texttt{AuthMapping} - modeluje obiekt reprezentujący powiązanie pomiędzy identyfikatorem i zamkiem.
+    				\item \texttt{Access} - modeluje i umożliwia dostęp do obiektu reprezentującego próbę dostępu,
+    				\item \texttt{Lock} - modeluje i umożliwia dostęp do obiektu reprezentującego zamek,
+    				\item \texttt{Token} - modeluje i umożliwia dostęp do obiektu reprezentującego identyfikator,
+    				\item \texttt{AuthMapping} - modeluje i umożliwia dostęp do obiektu reprezentującego powiązanie pomiędzy identyfikatorem i zamkiem.
     			\end{itemize}
 
 
