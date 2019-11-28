@@ -1,13 +1,15 @@
 create_tables = {
     "tokens": """
             CREATE TABLE IF NOT EXISTS TOKENS (
-                ID integer PRIMARY KEY
+                ID integer PRIMARY KEY,
+                TAG text
             ); 
             """,
 
     "locks": """
             CREATE TABLE IF NOT EXISTS LOCKS (
-                ID integer PRIMARY KEY
+                ID integer PRIMARY KEY,
+                NAME text
             );
             """,
 
