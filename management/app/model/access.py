@@ -5,7 +5,7 @@ from model.db_utils.db_utils import create_connection
 class Access:
     def __init__(self):
         self.table_name = table_names.ACCESSES_TABLE
-        self.QUERY_CREATE = f'INSERT into {self.table_name} (ID) values (:id)'
+        self.QUERY_CREATE = f'INSERT into {self.table_name} (ID, TOKEN_ID, LOCK_ID, GRANTED, DATE) values (:id, :token_id, :lock_id, :granted, :date)'
         self.QUERY_DELETE = f'DELETE from {self.table_name} where id = :id'
         self.QUERY_GET = f'SELECT * from {self.table_name}'
         # self.QUERY_UPDATE = f'UPDATE {self.table_name} SET :set_query WHERE id = :id'
