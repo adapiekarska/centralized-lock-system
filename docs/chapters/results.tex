@@ -10,7 +10,7 @@
      \begin{table}[]
             \caption{Podział odpowiedzialności}
             \centering
-            \begin{tabular}{p{5cm}|p{6cm}}
+            \begin{tabular}{p{8cm}|p{5cm}}
             \textbf{Element} & \textbf{Osoba odpowiedzialna} \\ \hline
             Oprogramowanie mikrokontrolera w układzie zamka & Adrianna Piekarska, Grzegorz Wąs \\
             \hline
@@ -153,12 +153,9 @@
                     Wynik                 & \multicolumn{2}{p{12cm}}{\textbf{TODO: Wykonac test}} \\
                     \end{tabular}%
                 \label{tbl:test6}
-                \vspace{10mm}
             \end{subtable}
             \label{tbl:tests}
         \end{table}
-
-    \pagebreak
 
     \newsection{Wydajność energetyczna}{Grzegorz Wąs}
 
@@ -256,6 +253,11 @@
 
             Podsystem zarządzania nie implementuje mechanizmu dostępu do zasobów, co czyni system mniej bezpiecznym. W końcowym produkcie należałoby rozszerzyć go o możliwość tworzenia kont użytkowników i przypisywania im określonych uprawnień do odczytu i zapisu danych.
 
+        \subsection{Zabezpieczenie serwera}
+
+            W celu zapewnienia wysokiego poziomu bezpieczeństwa systemu należałoby zabezpieczyć serwer zaporą sieciową (ang. \textit{firewall}). Jądro systemu Linux zawiera podsystem umożliwiający manipulację pakietów danych. Reguły manipulacji są definiowane przez narzędzie administracyjne \texttt{iptables}.
+
+
     \section{Podsumowanie}
 
         W ramach niniejszej pracy stworzono funkcjonalny prototyp systemu kontroli dostępu do pomieszczeń opartego na bezprzewodowej komunikacji układu zamka i serwera.
@@ -266,4 +268,4 @@
 
         Bezpieczeństwo systemu na wielu poziomach zapewnia wykorzystanie mechanizmów takich jak protokół TLS w warstwie komunikacji pomiędzy zamkiem a serwerem.
 
-        Po stosownych modyfikacjach i rozszerzeniach, stworzony system miałby szansę efektywnej pracy w odpowiednim środowisku.
+        Po stosownych modyfikacjach i rozszerzeniach stworzony system ma szansę efektywnej pracy w odpowiednim środowisku.

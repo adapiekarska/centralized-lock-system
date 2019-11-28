@@ -5,7 +5,7 @@
 
     \section{Wykorzystane technologie}
 
-        \subsection{Mikrokontroler}
+        \subsection{Mikrokontroler ESP32}
 
             Istotnym problemem natury implementacyjnej jest wybór odpowiedniego mikrokontrolera, który spełni wymagania dotyczące wydajności energetycznej oraz bezpieczeństwa systemu, jednocześnie zapewniając możliwość obsługi kilku układów peryferyjnych i wsparcie dla komunikacji bezprzewodowej, a także wygodne i elastyczne środowisko deweloperskie.
 
@@ -13,11 +13,11 @@
 
             Oprogramowanie dla mikrokontrolera ESP32 może być wytwarzane w środowisku Arduino IDE lub z wykorzystaniem oficjalnej platformy programistycznej Espressif IoT Development Framework (ESP-IDF) firmy Espressif Systems. ESP-IDF opiera się na systemie FreeRTOS (ang. \textit{Free Real-Time Operating System}, system operacyjny czasu rzeczywistego), w wersji 8.2.0, port Xtensa~\cite{esp-idf-freertos-smp-changes}. Ze względu na chęć uzyskania pełniejszej kontroli nad mikrokontrolerem zdecydowano się na użycie w projekcie platformy ESP-IDF.
 
-        \subsection{Czytnik RFID}
+        \subsection{Czytnik MFRC522}
 
             Głównym kryterium wyboru czytnika identyfikatorów RFID jest prostota integracji z mikrokontrolerem. Ze względu na fakt, iż jego zasilaniem zarządzać będzie mikrokontroler, niski pobór mocy nie stanowi kryterium przesądzającego. Wybrano układ MFRC522 produkowany przez firmę NXP Semiconductors. Układ obsługuje urządzenia o częstotliwości nośnej 13,56 MHz oraz umożliwia komunikację poprzez protokół SPI (ang. \textit{Serial Peripheral Interface}).
 
-        \subsection{Czujnik ruchu}
+        \subsection{Czujnik HC-SR501}
 
             Czujnik ruchu posiada krytyczne znaczenie w układzie zamka. Jako jedyny z podzespołów musi być zasilany przez cały czas pracy układu. Ze względu na wymaganie wykorzystania zasilania bateryjnego w układzie istotną cechą jest jak najniższy pobór mocy w stanie spoczynku. Wybranym rozwiązaniem jest czujnik PIR (ang. \textit{Passive Infrared}, pasywny czujnik podczerwieni), model HC-SR501. Wykrycie obiektu sygnalizowane jest stanem wysokim na cyfrowym wyjściu, natomiast maksymalny zasięg wykrywania wynosi 3-7 m. Czujnik wyposażony jest w dwa potencjometry umożliwiające regulację czasu trwania stanu wysokiego po wykryciu obiektu oraz czułości czujnika. Układ posiada także zworkę, za pomocą której można wybrać jeden z dwóch możliwych trybów:
 
@@ -62,7 +62,7 @@
 
         Platforma programistyczna ESP-IDF zapewnia zestaw narzędzi (ang. \textit{toolchain}) umożliwiających wytwarzanie oprogramowania dla mikrokontrolera ESP32. Platforma ESP-IDF dostępna jest jako projekt otwartoźródłowy na licencji Apache 2.0 w serwisie github.
 
-        Komponenty potrzebne do wytwarzania oprogramowania dla ESP32 z użyciem ESP-IDF oraz sam proces w uproszczeniu przedstawia rysunek \ref{fig:esp32_dev} \cite{esp-idf-get-started}.
+        Komponenty potrzebne do wytwarzania oprogramowania dla ESP32 z użyciem ESP-IDF oraz sam proces w uproszczeniu przedstawia rysunek \ref{fig:esp32_dev} dostępny w \cite{esp-idf-get-started}.
 
         \begin{figure}[]
             \centering
@@ -158,7 +158,7 @@
         \subsection{Biblioteka do zarządzania czytnikiem RFID}
         \label{sub:rfid_lib}
 
-            Ze względu na brak dostępnego rozwiązania z wykorzystaniem ESP-IDF, do zarządzania czytnikiem MFRC522 wykorzystano zewnętrzną bibliotekę\footnote{Alija Bobija, \textit{C library for interfacing ESP32 with MFRC522 RFID card reader}, \url{https://github.com/abobija/esp-idf-rc522} (rewizja 557af67)}.
+            Ze względu na brak dostępnego rozwiązania z wykorzystaniem ESP-IDF, do zarządzania czytnikiem MFRC522 wykorzystano zewnętrzną bibliotekę\footnote{Alija Bobija, \textit{C library for interfacing ESP32 with MFRC522 RFID card reader}, \url{https://github.com/abobija/esp-idf-rc522} (rewizja 557af67)}. Udostępnia ona podstawowe operacje takie jak inicjalizacja połączenia SPI pomiędzy mikrokontrolerem a czytnikiem oraz odczyt danych z identyfikatora RFID
 
         \subsection{Komunikacja z wykorzystaniem TLS}
         \label{sub:tls}
