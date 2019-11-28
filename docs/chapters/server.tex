@@ -114,7 +114,15 @@
 
     		\item Aplikacja API (backend)
 
-    			Aplikacja API udostępnia zasoby dla aplikacji GUI poprzez REST API. Odpowiada za odbieranie od niej żądań HTTP, przetwarzanie ich i zwracanie stosownych odpowiedzi. Zawiera logikę biznesową oraz logikę zarządzania i dostępu do danych. Składa się z warstwy definiującej punkty końcowe (ang. \textit{endpoints}), warstwy usług oraz warstwy dostępu do danych (modelu). Jej budowę przedstawiono na rysunku \ref{fig:api}.
+    			Aplikacja API udostępnia zasoby dla aplikacji GUI poprzez REST API. Odpowiada za odbieranie od niej żądań HTTP, przetwarzanie ich i zwracanie stosownych odpowiedzi. Zawiera logikę biznesową oraz logikę zarządzania i dostępu do danych. Składa się z:
+
+    			\begin{itemize}
+    				\item warstwy definiującej punkty końcowe (ang. \textit{endpoints}) REST API,
+    				\item warstwy usług,
+    				\item warstwy dostępu do danych.
+    			\end{itemize}
+
+    			Budowę aplikacji API przedstawiono na rysunku \ref{fig:api}.
 
 				\begin{figure}[h!]
 	            	\centering
