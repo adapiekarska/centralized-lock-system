@@ -1,0 +1,36 @@
+<div class="container-fluid text-center px-5">
+  <div class="row align-items-center justify-content-center">
+    <table class="table table-striped table-responsive-md btn-table m-3 text-center">
+      <tr>
+        <th>ID</th>
+        <th>Token Tag</th>
+        <th>Lock Name</th>
+        <th>Date</th>
+        <th>Granted</th>
+      </tr>
+
+      <tr *ngFor="let access of accesses ">
+        <td>
+          {{access.id}}
+        </td>
+
+        <td>
+          {{access.token_tag}}
+        </td>
+
+        <td>
+          {{access.lock_name}}
+        </td>
+
+        <td>
+          {{access.date}}
+        </td>
+
+        <td>
+          {{access.granted}}
+        </td>
+      </tr>
+    </table>
+  </div>
+</div>
+

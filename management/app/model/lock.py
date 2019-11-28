@@ -13,7 +13,9 @@ class Lock:
     def create(self, name):
         conn = create_connection('acs.db')
         with conn:
-            return conn.execute(self.QUERY_CREATE, {"name": name})
+            cursor = conn.cursor()
+            cursor.execute(self.QUERY_CREATE, {"name": name})
+            return cursor.lastrowid
 
     def delete(self, id):
         conn = create_connection('acs.db')
@@ -44,6 +46,6 @@ class Lock:
 
             rows_dicts = [{
                 "id": row[0],
-                "name:": row[1]}
+                "name": row[1]}
                 for row in results]
             return rows_dicts

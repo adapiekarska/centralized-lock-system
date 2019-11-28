@@ -1,12 +1,12 @@
-<app-modal-show title="Add Lock">
+<app-modal-show title="Add new lock">
   <div>
     <form>
       <div class="form-group">
-        <label for="exampleFormControlInput1">Lock ID</label>
-        <input [(ngModel)]="lock.id" name="id" type="number" class="form-control" id="exampleFormControlInput1" placeholder="Enter Lock ID here...">
+        <label for="lock">Lock Name</label>
+        <input [(ngModel)]="lock.name" name="lock" type="text" class="form-control" id="lock" placeholder="Enter Lock Name here...">
       </div>
       <div class="form-group">
-        <label for="tokens">Select any number of tokens</label>
+        <label for="tokens">Select any number of tokens that should be authenticated in this lock:</label>
         <select class="custom-select" [(ngModel)]="lock.tokens" id="tokens" name="tokens" multiple>
           <option *ngFor="let token of availableTokens" [ngValue]="token">
             {{token.id}}
@@ -15,7 +15,7 @@
       </div>
     </form>
     <div id="m-footer" class="modal-footer">
-      <button type="button" class="btn btn-outline-dark" (click)="submitForm()">Submit</button>
+      <button type="button" class="btn btn-primary" (click)="submitForm()">Submit</button>
     </div>
   </div>
 </app-modal-show>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
+    <data-source source="LOCAL" name="acs" uuid="e0a7d167-ddd2-459e-9a00-7c044c8d167f">
+      <driver-ref>sqlite.xerial</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>org.sqlite.JDBC</jdbc-driver>
+      <jdbc-url>jdbc:sqlite:D:\Data\studia\INŻYNIERKA\centralized-lock-system\management\app\acs.db</jdbc-url>
+    </data-source>
+  </component>
+</project>

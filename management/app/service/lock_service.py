@@ -8,11 +8,10 @@ class LockService:
         self.authMappingModel = AuthMapping()
 
     def create(self, params):
-        lock_id = params["id"]
-        tokens = params["tokens"]
-        self.lockModel.create(lock_id)
-        for token in tokens:
-            self.authMappingModel.create(token["id"], lock_id)
+        lock_id = self.lockModel.create(params["name"])
+        if 'tokens' in params:
+            for token in params['tokens']:
+                self.authMappingModel.create(token["id"], lock_id)
 
     def get_all(self):
         return self.lockModel.list_items()

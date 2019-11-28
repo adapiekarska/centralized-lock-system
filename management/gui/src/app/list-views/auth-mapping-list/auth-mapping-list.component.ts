@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import {AuthMapping} from '../../model/authMapping';
-import {AuthMappingService} from '../../service/auth-mapping.service';
+import {AuthMapping} from '../../../model/authMapping';
+import {AuthMappingService} from '../../../service/auth-mapping.service';
 
 @Component({
   selector: 'app-auth-mapping-list',
@@ -20,7 +20,9 @@ export class AuthMappingListComponent implements OnInit {
   }
 
   remove(authMapping: AuthMapping) {
-    this.service.removeAuthMapping(authMapping);
+    this.service.removeAuthMapping(authMapping).subscribe(
+      () => window.location.reload()
+    );
   }
 
 }

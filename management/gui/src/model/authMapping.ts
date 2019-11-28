@@ -4,7 +4,7 @@ import {Lock} from './lock';
 export class AuthMapping {
   id: number;
 
-  token: Token;
+  token_tag: string;
 
-  lock: Lock;
+  lock_name: string;
 }

@@ -21,10 +21,10 @@ def get_locks():
 @lock_resource.route("/api/locks/<_id>", methods=["GET"])
 def get_lock(_id):
     lock = lockService.get_lock(_id)[0]
-    tokens = authMappingService.get_all(f"lock_id={_id}")
+    mappings = authMappingService.get_all(f"lock_id={_id}")
     response = {
         "id": lock["id"],
-        "tokens": tokens
+        "tokens": [m['token_id'] for m in mappings]
     }
     return jsonify(response)
 

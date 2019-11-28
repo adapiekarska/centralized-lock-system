@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import {Lock} from '../../model/lock';
-import {LockService} from '../../service/lock.service';
+import {Lock} from '../../../model/lock';
+import {LockService} from '../../../service/lock.service';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
-import {ModalLockAddComponent} from '../modals/modal-lock-add/modal-lock-add.component';
-import {ModalLockShowComponent} from '../modals/modal-lock-show/modal-lock-show.component';
+import {ModalLockAddComponent} from '../../modals/modal-lock-add/modal-lock-add.component';
 
 @Component({
   selector: 'app-lock-list',
@@ -18,7 +17,9 @@ export class LockListComponent implements OnInit {
 
   ngOnInit() {
     this.service.getAllLocks().subscribe(
-      data => this.locks = data
+      data => {
+        this.locks = data;
+      }
     );
   }
 
@@ -30,10 +31,5 @@ export class LockListComponent implements OnInit {
 
   openAdd() {
     const modalRef = this.modalService.open(ModalLockAddComponent);
-  }
-
-  openShow(id) {
-    const modalRef = this.modalService.open(ModalLockShowComponent);
-    modalRef.componentInstance.id = id;
   }
 }

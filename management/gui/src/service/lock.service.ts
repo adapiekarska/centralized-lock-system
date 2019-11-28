@@ -15,10 +15,6 @@ export class LockService {
   constructor(private http: HttpClient) {
   }
 
-  getLock(id: number): Observable<Lock> {
-    return this.http.get<Lock>(this.FULL_URL.concat(`/${id}`));
-  }
-
   getAllLocks(): Observable<any[]> {
     return this.http.get<any[]>(this.FULL_URL);
   }

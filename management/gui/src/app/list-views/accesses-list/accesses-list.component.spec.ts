@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ModalLockShowComponent } from './modal-lock-show.component';
+import { AccessesListComponent } from './accesses-list.component';
 
-describe('ModalLockShowComponent', () => {
-  let component: ModalLockShowComponent;
-  let fixture: ComponentFixture<ModalLockShowComponent>;
+describe('AuthMappingListComponent', () => {
+  let component: AccessesListComponent;
+  let fixture: ComponentFixture<AccessesListComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ModalLockShowComponent ]
+      declarations: [ AccessesListComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ModalLockShowComponent);
+    fixture = TestBed.createComponent(AccessesListComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

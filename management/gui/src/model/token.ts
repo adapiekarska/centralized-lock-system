@@ -4,5 +4,7 @@ export class Token {
 
   id: number;
 
+  tag: string;
+
   locks: Lock[];
 }

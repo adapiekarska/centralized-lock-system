@@ -1,11 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import {Token} from '../../model/token';
-import {TokenService} from '../../service/token.service';
-import {ModalLockAddComponent} from '../modals/modal-lock-add/modal-lock-add.component';
+import {Token} from '../../../model/token';
+import {TokenService} from '../../../service/token.service';
+import {ModalLockAddComponent} from '../../modals/modal-lock-add/modal-lock-add.component';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
-import {ModalTokenAddComponent} from '../modals/modal-token-add/modal-token-add.component';
-import {ModalTokenShowComponent} from '../modals/modal-token-show/modal-token-show.component';
-import {Lock} from '../../model/lock';
+import {ModalTokenAddComponent} from '../../modals/modal-token-add/modal-token-add.component';
+import {Lock} from '../../../model/lock';
 
 @Component({
   selector: 'app-token-list',
@@ -32,9 +31,5 @@ export class TokenListComponent implements OnInit {
 
   openAdd() {
     const modalRef = this.modalService.open(ModalTokenAddComponent);
-  }
-
-  openShow(id) {
-    const modalRef = this.modalService.open(ModalTokenShowComponent);
   }
 }

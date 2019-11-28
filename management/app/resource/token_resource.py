@@ -21,10 +21,10 @@ def get_tokens():
 @token_resource.route("/api/tokens/<_id>", methods=["GET"])
 def get_token(_id):
     token = tokenService.get_token(_id)[0]
-    locks = authMappingService.get_all(f"lock_id={_id}")
+    mappings = authMappingService.get_all(f"lock_id={_id}")
     response = {
         "id": token["id"],
-        "locks": locks
+        "locks": [m['lock_id'] for m in mappings]
     }
     return jsonify(response)
 
