@@ -5,15 +5,15 @@ from model.db_utils.db_utils import create_connection
 class Lock:
     def __init__(self):
         self.table_name = table_names.LOCKS_TABLE
-        self.QUERY_CREATE = f'INSERT into {self.table_name} (ID) values (:id)'
+        self.QUERY_CREATE = f'INSERT into {self.table_name} (NAME) values (:name)'
         self.QUERY_DELETE = f'DELETE from {self.table_name} where id = :id'
         self.QUERY_GET = f'SELECT * from {self.table_name}'
         # self.QUERY_UPDATE = f'UPDATE {self.table_name} SET :set_query WHERE id = :id'
 
-    def create(self, id):
+    def create(self, name):
         conn = create_connection('acs.db')
         with conn:
-            return conn.execute(self.QUERY_CREATE, {"id": id})
+            return conn.execute(self.QUERY_CREATE, {"name": name})
 
     def delete(self, id):
         conn = create_connection('acs.db')
@@ -36,12 +36,14 @@ class Lock:
     def list_items(self, where=""):
         conn = create_connection('acs.db')
         with conn:
-            query = ""
             if where != "":
                 query = self.QUERY_GET + " where " + where
             else:
                 query = self.QUERY_GET
             results = conn.execute(query).fetchall()
 
-            rows_dicts = [{"id": row[0]} for row in results]
+            rows_dicts = [{
+                "id": row[0],
+                "name:": row[1]}
+                for row in results]
             return rows_dicts

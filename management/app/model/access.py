@@ -5,15 +5,18 @@ from model.db_utils.db_utils import create_connection
 class Access:
     def __init__(self):
         self.table_name = table_names.ACCESSES_TABLE
-        self.QUERY_CREATE = f'INSERT into {self.table_name} (ID, TOKEN_ID, LOCK_ID, GRANTED, DATE) values (:id, :token_id, :lock_id, :granted, :date)'
+        self.QUERY_CREATE = f'INSERT into {self.table_name} (TOKEN_ID, LOCK_ID, GRANTED, DATE) values (:token_id, :lock_id, :granted, :date)'
         self.QUERY_DELETE = f'DELETE from {self.table_name} where id = :id'
         self.QUERY_GET = f'SELECT * from {self.table_name}'
         # self.QUERY_UPDATE = f'UPDATE {self.table_name} SET :set_query WHERE id = :id'
 
-    def create(self, id):
+    def create(self, token_id, lock_id, granted, date):
         conn = create_connection('acs.db')
         with conn:
-            return conn.execute(self.QUERY_CREATE, {"id": id})
+            return conn.execute(self.QUERY_CREATE, {"token_id": token_id,
+                                                    "lock_id": lock_id,
+                                                    "granted": granted,
+                                                    "date": date})
 
     def delete(self, id):
         conn = create_connection('acs.db')
@@ -43,5 +46,11 @@ class Access:
                 query = self.QUERY_GET
             results = conn.execute(query).fetchall()
 
-            rows_dicts = [{"id": row[0]} for row in results]
+            rows_dicts = [{
+                "id": row[0],
+                "token_id": row[1],
+                "lock_id": row[2],
+                "granted": row[3],
+                "date": row[4]
+            } for row in results]
             return rows_dicts
