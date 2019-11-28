@@ -11,3 +11,4 @@ class Schema:
             conn.execute(create_tables[table_names.TOKENS_TABLE])
             conn.execute(create_tables[table_names.LOCKS_TABLE])
             conn.execute(create_tables[table_names.AUTH_MAPPINGS_TABLE])
+            conn.execute(create_tables[table_names.ACCESSES_TABLE])

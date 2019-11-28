@@ -19,5 +19,17 @@ create_tables = {
                 FOREIGN KEY(TOKEN_ID) REFERENCES tokens(id),
                 FOREIGN KEY(LOCK_ID) REFERENCES locks(id)
             );
+            """,
+
+    "accesses": """
+            CREATE TABLE IF NOT EXISTS ACCESSES (
+                ID integer PRIMARY KEY,
+                TOKEN_ID integer,
+                LOCK_ID integer,
+                FOREIGN KEY(TOKEN_ID) REFERENCES tokens(id),
+                FOREIGN KEY(LOCK_ID) REFERENCES locks(id),
+                GRANTED integer,
+                DATE timestamp
+            );
             """
 }
