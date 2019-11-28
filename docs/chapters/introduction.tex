@@ -12,29 +12,28 @@
 
 	\section{Cel i zakres pracy}
 
-		Celem niniejszej pracy jest projekt oraz implementacja sytemu kontroli dostępu do pomieszczeń z wykorzystaniem technologii takich jak Wi-Fi i RFID (ang. \textit{Radio-frequency identification}), w którym podmiotem odpowiedzialnym za autoryzację prób dostępu jest serwer, a komunikacja pomiędzy urządzeniem klienckim (układem sterującym zamkiem) a oprogramowaniem autoryzacyjnym jest realizowana bezprzewodowo.
+		Celem niniejszej pracy jest projekt oraz implementacja sytemu kontroli dostępu do pomieszczeń z wykorzystaniem technologii takich jak Wi-Fi i RFID (ang. \textit{Radio-frequency identification}), w którym podmiotem odpowiedzialnym za autoryzację prób dostępu jest serwer, a komunikacja pomiędzy oprogramowaniem urządzenia klienckiego (układu sterującego zamkiem) a oprogramowaniem autoryzującym serwera jest realizowana bezprzewodowo.
 
 		Założenia dotyczące systemu są następujące:
 
 		\begin{enumerate}
-		    \item Logika uwierzytelniania powinna być przeprowadzana na serwerze. Urządzenie klienckie powinno pełnić jedynie rolę pośrednika w tym procesie.
+		    \item Logika autoryzacji powinna być przeprowadzana na serwerze. Urządzenie klienckie powinno pełnić jedynie rolę pośrednika w tym procesie.
 		    \item Komunikacja pomiędzy urządzeniem klienckim a serwerem powinna odbywać się bezprzewodowo.
-		    \item System powinien być wydajny energetycznie i umożliwiać operację układów zamka na zasilaniu bateryjnym.
+		    \item System powinien być wydajny energetycznie i umożliwiać operację układów zamka na zasilaniu bateryjnym przez okres przynajmniej dwunastu miesięcy.
 		    \item System powinien implementować niezbędne mechanizmy bezpieczeństwa.
 		\end{enumerate}
 
 		Pracę nad systemem prowadziły dwie osoby. W ramach tej pracy powstały:
 
 		\begin{itemize}
-		    \item Protoyp układu zamka,
-		    \item Oprogramowanie serwera uwierzytelniania,
-		    \item Oprogramowanie służące do zarządzania,
-		    \item Baza danych.
+		    \item protoyp układu zamka,
+		    \item oprogramowanie serwera autoryzacji,
+		    \item oprogramowanie służące do zarządzania,
+		    \item baza danych.
 		\end{itemize}
 
-		Implementacja prototypu obejmowała stworzenie pojedynczego układu zamka. Ze względu na prototypowy charakter pracy nie przetestowano działania systemu z większą liczbą zamków. Nie ma jednak powodów by twierdzić, że po minimalnych modyfikacjach system nie działałby poprawnie z większą liczbą zamków.
-
+		Implementacja prototypu obejmowała stworzenie pojedynczego układu zamka. Ze względu na prototypowy charakter pracy i dostępny budżet nie przetestowano działania systemu z większą liczbą zamków. Nie ma jednak powodów by twierdzić, że po minimalnych modyfikacjach system nie działałby poprawnie z większą liczbą zamków.
 
 	\section{Struktura pracy}
 
-		Rozdział \ref{chap:intro} stanowi wstęp do pracy, określa jej cel i strukturę. Rozdział \ref{chap:problem-domain} przedstawia dziedzinę problemu, przywołuje najważniejsze definicje związane z tematem, dokonuje przedstawienia i porównania kilku istniejących rozwiązań, a także opisu podstawowych zagrożeń bezpieczeństwa, z którymi spotkali się autorzy podczas pracy nad systemem. Rozdział \ref{chap:hl-arch} prezentuje projekt rozwiązania. Rozdziały \ref{chap:controller} oraz \ref{chap:server} przedstawiają wynik oraz przebieg procesu implementacyjnego wraz z najciekawszymi problemami oraz przeglądem wykorzystanych technologii odpowiednio po stronie układu zamka oraz serwera. Pracę zamyka rozdział \ref{chap:results}, który zawiera podział prac pomiędzy członków zespołu, opisuje rezultaty pracy nad projektem, przedstawia przeprowadzone testy oraz możliwe rozszerzenia prototypu, a także dokonuje podsumowania, włącznie z oceną użyteczności, bezpieczeństwa oraz spełnienia wymagań. 
+		Rozdział \ref{chap:intro} stanowi wstęp do pracy, określa jej cel i strukturę. Rozdział \ref{chap:problem-domain} przedstawia dziedzinę problemu, przywołuje najważniejsze definicje związane z tematem, dokonuje przedstawienia i porównania kilku istniejących rozwiązań, a także opisu podstawowych zagrożeń bezpieczeństwa, z którymi spotkali się autorzy podczas pracy nad systemem. Rozdział \ref{chap:hl-arch} prezentuje projekt rozwiązania. Rozdziały \ref{chap:controller} oraz \ref{chap:server} przedstawiają wynik oraz przebieg procesu implementacyjnego wraz z najciekawszymi problemami oraz przeglądem wykorzystanych technologii odpowiednio po stronie układu zamka oraz serwera. Pracę zamyka rozdział \ref{chap:results}, który zawiera podział prac pomiędzy członków zespołu, opisuje rezultaty pracy nad projektem, przedstawia przeprowadzone testy oraz możliwe rozszerzenia prototypu, a także dokonuje podsumowania, włącznie z oceną spełnienia wymagań. 

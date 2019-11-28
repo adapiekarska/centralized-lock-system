@@ -9,17 +9,21 @@
 
             Istotnym problemem natury implementacyjnej jest wybór odpowiedniego mikrokontrolera, który spełni wymagania dotyczące wydajności energetycznej oraz bezpieczeństwa systemu, jednocześnie zapewniając możliwość obsługi kilku układów peryferyjnych i wsparcie dla komunikacji bezprzewodowej, a także wygodne i elastyczne środowisko deweloperskie.
 
-            Spośród wielu rozwiązań dostępnych na rynku wybrany został mikrokontroler ESP32. Oprócz wszystkich wymienionych wyżej cech, charakteryzuje się on możliwością przetwarzania równoległego za pomocą dwóch fizycznych rdzeni, co otwiera nowe możliwości w kwestii projektowania i implementacji oprogramowania, szczególnie w przypadku istnienia rygorystycznych wymagań dotyczących czasu odpowiedzi układu. Zapewnia sprzętowe wsparcie dla algorytmów kryptograficznych oraz możliwość zaawansowanej kontroli pracy podzespołów w zakresie zasilania, a także umożliwia komunikację z peryferiami za pośrednictwem programowalnych wejść/wyjść GPIO (ang. \textit{General-Purpose Input/Output}).
+            Spośród wielu rozwiązań dostępnych na rynku wybrany został mikrokontroler ESP-WROOM-32D \cite{esp32-wroom32-ds} produkowany przez firmę Espressif Systems i należący do rodziny ESP32. Oprócz wszystkich wymienionych wyżej cech, charakteryzuje się on możliwością przetwarzania równoległego za pomocą dwóch fizycznych rdzeni, co otwiera nowe możliwości w kwestii projektowania i implementacji oprogramowania, szczególnie w przypadku istnienia rygorystycznych wymagań dotyczących czasu odpowiedzi układu. Zapewnia sprzętowe wsparcie dla algorytmów kryptograficznych oraz możliwość zaawansowanej kontroli pracy podzespołów w zakresie zasilania, a także umożliwia komunikację z peryferiami za pośrednictwem programowalnych wejść/wyjść GPIO (ang. \textit{General-Purpose Input/Output}).
 
             Oprogramowanie dla mikrokontrolera ESP32 może być wytwarzane w środowisku Arduino IDE lub z wykorzystaniem oficjalnej platformy programistycznej Espressif IoT Development Framework (ESP-IDF) firmy Espressif Systems. ESP-IDF opiera się na systemie FreeRTOS (ang. \textit{Free Real-Time Operating System}, system operacyjny czasu rzeczywistego), w wersji 8.2.0, port Xtensa~\cite{esp-idf-freertos-smp-changes}. Ze względu na chęć uzyskania pełniejszej kontroli nad mikrokontrolerem zdecydowano się na użycie w projekcie platformy ESP-IDF.
 
+        \subsection{Płytka ESP32-DevKitC-32D}
+
+            Płytka integruje mikrokontroler ESP32 wyposażony w moduł WiFi z układem zasilania i mostkiem interfejsowym USB/UART. Odwzorowuje wyjścia układu ESP32 na złącza typu goldpin. Na płytce znajdują się dwa przyciski Enable i Boot, za pomocą których można zresetować układ lub przestawić go w tryb programowania.
+
         \subsection{Czytnik MFRC522}
 
-            Głównym kryterium wyboru czytnika identyfikatorów RFID jest prostota integracji z mikrokontrolerem. Ze względu na fakt, iż jego zasilaniem zarządzać będzie mikrokontroler, niski pobór mocy nie stanowi kryterium przesądzającego. Wybrano układ MFRC522 produkowany przez firmę NXP Semiconductors. Układ obsługuje urządzenia o częstotliwości nośnej 13,56 MHz oraz umożliwia komunikację poprzez protokół SPI (ang. \textit{Serial Peripheral Interface}).
+            Głównym kryterium wyboru czytnika identyfikatorów RFID jest prostota integracji z mikrokontrolerem. Ze względu na fakt, iż jego zasilaniem zarządzać będzie mikrokontroler, niski pobór mocy nie stanowi kryterium przesądzającego. Wybrano układ MFRC522 produkowany przez firmę NXP Semiconductors. Układ obsługuje urządzenia o częstotliwości nośnej 13,56MHz oraz umożliwia komunikację poprzez protokół SPI (ang. \textit{Serial Peripheral Interface}).
 
         \subsection{Czujnik HC-SR501}
 
-            Czujnik ruchu posiada krytyczne znaczenie w układzie zamka. Jako jedyny z podzespołów musi być zasilany przez cały czas pracy układu. Ze względu na wymaganie wykorzystania zasilania bateryjnego w układzie istotną cechą jest jak najniższy pobór mocy w stanie spoczynku. Wybranym rozwiązaniem jest czujnik PIR (ang. \textit{Passive Infrared}, pasywny czujnik podczerwieni), model HC-SR501. Wykrycie obiektu sygnalizowane jest stanem wysokim na cyfrowym wyjściu, natomiast maksymalny zasięg wykrywania wynosi 3-7 m. Czujnik wyposażony jest w dwa potencjometry umożliwiające regulację czasu trwania stanu wysokiego po wykryciu obiektu oraz czułości czujnika. Układ posiada także zworkę, za pomocą której można wybrać jeden z dwóch możliwych trybów:
+            Czujnik ruchu posiada krytyczne znaczenie w układzie zamka. Jako jedyny z podzespołów musi być zasilany przez cały czas pracy układu. Ze względu na wymaganie wykorzystania zasilania bateryjnego w układzie istotną cechą jest jak najniższy pobór mocy w stanie spoczynku. Wybranym rozwiązaniem jest czujnik PIR (ang. \textit{Passive Infrared}, pasywny czujnik podczerwieni), model HC-SR501. Wykrycie obiektu sygnalizowane jest stanem wysokim na cyfrowym wyjściu, natomiast maksymalny zasięg wykrywania wynosi 3-7m. Czujnik wyposażony jest w dwa potencjometry umożliwiające regulację czasu trwania stanu wysokiego po wykryciu obiektu oraz czułości czujnika. Układ posiada także zworkę, za pomocą której można wybrać jeden z dwóch możliwych trybów:
 
             \begin{itemize}
                 \item Tryb \textit{retriggering} - po wykryciu obiektu stan wysoki utrzymywany jest przez określony przez potencjometr czas,
@@ -28,11 +32,11 @@
 
             Dzięki temu możliwe jest dobranie parametrów czujnika w taki sposób, aby użytkownik był wykrywany w odpowiednim momencie, co przekłada się na bardziej optymalne działanie układu.
 
-            Aby zapewnić wykrycie zbliżającego się użytkownika w optymalnym dla pracy układu czasie, poziom czułości czujnika został ustawiony na wartość minimalną 3 m. Długość czasu trwania stanu wysokiego po wykryciu obiektu została ustawiona na wartość minimalną celem uzyskania impulsu stanowiącego źródło wybudzenia mikrokontrolera. Wybrany został tryb \textit{retriggering} w celu zapewnienia poprawnego działania układu w sytuacji gdy użytkownik zostanie wykryty, lecz nie zdąży przyłożyć identyfikatora do czytnika w zadanym okresie czasu. Dzięki zastosowaniu trybu \textit{retriggering} możliwe jest ponowne wykrycie użytkownika po jego zbliżeniu się do zamka.
+            Aby zapewnić wykrycie zbliżającego się użytkownika w optymalnym dla pracy układu czasie, poziom czułości czujnika został ustawiony na wartość minimalną 3m. Długość czasu trwania stanu wysokiego po wykryciu obiektu została ustawiona na wartość minimalną celem uzyskania impulsu stanowiącego źródło wybudzenia mikrokontrolera. Wybrany został tryb \textit{retriggering} w celu zapewnienia poprawnego działania układu w sytuacji, gdy użytkownik zostanie wykryty, lecz nie zdąży przyłożyć identyfikatora do czytnika w zadanym okresie czasu. Dzięki zastosowaniu trybu \textit{retriggering} możliwe jest ponowne wykrycie użytkownika po jego zbliżeniu się do zamka.
 
     \newsection{Połączenia komponentów}{Grzegorz Wąs}
 
-            Rysunek \ref{fig:lock_hardware_schematic} przedstawia sposób połączenia komponentów sprzętowych. Układ HC-SR501 komunikuje się z mikrokontrolerem umieszczonym na płytce ESP32-DevKitC-32D przez pojedynczą linię sygnałową. Czytnik MFRC522 w celu komunikacji z mikrokontrolerem wykorzystuje interfejs SPI. Głównym źródłem zasilania jest źródło stałoprądowe o napięciu w granicach 5~V. Jest ono wykorzystywane bezpośrednio przez układ mikrokontrolera i czujnika ruchu. Platforma ESP32-DevKitC-32D zapewnia dodatkowo źródło zasilania napięciem o wartości 3,3~V. które za pośrednictwem układu sterującego wykorzystywane jest do zasilania czytnika.
+            Rysunek \ref{fig:lock_hardware_schematic} przedstawia sposób połączenia komponentów sprzętowych. Układ HC-SR501 komunikuje się z mikrokontrolerem umieszczonym na płytce ESP32-DevKitC-32D przez pojedynczą linię sygnałową. Czytnik MFRC522 w celu komunikacji z mikrokontrolerem wykorzystuje interfejs SPI. Głównym źródłem zasilania jest źródło stałoprądowe o napięciu w granicach 5V. Jest ono wykorzystywane bezpośrednio przez układ mikrokontrolera i czujnika ruchu. Platforma ESP32-DevKitC-32D zapewnia dodatkowo źródło zasilania napięciem o wartości 3,3V. które za pośrednictwem układu sterującego wykorzystywane jest do zasilania czytnika.
 
             \begin{figure}[]
                 \centering
@@ -49,7 +53,7 @@
 
     \newsection{Układ sterujący zasilaniem czytnika RFID}{Grzegorz Wąs}
 
-            Układ czytnika wymaga zasilania napięciem 3,3V o mocy do 330mW~\cite{mfrc522-ds}. Jest to kosztowne z punktu widzenia wydajności energetycznej, dlatego z chwilą wprowadzenia mikrokontrolera w stan głębokiego uśpienia czytnik musi zostać wyłączony. Wyjścia mikrokontrolera są łatwo dostępnym i kontrolowanym programowo źródłem napięcia, jednak ze względu na niską wydajność prądową, nie można ich wykorzystać do bezpośredniego zasilania układów o mocy powyżej 130mW~\cite{esp32-ds}. Dlatego zastosowano przedstawiony na rysunku \ref{fig:rfid_power_relay} układ przełączający. Stan wysoki na wejściu układu otwiera kanał tranzystora przełączającego co umożliwia przepływ prądu przez układ i w efekcie zasilenie układu czujnika.
+            Układ czytnika wymaga zasilania napięciem 3,3V o mocy do 330mW \cite{mfrc522-ds}. Jest to kosztowne z punktu widzenia wydajności energetycznej, dlatego z chwilą wprowadzenia mikrokontrolera w stan głębokiego uśpienia czytnik musi zostać wyłączony. Wyjścia mikrokontrolera są łatwo dostępnym i kontrolowanym programowo źródłem napięcia, jednak ze względu na niską wydajność prądową, nie można ich wykorzystać do bezpośredniego zasilania układów o mocy powyżej 130mW \cite{esp32-ds}. Dlatego zastosowano przedstawiony na rysunku \ref{fig:rfid_power_relay} układ przełączający. Stan wysoki na wejściu układu otwiera kanał tranzystora przełączającego co umożliwia przepływ prądu przez układ i w efekcie zasilenie układu czujnika.
 
             \begin{figure}[]
                 \centering
@@ -62,12 +66,13 @@
 
         Platforma programistyczna ESP-IDF zapewnia zestaw narzędzi (ang. \textit{toolchain}) umożliwiających wytwarzanie oprogramowania dla mikrokontrolera ESP32. Platforma ESP-IDF dostępna jest jako projekt otwartoźródłowy na licencji Apache 2.0 w serwisie github.
 
-        Komponenty potrzebne do wytwarzania oprogramowania dla ESP32 z użyciem ESP-IDF oraz sam proces w uproszczeniu przedstawia rysunek \ref{fig:esp32_dev} dostępny w \cite{esp-idf-get-started}.
+        Komponenty potrzebne do wytwarzania oprogramowania dla ESP32 z użyciem ESP-IDF oraz sam proces w uproszczeniu przedstawia rysunek \ref{fig:esp32_dev}.
 
         \begin{figure}[]
             \centering
             \includegraphics[width=0.8\textwidth]{chapters/images/esp32_dev.png}
-            \caption{Wytwarzanie oprogramowania dla ESP32}
+            \caption[Wytwarzanie oprogramowania dla ESP32]
+                {Wytwarzanie oprogramowania dla ESP32 \cite{esp-idf-get-started}}
             \label{fig:esp32_dev}
         \end{figure}
 
@@ -109,8 +114,6 @@
                     Odpowiedzialny za wykonanie i nadzór nad przepływem sterowania od momentu wybudzenia z głębokiego uśpienia aż do zakończenia procesu komunikacji z serwerem. Składa się z pliku zawierającego funkcję obsługującą cały proces oraz pliku definiującego mechanizm synchronizacji zadań (patrz \ref{sub:tasks}).
 
             \end{enumerate}
-
-            Szczegółowy opis struktury kodu umieszczono w dodatku \ref{app:app1}.
 
         \subsection{Współbieżność}
         \label{sub:tasks}
@@ -188,7 +191,7 @@
 
             Certyfikaty zostały wygenerowane za pomocą biblioteki OpenSSL. Pierwszym krokiem było wygenerowanie certyfikatu CA (ang. \textit{Certificate Authority}, urząd certyfikacji). Następnie wygenerowano klucze prywatne oraz certyfikaty dla klienta (mikrokontrolera) oraz serwera.
 
-            Z punktu widzenia bezpieczeństwa systemu korzystnym jest uwierzytelnienie zarówno serwera, jak i klienta. Mechanizm taki został zaimplementowany w systemie poprzez odpowiednią konfigurację oprogramowania serwera autoryzacji (patrz \ref{s:auth_subs}).
+            Z punktu widzenia bezpieczeństwa systemu korzystnym jest uwierzytelnienie zarówno serwera, jak i klienta. Mechanizm taki został zaimplementowany w systemie poprzez odpowiednią konfigurację oprogramowania serwera autoryzacji (patrz podrozdział \ref{s:auth_subs}).
 
         \subsection{Przepływ sterowania}
 
@@ -221,3 +224,4 @@
                 \caption{Schemat blokowy przepływu sterowania zadania obsługującego czytnik RFID}
                 \label{fig:flowchart3}
             \end{figure}
+

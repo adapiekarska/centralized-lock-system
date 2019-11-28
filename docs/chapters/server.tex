@@ -10,7 +10,6 @@
     	\subsection{Linux Lubuntu}
 
     		Ze względu na wykorzystanie przenośnych technologii oprogramowanie serwera jest niezależne od systemu operacyjnego. W procesie implementacji i testowania systemu jako maszynę serwerową wykorzystano maszynę wirtualną z systemem Linux Lubuntu. Lubuntu jest szybkim i lekkim systemem operacyjnym bazującym na systemie Ubuntu i wykorzystującym minimalne środowisko graficzne LXQt (ang. \textit{The Lightweight Qt Desktop Environment}). Do wirtualizacji wykorzystano program VirtualBox.
-
     	
     	\subsection{Python}
 
@@ -117,38 +116,10 @@
     			Aplikacja API udostępnia zasoby dla aplikacji GUI poprzez REST API. Odpowiada za odbieranie od niej żądań HTTP, przetwarzanie ich i zwracanie stosownych odpowiedzi. Zawiera logikę biznesową oraz logikę zarządzania i dostępu do danych. Składa się z:
 
     			\begin{itemize}
-    				\item warstwy definiującej punkty końcowe (ang. \textit{endpoints}) REST API,
-    				\item warstwy usług,
+    				\item warstwy \textit{Resources}, definiującej punkty końcowe (ang. \textit{endpoints}) REST API, odpowiedzialnej za odbiór żądań i wysyłanie odpowiedzi,
+    				\item warstwy \textit{Services} (usług), odpowiedzialnej za obsługę logiki biznesowej,
     				\item warstwy modelu i dostępu danych.
     			\end{itemize}
-
-    			Warstwa definiująca punkty końcowe składa się z następujących modułów:
-
-    			\begin{itemize}
-    				\item \texttt{AccessResource} - odbiera żądania i wysyła odpowiedzi dotyczące prób dostępu,
-    				\item \texttt{LockResource} - odbiera żądania i wysyła odpowiedzi dotyczące zamków,
-    				\item \texttt{TokenResource} - odbiera żądania i wysyła odpowiedzi dotyczące identyfikatorów,
-    				\item \texttt{AuthMappingResource} - odbiera żądania i wysyła odpowiedzi dotyczące powiązań pomiędzy identyfikatorami i zamkami.
-    			\end{itemize}
-
-    			Warstwa usług złożona jest z następujących modułów:
-
-    			\begin{itemize}
-    				\item \texttt{AccessService} - odpowiada za obsługę operacji związanych z próbami dostępu,
-    				\item \texttt{LockService} - odpowiada za obsługę operacji związanych z zamkami,
-    				\item \texttt{TokenService} - odpowiada za obsługę operacji związanych z identyfikatorami,
-    				\item \texttt{AuthMappingService} - odpowiada za obsługę operacji związanych z powiązaniami pomiędzy identyfikatorami i zamkami.
-    			\end{itemize}
-
-    			Warstwa modelu i dostępu do danych składa się z następujących modułów:
-
-    			\begin{itemize}
-    				\item \texttt{Access} - modeluje i umożliwia dostęp do obiektu reprezentującego próbę dostępu,
-    				\item \texttt{Lock} - modeluje i umożliwia dostęp do obiektu reprezentującego zamek,
-    				\item \texttt{Token} - modeluje i umożliwia dostęp do obiektu reprezentującego identyfikator,
-    				\item \texttt{AuthMapping} - modeluje i umożliwia dostęp do obiektu reprezentującego powiązanie pomiędzy identyfikatorem i zamkiem.
-    			\end{itemize}
-
 
     			Budowę aplikacji API przedstawiono na rysunku \ref{fig:api}.
 

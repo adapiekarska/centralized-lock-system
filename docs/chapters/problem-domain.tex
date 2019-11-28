@@ -21,7 +21,7 @@
 
 		Według \cite{bsia2016}, w większości przypadków tylko wejście na teren pomieszczenia objętego systemem podlega kontroli. Aby możliwa była również kontrola wyjścia z chronionego terenu, potrzebny jest drugi czytnik umieszczony po drugiej stronie drzwi. Jeżeli obustronna kontrola nie jest wymagana, stosuje się zazwyczaj przycisk umożliwiający otworzenie zamka od środka.
 
-		Urządzenia wyjściowe (ang. \textit{egress devices}) umożliwiają użytkownikowi opusczenie strefy chronionej od wewnątrz. Jako urządzenia wyjściowe najczęściej używa się przełączników, czujników ruchu lub czytników. \cite{bsia2016} dokonuje podziału urządzeń wyjściowych na zwykłe oraz awaryjne (ang. \textit{emergency egress}). Ze względu na krytyczne znaczenie w wypadku awarii, działanie tych drugich nie powinno zależeć od komponentów systemu. Jako urządzenie awaryjne często stosuje się tzw. \textit{break glass device}, którego uaktywnienie powoduje odcięcie zasilania w zamku, a tym samym wstrzymanie kontroli dostępu w danym punkcie. Dostęp uzyskany za pomocą tego urządzenia powinien wygenerować stosowne powiadomienie bądź alarm.
+		Urządzenia wyjściowe (ang. \textit{egress devices}) umożliwiają użytkownikowi opusczenie strefy chronionej od wewnątrz. Jako urządzenia wyjściowe najczęściej używa się przełączników, czujników ruchu lub czytników. W \cite{bsia2016} dokonano podziału urządzeń wyjściowych na zwykłe oraz awaryjne (ang. \textit{emergency egress}). Ze względu na krytyczne znaczenie w wypadku awarii, działanie tych drugich nie powinno zależeć od komponentów systemu. Jako urządzenie awaryjne często stosuje się tzw. \textit{break glass device}, którego uaktywnienie powoduje odcięcie zasilania w zamku, a tym samym wstrzymanie kontroli dostępu w danym punkcie. Dostęp uzyskany za pomocą tego urządzenia powinien wygenerować stosowne powiadomienie bądź alarm.
 
 	\newsection{Przegląd istniejących rozwiązań}{Grzegorz Wąs}
 
@@ -29,7 +29,7 @@
 		\begin{enumerate}[label=\Alph*.]
 			\item System zamków mechanicznych
 
-				W tego typu systemie zamek zawiera układ mechaniczny otwierany przez fizyczny klucz. Jest to wciąż najczęściej stosowana metoda ochrony przestrzeni mieszkalnych, mimo że złamanie takiego zabezpieczenia wymaga jedynie odpowiednich umiejętności manualnych i wykorzystanych narzędzi.
+				W tego typu systemie zamek zawiera układ mechaniczny otwierany przez fizyczny klucz. Jest to wciąż najczęściej stosowana metoda ochrony przestrzeni mieszkalnych, mimo że złamanie takiego zabezpieczenia wymaga jedynie odpowiednich umiejętności manualnych i zestawu narzędzi.
 
 			\item System z uwierzytelnieniem przez PIN
 
@@ -51,7 +51,7 @@
 
 				Bezpieczeństwo tego rozwiązania bazuje na zachowaniu poufności danych. Kontrola dostępu polega na porównaniu hasła zaprezentowanego przez użytkownika z hasłem zapisanym w pamięci urządzenia w zaszyfrowanej postaci. Hasło jest ustanawiane przez użytkownika w procesie nadawania uprawnień dostępu. Zmniejsza to ryzyko naruszenia poufności hasła i zapewnia, że nawet administrator systemu nie ma możliwości uzyskania dostępu do poufnych danych uzytkowników. Słabą stroną metody jest konieczność oparcia bezpieczeństwa na bezpieczeństwie klucza wykorzystanego w procesie szyfrowania.
 
-			\item System oparty o komunikację bezprzewodową
+			\item System oparty na komunikacji bezprzewodowej
 
 				W systemie tego typu przepływ danych odbywa się za pośrednictwem sieci bezprzewodowej. W celu autoryzacji wykorzystywane jest urządzenie mobilne połączone z siecią. W przeciwieństwie do pozostałych wymienionych rozwiązań, rozwiązanie zaproponowane w \cite{cryptographic-iot-access-system} nie zakłada bezpośredniej komunikacji użytkownika z zamkiem. Urządzenie mobilne użytkownika generuje zapytanie do serwera, który dokonuje kontroli uprawnień i w przypadku pozytywnej ich weryfikacji, przekazuje decyzję o sukcesie do układu zamka.
 		\end{enumerate}
@@ -60,7 +60,7 @@
 
 	\newsection{Bezpieczeństwo}{Grzegorz Wąs}
 
-		Bezpieczeństwo jest jednym z głównych wyznaczników jakości systemu kontroli dostępu. Wielu producentów systemów elektronicznych nie podejmuje kroków w kierunku zapewnienienia odpowiedniego poziomu bezpieczeństwa swoich produktów, co często prowadzi do narażenia konsumentów na straty. Aby zminimalizować ryzyko strat, należy poświęcić odpowiednią uwagę zagadnieniom związanym z potencjalymi zagrożeniami i możliwymi słabymi punktami architektury. Rozproszone systemy elektroniczne są sczególnym wyzwaniem z punktu widzenia bezpieczeństwa. Poniżej przedstawiono wybrane punkty zaproponowanej w \cite{iot-vulnerabilities} klasyfikacji potencjalnych podatności w systemach IoT (ang. \textit{Internet of Things}, Internet Rzeczy):
+		Bezpieczeństwo (rozumiane jako ang. \textit{security} - połączenie cech poufności, integralności i dostępności, w przeciwieństwie do ang. \textit{safety} - nieobecność negatywnych konswekwencji dla użytkownika i środowiska \cite{security-safety}) jest jednym z głównych wyznaczników jakości systemu kontroli dostępu. Wielu producentów systemów elektronicznych nie podejmuje kroków w kierunku zapewnienienia odpowiedniego poziomu bezpieczeństwa swoich produktów, co często prowadzi do narażenia konsumentów na straty. Aby zminimalizować ryzyko strat, należy poświęcić odpowiednią uwagę zagadnieniom związanym z potencjalymi zagrożeniami i możliwymi słabymi punktami architektury. Rozproszone systemy elektroniczne są szczególnym wyzwaniem z punktu widzenia bezpieczeństwa. Poniżej przedstawiono wybrane punkty zaproponowanej w \cite{iot-vulnerabilities} klasyfikacji potencjalnych podatności w systemach IoT (ang. \textit{Internet of Things}, Internet Rzeczy):
 
 		\begin{enumerate}[label=\Alph*.]
 			\item Bezpieczeństwo fizyczne
