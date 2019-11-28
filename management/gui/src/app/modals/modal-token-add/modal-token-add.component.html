@@ -9,7 +9,7 @@
         <label for="locks">Select any number of locks to authorize the token in:</label>
         <select class="custom-select" [(ngModel)]="token.locks" id="locks" name="locks" multiple>
           <option *ngFor="let lock of availableLocks" [ngValue]="lock">
-            {{lock.id}}
+            {{lock.name}}
           </option>
         </select>
       </div>
