@@ -1,5 +1,15 @@
 menu "Wifi configuration"
 
+    config WIFI_SSID
+        string "WiFi SSID"
+        help
+            Enter SSID for WiFi network used in wireless data exchange 
+
+    config WIFI_PASS
+        string "WiFi Password"
+        help
+            Enter password for WiFi network used in wireless data exchange
+
     config SERVER_ADDR
         string "Server IP Address"
         help

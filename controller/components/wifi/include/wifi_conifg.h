@@ -2,13 +2,13 @@
 #define WIFI_CONFIG_H
 
 // In production these will need to be replaced by something more secure
-#define WIFI_SSID "UPC-guest5D7BD5C"
-#define WIFI_PASS "insert your password here"
+#define WIFI_SSID CONFIG_WIFI_SSID
+#define WIFI_PASS CONFIG_WIFI_PASS
 
 #define WIFI_MAXIMUM_RETRY  10
 
-#define SERVER_IP_ADDR "192.168.101.59"
+#define SERVER_IP_ADDR CONFIG_SERVER_ADDR
 #define SERVER_PORT CONFIG_SERVER_PORT
-#define SERVER_HOSTNAME "192.168.101.164"
+#define SERVER_HOSTNAME SERVER_IP_ADDR
 
 #endif // WIFI_CONFIG_H
