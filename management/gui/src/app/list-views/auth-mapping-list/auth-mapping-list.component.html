@@ -1,0 +1,36 @@
+<div class="container-fluid text-center px-5">
+  <div class="row align-items-center justify-content-center">
+    <table class="table table-striped table-responsive-md btn-table m-3 text-center">
+      <tr>
+        <th>ID</th>
+        <th>Token Tag</th>
+        <th>Lock Name</th>
+        <th>Action</th>
+      </tr>
+
+      <tr *ngFor="let authMapping of authMappings ">
+        <td>
+          {{authMapping.id}}
+        </td>
+
+        <td>
+          {{authMapping.token_tag}}
+        </td>
+
+        <td>
+          {{authMapping.lock_name}}
+        </td>
+
+        <td>
+          <button type="button" class="btn btn-indigo btn-outline-danger m-0" (click)="remove(authMapping)">Delete</button>
+        </td>
+      </tr>
+    </table>
+  </div>
+  <div class="container text-center bg-primary">
+    <div class="btn-group m-3 float-right" role="group" aria-label="Basic example">
+      <button type="button" class="btn px-5 btn-primary">Add</button>
+    </div>
+  </div>
+</div>
+

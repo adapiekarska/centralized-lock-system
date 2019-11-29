@@ -1,4 +1,30 @@
 \ProvidesPackage{mystyle}
 
-\usepackage{fontspec} 
+\usepackage{graphicx}
+
+\usepackage[polish]{babel}
+\usepackage{polski}
+\usepackage[T1]{fontenc}
+\usepackage{indentfirst}
+
+\usepackage{fontspec}
 \setmainfont{Arial}
+\linespread{1.5}
+
+\usepackage{geometry}
+\geometry{
+    a4paper,
+    top=0.98in,
+    bottom=0.98in,
+    inner=1.38in,
+    outer=0.98in,
+    bindingoffset=0in}
+
+\usepackage{hyperref}
+\usepackage{pdfpages}
+
+\usepackage[nottoc]{tocbibind}
+
+\usepackage{tikz}
+\usepackage{pgf-umlsd}
+\usepgflibrary{arrows} % for pgf-umlsd

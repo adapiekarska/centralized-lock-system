@@ -1,0 +1,33 @@
+\chapter{Implementacja}
+\label{chap:implementation}
+
+\section{Uproszczenia}
+
+W ramach niniejszej pracy stworzony został prototyp końcowego rozwiązania. Niektóre z opisywanych w rozdziale \ref{chap:hl-arch} funkcjonalności nie zostały zaimplementowane. Zostawiono jednak możliwość rozbudowy systemu.
+
+Opisywane rozwiązanie nie obejmuje implementacji mechanizmu opuszczenia strefy chronionej systemem kontroli dostępu. W zależności od potrzeb końcowego użytkownika, możliwe rozwiązanie to montaż dodatkowego czytnika po przeciwnej stronie drzwi i połączenie go z kontrolerem wejścia w przypadku gdy wymagana jest obustronna kontrola dostępu bądź zastosowanie przycisku którego naciśnięcie powoduje zwolnienie zamka w przypadku gdy wymagana jest tylko kontrola wejścia do chronionego obszaru.
+
+W sytuacjach awaryjnych, jakimi jest brak zasilania bądź brak połączenia z serwerem \textbf{wymyslic co}. Szczegółowy opis tych zagadnień znajduje się \textbf{gdziee?}.
+
+Implementacja prototypu obejmowała stworzenie pojedynczego układu zamka. Ze względu na prototypowy charakter pracy, nie przetestowano działania systemu z większą liczbą zamków. Nie ma jednak powodów by twierdzić, że system nie działałby poprawnie z większą liczbą zamków. Wystarczającym rozszerzeniem byłaby modyfikacja oprogramowania serwera umożliwiająca obsługę kilku klientów jednocześnie. \textbf{czy to pisac?}
+
+\section{Układ sterowania zamkiem}
+
+Prototyp układu sterowania zamkiem powstał w oparciu o platformę ESP32-DevKitC-32D z wbudowanym modułem ESP-WROOM-32D.
+
+\subsection{Platforma}
+
+ESP32-DevKitC jest produkowaną przez firmę Espressif platformą z wbudowanym modułem ESP32-WROOM-32D. Rdzeniem modułu jest układ z rodziny ESP32 (ESP32-D0WD) wyposażony w dwa rdzenie CPU, które mogą być kontrolowane niezależnie od siebie~\cite{esp32-wroom32-ds}. Moduł integruje Bluetooth, Bluetooth Low Energy oraz WiFi, a także szeroki zakres peryferiów: czujniki dotyku, czujniki pola magnetycznego, interfejs karty SD, Ethernet, SPI (ang. \textit{Serial Peripheral Interface}), UART (ang. \textit{Universal Asynchronous Receiver-Transmitter}), I\textsuperscript{2}S (ang. \textit{Inter-IC Sound}) i I\textsuperscript{2}C (ang. \textit{Inter-Integrated Circuit})~\cite{esp32-wroom32-ds}.
+
+ESP32 działa w oparciu o system operacyjny freeRTOS.
+
+ESP32 oferuje efektywną i elastyczną technologię zarządzania energią. Istnieje pięć predefiniowanych stanów energetycznych. Dodatkowo umożliwia korzystanie z niskoenergetycznego koprocesora Ultra-Low-Power (ang. \textit{ULP co-processor}), podczas gdy główne jednostki pozostają w trybie głębokiego uśpienia (ang. \textit{Deep-sleep mode}).~\cite{esp32-tech-ref-man}
+
+
+\section{Problemy}
+Konfiguracja WiFi?
+Sygnalizacja stanu baterii?
+Bezpieczeństwo komunikacji
+zarządzanie stanami energetycznymi
+Enkrypcja flash
+mozna cos z technical reference manual

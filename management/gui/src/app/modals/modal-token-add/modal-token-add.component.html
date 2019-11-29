@@ -1,0 +1,21 @@
+<app-modal-show title="Add new RFID token">
+  <div>
+    <form>
+      <div class="form-group">
+        <label for="tag">Token Tag</label>
+        <input [(ngModel)]="token.tag" name="tag" type="text" class="form-control" id="tag" placeholder="Enter RFID Tag here...">
+      </div>
+      <div class="form-group">
+        <label for="locks">Select any number of locks to authorize the token in:</label>
+        <select class="custom-select" [(ngModel)]="token.locks" id="locks" name="locks" multiple>
+          <option *ngFor="let lock of availableLocks" [ngValue]="lock">
+            {{lock.name}}
+          </option>
+        </select>
+      </div>
+    </form>
+    <div id="m-footer" class="modal-footer">
+      <button type="button" class="btn btn-primary" (click)="submitForm()">Submit</button>
+    </div>
+  </div>
+</app-modal-show>
