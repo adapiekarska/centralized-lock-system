@@ -1,2 +1,2 @@
-idf_component_register(SRCS "gpio.c" 
+idf_component_register(SRCS "src/gpio.c" 
                        INCLUDE_DIRS "include" "../../common/")
