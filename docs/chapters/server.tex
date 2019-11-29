@@ -84,11 +84,33 @@
         \end{figure}
 
     	\begin{itemize}
-    		\item Aplikacja GUI (frontend)
+    		\item Aplikacja API (backend)
+
+    			Aplikacja API udostępnia zasoby dla aplikacji GUI poprzez REST API. Odpowiada za odbieranie od niej żądań HTTP, przetwarzanie ich i zwracanie stosownych odpowiedzi. Zawiera logikę biznesową oraz logikę zarządzania i dostępu do danych. Składa się z:
+
+    			\begin{itemize}
+    				\item warstwy \textit{Resources}, definiującej punkty końcowe (ang. \textit{endpoints}) REST API, odpowiedzialnej za odbiór żądań i wysyłanie odpowiedzi,
+    				\item warstwy \textit{Services} (usług), odpowiedzialnej za obsługę logiki biznesowej,
+    				\item warstwy modelu i dostępu danych.
+    			\end{itemize}
+
+    			Budowę aplikacji API przedstawiono na rysunku \ref{fig:api}.
+
+    			\vspace{10mm}
+    			\begin{figure}[h!]
+	            	\centering
+		            \includegraphics[width=\textwidth]{chapters/images/uslugi2.png}
+		            \caption{Budowa aplikacji API}
+		            \label{fig:api}
+		        \end{figure}
+		        \vspace{10mm}
+
+		    \item Aplikacja GUI (frontend)
 
 				Aplikacja GUI jest interfejsem pomiędzy administratorem systemu a aplikacją API. Odpowiada za prezentację danych użytkownikowi, tłumaczenie jego akcji przeprowadzanych w środowisku graficznym na żądania HTTP i wysyłanie ich do aplikacji API.
 
 				Zrzuty ekranu aplikacji GUI przedstawiono na rysunkach. Są to widok tabeli identyfikatorów RFID (\ref{fig:ss1}), widok okna dodawania nowego identyfikatora (\ref{fig:ss2}) oraz widok tabeli zawierającej historię prób dostępu (\ref{fig:ss3}).
+
 
 				\begin{figure}[]
 		            \centering
@@ -109,25 +131,6 @@
 		            \includegraphics[width=\textwidth, frame]{chapters/images/ss3.png}
 		            \caption{Zrzut ekranu widoku tabeli historii prób dostępu}
 		            \label{fig:ss3}
-		        \end{figure}
-
-    		\item Aplikacja API (backend)
-
-    			Aplikacja API udostępnia zasoby dla aplikacji GUI poprzez REST API. Odpowiada za odbieranie od niej żądań HTTP, przetwarzanie ich i zwracanie stosownych odpowiedzi. Zawiera logikę biznesową oraz logikę zarządzania i dostępu do danych. Składa się z:
-
-    			\begin{itemize}
-    				\item warstwy \textit{Resources}, definiującej punkty końcowe (ang. \textit{endpoints}) REST API, odpowiedzialnej za odbiór żądań i wysyłanie odpowiedzi,
-    				\item warstwy \textit{Services} (usług), odpowiedzialnej za obsługę logiki biznesowej,
-    				\item warstwy modelu i dostępu danych.
-    			\end{itemize}
-
-    			Budowę aplikacji API przedstawiono na rysunku \ref{fig:api}.
-
-				\begin{figure}[h!]
-	            	\centering
-		            \includegraphics[width=\textwidth]{chapters/images/uslugi2.png}
-		            \caption{Budowa aplikacji API}
-		            \label{fig:api}
 		        \end{figure}
 
     	\end{itemize}
