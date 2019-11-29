@@ -148,9 +148,9 @@
                     \begin{tabular}{p{2cm}|p{2,5cm}|p{9,5cm}}
                     TEST\_8               & \multicolumn{2}{l}{\textbf{Czas odpowiedzi układu zamka}}                                                            \\ \hline
                     Wymaganie             & \multicolumn{2}{p{12cm}}{XXRQ\_2 Czas odpowiedzi układu zamka nie dłuższy niż 3 sekundy }                                                                                    \\ \hline
-                    \multirow{2}{*}{Opis} & Przebieg           & Zbliżenie się do zamka, przyłożenie dowolnego identyfikatora do czytnika.  \\ \cline{2-3}
+                    \multirow{2}{*}{Opis} & Przebieg           & Zbliżenie się do zamka, przyłożenie dowolnego identyfikatora do czytnika po 5 sekndach od wykrycia ruchu przez układ zamka.  \\ \cline{2-3}
                                           & Oczekiwany wynik   & Układ zamka informuje o decyzji w czasie nie dłuższym niż 3 sekundy od momentu przyłożenia identyfikatora.                                                  \\ \hline
-                    Wynik                 & \multicolumn{2}{p{12cm}}{\textbf{TODO: Wykonac test}} \\
+                    Wynik                 & \multicolumn{2}{p{12cm}}{Negatywny - Układ zamka informuje o decyzji w czasie 5 sekund} \\
                     \end{tabular}%
                 \label{tbl:test6}
             \end{subtable}
