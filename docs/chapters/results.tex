@@ -259,13 +259,13 @@
             W celu zapewnienia wysokiego poziomu bezpieczeństwa systemu należałoby zabezpieczyć serwer zaporą sieciową (ang. \textit{firewall}). Jądro systemu Linux zawiera podsystem umożliwiający manipulację pakietów danych. Reguły manipulacji są definiowane przez narzędzie administracyjne \texttt{iptables}. Taka konfiguracja spowodowałaby znaczny wzrost poziomu bezpieczeństwa maszyny serwera.
 
 
-    \section{Podsumowanie}
+    \section{Uwagi końcowe}
 
         W ramach niniejszej pracy stworzono funkcjonalny prototyp systemu kontroli dostępu do pomieszczeń opartego na bezprzewodowej komunikacji układu zamka i serwera.
 
         Dzięki wykorzystaniu serwera w celu przeprowadzenia procesu uwierzytelniania system zapewnia większą elastyczność i łatwość zarządzania niż alternatywne systemy wykorzystujące zamki pracujące w sposób autonomiczny. Rozwiązanie cechuje się wygodą montażu, ponieważ nie wymaga przewodów zasilających i komunikacyjnych prowadzonych w ścianach budynków. Przy wdrażaniu rozwiązania nie jest konieczna modyfikacja istniejącej infrastruktury budynku, z wyjątkiem wymiany samych zamków. System nie wymaga żadnych dodatkowych komponentów sprzętowych poza zamkami i serwerem.
 
-        Wydajność energetyczna podsystemu sterowania zamkiem miała zostać osiągnięta przez zarządzanie zasilaniem jego peryferiów oraz kontrolę stanu zasilania mikrokontrolera w celu minimalizacji poboru mocy i maksymalizacji czasu pracy na zasilaniu bateryjnym. Ze względu na wysoki pobór prądu w stanie spoczynku przez regulator napięcia wybranej płytki prototypowej, nie udało się osiągnąć założonej wydajności. Jak opisano w podrozdziale \ref{sec:wydajnosc}, żywotność układu może znacząco wzrosnąć.
+        Wydajność energetyczna podsystemu sterowania zamkiem miała zostać osiągnięta przez zarządzanie zasilaniem jego peryferiów oraz kontrolę stanu zasilania mikrokontrolera w celu minimalizacji poboru mocy i maksymalizacji czasu pracy na zasilaniu bateryjnym. Ze względu na wysoki pobór prądu w stanie spoczynku przez regulator napięcia wybranej płytki prototypowej, nie udało się osiągnąć założonej wydajności. Jak opisano w podrozdziale \ref{sec:wydajnosc}, żywotność układu może znacząco wzrosnąć po zastosowaniu innego regulatora napięcia.
 
         Bezpieczeństwo systemu na wielu poziomach zapewnia wykorzystanie mechanizmów takich jak protokół TLS w warstwie komunikacji pomiędzy zamkiem a serwerem.
 
