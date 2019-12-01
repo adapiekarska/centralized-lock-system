@@ -7,4 +7,8 @@ export class AuthMapping {
   token_tag: string;
 
   lock_name: string;
+
+  token_id: number;
+
+  lock_id: number;
 }
