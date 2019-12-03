@@ -18,9 +18,6 @@ app.register_blueprint(access_resource)
 @app.route("/")
 def welcome():
     return "Welcome"
-# Try to port this app to virtual env or some other way so it can be deployed
-# easily
-# Install CORS packages -`pip install -U flask-cors`
 
 
 if __name__ == "__main__":
