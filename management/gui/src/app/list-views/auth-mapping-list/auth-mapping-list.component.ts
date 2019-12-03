@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import {AuthMapping} from '../../../model/authMapping';
 import {AuthMappingService} from '../../../service/auth-mapping.service';
+import {ModalLockAddComponent} from '../../modals/modal-lock-add/modal-lock-add.component';
+import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import {ModalAuthMappingAddComponent} from '../../modals/modal-auth-mapping-add/modal-auth-mapping-add.component';
 
 @Component({
   selector: 'app-auth-mapping-list',
@@ -11,7 +14,7 @@ export class AuthMappingListComponent implements OnInit {
 
   authMappings: AuthMapping[];
 
-  constructor(private service: AuthMappingService) { }
+  constructor(private service: AuthMappingService, private modalService: NgbModal) { }
 
   ngOnInit() {
     this.service.getAllAuthMappings().subscribe(
@@ -25,4 +28,7 @@ export class AuthMappingListComponent implements OnInit {
     );
   }
 
+  openAdd() {
+    const modalRef = this.modalService.open(ModalAuthMappingAddComponent);
+  }
 }

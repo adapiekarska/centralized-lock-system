@@ -1,0 +1,23 @@
+<app-modal-show title="Add new Token-Lock mapping">
+  <div>
+    <form>
+      <div class="form-group">
+        <label for="tokens">Select token:</label>
+        <select class="custom-select" [(ngModel)]="authMapping.token_id" id="tokens" name="tokens">
+          <option *ngFor="let token of availableTokens" [ngValue]="token.id">
+            {{token.tag}}
+          </option>
+        </select>
+        <label for="tokens">Select lock:</label>
+        <select class="custom-select" [(ngModel)]="authMapping.lock_id" id="locks" name="locks">
+          <option *ngFor="let lock of availableLocks" [ngValue]="lock.id">
+            {{lock.name}}
+          </option>
+        </select>
+      </div>
+    </form>
+    <div id="m-footer" class="modal-footer">
+      <button type="button" class="btn btn-primary" (click)="submitForm()">Submit</button>
+    </div>
+  </div>
+</app-modal-show>
