@@ -32,28 +32,58 @@ def create_ssl_context():
     context.load_verify_locations(cafile=ca_cer)
     return context
 
-def lookup_id_in_database(id):
+def lookup_tag_in_database(tag, lock_id):
     import sqlite3
     from sqlite3 import Error
-    
         
-    conn = None
-    try:
-        conn = sqlite3.connect('./accesses.db')
-        print(sqlite3.version)
-    except Error as e:
-        print(e)
-    finally:
-        if conn:
-            c = conn.cursor()
-            val = int.from_bytes(id, byteorder='big')
-            c.execute("SELECT authorized FROM accesses WHERE card_id={}".format(val))
-            result = c.fetchall()
-            conn.close()
-            if len(result) == 0:
-                return 0
-            else:
-                return result[0][0]
+    
+    conn = sqlite3.connect('../management/app/acs.db')
+    
+    with conn:
+        lock_name_val = int.from_bytes(lock_id, byteorder='little')
+        result = conn.execute(
+            "SELECT * FROM auth_mappings \
+            INNER JOIN tokens ON tokens.ID = auth_mappings.TOKEN_ID \
+            INNER JOIN locks ON locks.ID = auth_mappings.LOCK_ID \
+            WHERE tokens.TAG='{}' AND locks.NAME='{}'".format(tag.hex(), lock_name_val)
+            ).fetchall()
+        if len(result) == 0:
+            return 0
+        else:
+            return 1
+
+def save_access_in_database(tag, lock_name, result):
+    import sqlite3
+    from sqlite3 import Error
+    from datetime import datetime
+
+    conn = sqlite3.connect('../management/app/acs.db')
+    with conn:
+    	# fetch lock id
+        lock_name_val = int.from_bytes(lock_name, byteorder='little')
+        lock_id = conn.execute("SELECT ID FROM locks WHERE NAME='{}'".format(lock_name_val)).fetchall()
+        if(len(lock_id) > 0):
+        	lock_id = lock_id[0][0]
+        else:
+        	conn.execute("INSERT into locks (NAME) values ('{}')".format(lock_name_val))
+        	lock_id = conn.execute("SELECT ID FROM locks WHERE NAME='{}'".format(lock_name_val)).fetchall()[0][0]
+        	
+
+        # fetch token id
+        token_id = conn.execute("SELECT ID FROM tokens WHERE TAG='{}'".format(tag.hex())).fetchall()
+        if(len(token_id) > 0):
+        	token_id = token_id[0][0]
+        else:
+        	conn.execute("INSERT into tokens (TAG) values ('{}')".format(tag.hex()))
+        	token_id = conn.execute("SELECT ID FROM tokens WHERE TAG='{}'".format(tag.hex())).fetchall()[0][0]
+        	
+       	print(lock_id)
+       	print(token_id)
+        res = "true" if result == 1 else "false"
+
+        conn.execute("INSERT into accesses (TOKEN_ID, LOCK_ID, GRANTED, DATE) values\
+         ({}, {}, '{}', '{}')".format(token_id, lock_id, res, datetime.now().strftime("%Y-%m-%d %H:%M:%S")))
+        
 
 def handle_client(connstream):
     data = connstream.recv(1024)
@@ -65,7 +95,8 @@ def handle_client(connstream):
     lock_id = data[5:] 
     print('Received tag: ' + recieved_tag.hex())
     print('Received lock_id: ' + lock_id.hex())
-    reply = lookup_id_in_database(recieved_tag)
+    reply = lookup_tag_in_database(recieved_tag, lock_id)
+    save_access_in_database(recieved_tag, lock_id, reply)
     print( "access granted" if reply == 1 else "access denied")
     cnt = connstream.send(bytes([reply]))    
 
