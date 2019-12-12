@@ -26,15 +26,6 @@ class Token:
         where = f"id={id}"
         return self.list_items(where)
 
-    # def update(self, id, update_dict):
-    #     conn = create_connection('acs.db')
-    #     with conn:
-    #         set_query = " ".join([f'{column} = {value}'
-    #                               for column, value in update_dict.items()])
-    #
-    #         conn.execute(self.QUERY_UPDATE, {'id': id, 'set_query': set_query})
-    #         return self.get_by_id(id)
-
     def list_items(self, where=""):
         conn = create_connection('acs.db')
         with conn:

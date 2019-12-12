@@ -11,7 +11,7 @@
 #include "wifi_conifg.h"
 #include "controller_status.h"
 
-#include "string.h" // think about writing our own strcmp if it's just for this one function
+#include "string.h"
 
 static const char *LOG_TAG = "wifi";
 
@@ -81,7 +81,6 @@ static void wifi_configure_sta()
     ESP_ERROR_CHECK(status);
 }
 
-// TODO: void or esp_err_t
 void wifi_init()
 {
     // Initialize the tcp stack

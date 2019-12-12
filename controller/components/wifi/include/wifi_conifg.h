@@ -1,7 +1,6 @@
 #ifndef WIFI_CONFIG_H
 #define WIFI_CONFIG_H
 
-// In production these will need to be replaced by something more secure
 #define WIFI_SSID CONFIG_WIFI_SSID
 #define WIFI_PASS CONFIG_WIFI_PASS
 

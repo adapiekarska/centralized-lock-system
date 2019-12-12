@@ -8,7 +8,6 @@ class Access:
         self.QUERY_CREATE = f'INSERT into {self.table_name} (TOKEN_ID, LOCK_ID, GRANTED, DATE) values (:token_id, :lock_id, :granted, :date)'
         self.QUERY_DELETE = f'DELETE from {self.table_name} where id = :id'
         self.QUERY_GET = f'SELECT * from {self.table_name}'
-        # self.QUERY_UPDATE = f'UPDATE {self.table_name} SET :set_query WHERE id = :id'
 
     def create(self, token_id, lock_id, granted, date):
         conn = create_connection('acs.db')

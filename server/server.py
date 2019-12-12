@@ -10,10 +10,6 @@ server_cer  = 'CERTS/server-cert/server.cer'
 server_key  = 'CERTS/server-cert/server.key'
 ca_cer      = 'CERTS/ca.cer'
 
-# permission_map = {
-# 	[b'\xcbmR\r\xf9'] : b'\x01'
-# }
-
 USE_TLS = True
 
 def create_socket():

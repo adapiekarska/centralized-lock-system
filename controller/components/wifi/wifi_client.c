@@ -66,7 +66,7 @@ void wifi_client_start()
                 {
                     // Notify transmission fail
                     controller_status_set_bits(WIFI_CLIENT_TRANSMISSION_FAIL_BIT);
-                    continue; // TODO: What should be done when data transmission fails?
+                    continue;
                 }
             }
             else

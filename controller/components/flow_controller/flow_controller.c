@@ -93,14 +93,12 @@ void deep_sleep_wakeup_flow()
     // Communicate with server    
     status = wifi_client_send_data((void*)&access_data, sizeof(ACCESS_DATA));
     if (status != ESP_OK){
-        // TODO: handle ESP_FAIL and ESP_ERR_TIMEOUT separately
         ESP_LOGE(LOG_TAG, "Failed to send data");
         return;
     }
     char received_bytes[1];
     status = wifi_client_receive_data(received_bytes, 1);
     if (status != ESP_OK){
-        // TODO: handle ESP_FAIL and ESP_ERR_TIMEOUT separately
         ESP_LOGE(LOG_TAG, "Failed to receive data");
         return;
     }
